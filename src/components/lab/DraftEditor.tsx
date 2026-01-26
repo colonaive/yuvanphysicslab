@@ -1,4 +1,4 @@
-"use client";
+
 
 import { useEffect, useState } from "react";
 import { Save, Download, FileText, Loader2, Sparkles } from "lucide-react";

@@ -1,4 +1,4 @@
-"use client";
+
 
 import { useState } from "react";
 import { Search, Globe, Loader2, ExternalLink } from "lucide-react";

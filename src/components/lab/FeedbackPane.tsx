@@ -1,4 +1,4 @@
-"use client";
+
 
 import { Sparkles, CheckCircle, BookOpen, AlertCircle, ListChecks, Type } from "lucide-react";
 import type { ProfessorFeedback } from "@/lib/ai-adapter";
