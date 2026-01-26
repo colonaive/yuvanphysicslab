@@ -1,8 +1,12 @@
 import { Container } from "@/components/site/Container";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { getRecentContent } from "@/lib/mdx";
+import { format } from "date-fns";
 
-export default function HomePage() {
+export default async function HomePage() {
+    const recentContent = await getRecentContent();
+
     return (
         <Container>
             <section className="space-y-8">
@@ -32,10 +36,36 @@ export default function HomePage() {
                 </div>
 
                 <div className="mt-16 border-t border-gray-100 pt-8">
-                    <h2 className="text-lg font-semibold mb-4">Latest Updates</h2>
-                    <p className="text-gray-500">
-                        Check back soon for more content.
-                    </p>
+                    <h2 className="text-lg font-semibold mb-6">Latest Updates</h2>
+                    <div className="space-y-6">
+                        {recentContent.map((item) => (
+                            <Link
+                                key={item.slug}
+                                href={`/${item.type}/${item.slug}`}
+                                className="block group"
+                            >
+                                <article className="flex items-baseline justify-between mb-1">
+                                    <div className="flex items-center gap-3">
+                                        <span className={`text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full ${item.type === 'research'
+                                            ? 'bg-blue-50 text-blue-600'
+                                            : 'bg-gray-100 text-gray-600'
+                                            }`}>
+                                            {item.type === 'research' ? 'Research' : 'Note'}
+                                        </span>
+                                        <h3 className="text-base font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                                            {item.title}
+                                        </h3>
+                                    </div>
+                                    <time className="text-sm text-gray-400 shrink-0 ml-4">
+                                        {format(new Date(item.date), "MMM d")}
+                                    </time>
+                                </article>
+                                <p className="text-sm text-gray-500 line-clamp-1 ml-[calc(2rem+.75rem)]">
+                                    {item.summary}
+                                </p>
+                            </Link>
+                        ))}
+                    </div>
                 </div>
             </section>
         </Container>

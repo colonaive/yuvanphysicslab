@@ -10,26 +10,26 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-    const notes = await getAllContent("notes");
-    return notes.map((note) => ({
-        slug: note.slug,
+    const research = await getAllContent("research");
+    return research.map((item) => ({
+        slug: item.slug,
     }));
 }
 
-export default async function NotePage({ params }: PageProps) {
+export default async function ResearchDetailPage({ params }: PageProps) {
     const { slug } = await params;
-    const note = await getContentBySlug("notes", slug);
+    const post = await getContentBySlug("research", slug);
 
-    if (!note) {
+    if (!post) {
         notFound();
     }
 
-    const { meta, content } = note;
+    const { meta, content } = post;
 
     return (
         <Container>
-            <Link href="/notes" className="inline-flex items-center text-sm text-gray-400 hover:text-gray-900 mb-8 transition-colors">
-                <ArrowLeft className="mr-2 h-4 w-4" /> Back to Notes
+            <Link href="/research" className="inline-flex items-center text-sm text-gray-400 hover:text-gray-900 mb-8 transition-colors">
+                <ArrowLeft className="mr-2 h-4 w-4" /> Back to Research
             </Link>
 
             <article className="prose prose-slate max-w-none prose-headings:font-semibold prose-a:text-blue-600 prose-img:rounded-xl">
@@ -38,7 +38,7 @@ export default async function NotePage({ params }: PageProps) {
                     <div className="flex gap-4 text-sm text-gray-500">
                         <time>{format(new Date(meta.date), "MMMM d, yyyy")}</time>
                         <span className="text-gray-300">•</span>
-                        <span>{meta.readingTime || "5 min read"}</span>
+                        <span>{meta.readingTime || "10 min read"}</span>
                     </div>
                     {meta.tags && (
                         <div className="flex gap-2 mt-4">
@@ -56,7 +56,7 @@ export default async function NotePage({ params }: PageProps) {
             </article>
 
             <div className="mt-16 pt-8 border-t border-gray-100 text-sm italic text-gray-400">
-                End of note.
+                End of research log.
             </div>
         </Container>
     );

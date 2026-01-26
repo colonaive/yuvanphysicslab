@@ -1,10 +1,10 @@
 import { Container } from "@/components/site/Container";
-import { getAllNotes } from "@/lib/mdx";
+import { getAllContent } from "@/lib/mdx";
 import Link from "next/link";
 import { format } from "date-fns";
 
 export default async function NotesPage() {
-    const notes = await getAllNotes();
+    const notes = await getAllContent("notes");
 
     return (
         <Container>

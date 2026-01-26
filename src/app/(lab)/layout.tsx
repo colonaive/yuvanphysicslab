@@ -5,10 +5,8 @@ export default function LabLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const isProtected = !!process.env.LAB_PASSCODE;
-
     return (
-        <LabGuard isProtected={isProtected}>
+        <LabGuard>
             {children}
         </LabGuard>
     );

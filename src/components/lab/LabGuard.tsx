@@ -1,89 +1,134 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { LabNav } from "./LabNav";
-import { FlaskConical, Lock } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Lock, Loader2, ArrowRight, FlaskConical } from "lucide-react";
 
-export default function LabGuard({
-    children,
-    isProtected,
-}: {
-    children: React.ReactNode;
-    isProtected: boolean;
-}) {
-    const [isUnlocked, setIsUnlocked] = useState(false);
-    const [loading, setLoading] = useState(true);
+export default function LabGuard({ children }: { children: React.ReactNode }) {
+    const [isAuthed, setIsAuthed] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [passcode, setPasscode] = useState("");
-    const [error, setError] = useState(false);
+    const [error, setError] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
-        if (!isProtected) {
-            setIsUnlocked(true);
-            setLoading(false);
-            return;
-        }
+        const storedAuth = localStorage.getItem("lab_authed");
+        const storedTime = localStorage.getItem("lab_auth_time");
 
-        const stored = localStorage.getItem("lab_unlocked");
-        if (stored === "true") {
-            setIsUnlocked(true);
+        // 7 days expiration
+        const EXPIRATION_MS = 7 * 24 * 60 * 60 * 1000;
+
+        if (storedAuth === "1" && storedTime) {
+            const now = Date.now();
+            if (now - parseInt(storedTime) < EXPIRATION_MS) {
+                setIsAuthed(true);
+            } else {
+                localStorage.removeItem("lab_authed");
+                localStorage.removeItem("lab_auth_time");
+            }
         }
-        setLoading(false);
-    }, [isProtected]);
+        setIsLoading(false);
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError(false);
+        setIsSubmitting(true);
+        setError("");
 
         try {
-            const res = await fetch("/api/verify-lab", {
+            const res = await fetch("/api/lab/auth", {
                 method: "POST",
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ passcode }),
             });
 
             const data = await res.json();
-            if (data.success) {
-                localStorage.setItem("lab_unlocked", "true");
-                setIsUnlocked(true);
+
+            if (res.ok && data.success) {
+                localStorage.setItem("lab_authed", "1");
+                localStorage.setItem("lab_auth_time", Date.now().toString());
+                setIsAuthed(true);
             } else {
-                setError(true);
+                setError("Incorrect passcode");
             }
         } catch (err) {
-            setError(true);
+            setError("Something went wrong");
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
-    if (loading) return null;
+    const handleLogout = () => {
+        localStorage.removeItem("lab_authed");
+        localStorage.removeItem("lab_auth_time");
+        setIsAuthed(false);
+        setPasscode("");
+    }
 
-    if (!isUnlocked) {
+    if (isLoading) {
         return (
-            <div className="flex min-h-screen items-center justify-center bg-gray-50">
-                <div className="w-full max-w-sm p-6 bg-white rounded-xl shadow-lg border border-gray-100">
-                    <div className="flex flex-col items-center mb-6">
-                        <div className="p-3 bg-red-50 text-red-500 rounded-full mb-4">
-                            <Lock className="h-6 w-6" />
+            <div className="flex h-[50vh] w-full items-center justify-center">
+                <Loader2 className="h-8 w-8 animate-spin text-gray-300" />
+            </div>
+        );
+    }
+
+    if (!isAuthed) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[60vh] px-4">
+                <div className="w-full max-w-md space-y-8">
+                    <div className="text-center">
+                        <div className="mx-auto h-12 w-12 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                            <Lock className="h-6 w-6 text-gray-500" />
                         </div>
-                        <h1 className="text-xl font-bold">Lab Access</h1>
-                        <p className="text-gray-500 text-sm">Restricted Area</p>
+                        <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+                            Private Lab Access
+                        </h2>
+                        <p className="mt-2 text-sm text-gray-500">
+                            Restricted area for research drafts and logs.
+                        </p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        <div>
-                            <input
-                                type="password"
-                                value={passcode}
-                                onChange={(e) => setPasscode(e.target.value)}
-                                placeholder="Enter Passcode"
-                                className="w-full p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                autoFocus
-                            />
-                            {error && <p className="text-red-500 text-xs mt-2">Incorrect passcode</p>}
+                    <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                        <div className="rounded-md shadow-sm -space-y-px">
+                            <div>
+                                <label htmlFor="passcode" className="sr-only">
+                                    Passcode
+                                </label>
+                                <input
+                                    id="passcode"
+                                    name="passcode"
+                                    type="password"
+                                    required
+                                    className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-black focus:border-black focus:z-10 sm:text-sm"
+                                    placeholder="Enter passcode"
+                                    value={passcode}
+                                    onChange={(e) => setPasscode(e.target.value)}
+                                />
+                            </div>
                         </div>
-                        <button
-                            type="submit"
-                            className="w-full bg-black text-white py-2 rounded-lg font-medium hover:bg-gray-800 transition-colors"
-                        >
-                            Unlock
-                        </button>
+
+                        {error && (
+                            <div className="text-red-500 text-sm text-center bg-red-50 p-2 rounded">
+                                {error}
+                            </div>
+                        )}
+
+                        <div>
+                            <button
+                                type="submit"
+                                disabled={isSubmitting}
+                                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:opacity-70 disabled:cursor-not-allowed transition-all"
+                            >
+                                {isSubmitting ? (
+                                    <Loader2 className="h-4 w-4 animate-spin" />
+                                ) : (
+                                    <span className="flex items-center gap-2">
+                                        Enter Lab <ArrowRight className="h-4 w-4" />
+                                    </span>
+                                )}
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -91,17 +136,16 @@ export default function LabGuard({
     }
 
     return (
-        <div className="flex flex-col min-h-screen">
-            <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white px-4 h-14 flex items-center justify-between">
-                <div className="flex items-center gap-2 font-bold text-gray-900">
-                    <FlaskConical className="h-5 w-5" />
-                    <span>Lab</span>
-                </div>
-                <LabNav />
-            </header>
-            <main className="flex-1 bg-gray-50 p-4 md:p-6">
-                {children}
-            </main>
+        <div className="relative">
+            <div className="absolute top-[-3rem] right-0 md:top-[-4rem]">
+                <button
+                    onClick={handleLogout}
+                    className="text-xs text-gray-400 hover:text-red-500 transition-colors"
+                >
+                    Lock Lab
+                </button>
+            </div>
+            {children}
         </div>
     );
 }
