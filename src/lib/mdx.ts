@@ -60,19 +60,28 @@ export async function getAllContent(type: ContentType) {
 
     const files = fs.readdirSync(dir);
     const items = [];
+    const isProd = process.env.NODE_ENV === "production";
 
     for (const file of files) {
         if (!file.endsWith(".mdx")) continue;
         const { meta } = (await getContentBySlug(type, file)) || {};
-        if (meta && meta.status !== "private" && meta.status !== "draft") {
-            items.push(meta);
-        }
+
+        if (!meta) continue;
+
+        // Strict filtering:
+        // 1. Never show "private"
+        // 2. Hide "draft" in production
+        if (meta.status === "private") continue;
+        if (isProd && meta.status === "draft") continue;
+
+        items.push(meta);
     }
 
     return items.sort((a, b) => (new Date(b.date).getTime() - new Date(a.date).getTime()));
 }
 
 export async function getRecentContent() {
+    // Note: getAllContent already filters private/draft
     const notes = await getAllContent("notes");
     const research = await getAllContent("research");
 

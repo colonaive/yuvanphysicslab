@@ -1,13 +1,14 @@
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yuvan.xyz';
+
     return {
         rules: {
             userAgent: '*',
             allow: '/',
-            disallow: ['/lab/', '/api/'],
+            disallow: ['/lab/', '/api/lab/', '/api/auth/'],
         },
-        sitemap: 'https://yuvan.xyz/sitemap.xml', // Update with real domain later? user didn't specify production domain.
-        // User goal: "Push Netlify deploy" - likely uses netlify.app subdomain initially. 
+        sitemap: `${siteUrl}/sitemap.xml`,
     };
 }
