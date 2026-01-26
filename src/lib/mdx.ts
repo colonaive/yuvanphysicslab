@@ -15,7 +15,7 @@ export interface Frontmatter {
     summary: string;
     tags?: string[];
     slug: string;
-    status?: "public" | "private";
+    status?: "public" | "private" | "draft";
     readingTime?: string;
     type?: ContentType; // Injected during load
 }
@@ -64,7 +64,7 @@ export async function getAllContent(type: ContentType) {
     for (const file of files) {
         if (!file.endsWith(".mdx")) continue;
         const { meta } = (await getContentBySlug(type, file)) || {};
-        if (meta && meta.status !== "private") {
+        if (meta && meta.status !== "private" && meta.status !== "draft") {
             items.push(meta);
         }
     }
