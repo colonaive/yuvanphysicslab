@@ -1,0 +1,36 @@
+---
+title: Introduction to Tensors
+date: 2023-10-15
+summary: A brief overview of tensor calculus notation and basic operations.
+tags: ["math", "physics", "geometry"]
+---
+
+# Introduction to Tensors
+
+Tensors are geometric objects that describe linear relations between geometric vectors, scalars, and other tensors.
+
+## Definition
+
+A tensor $T$ of type $(k, l)$ can be thought of as a multi-linear map:
+
+$$
+T: \underbrace{V^* \times \dots \times V^*}_{k} \times \underbrace{V \times \dots \times V}_{l} \to \mathbb{R}
+$$
+
+## Einstein Summation
+
+We use the convention where repeated indices imply summation:
+
+$$
+A_i B^i = \sum_{i} A_i B^i
+$$
+
+## Metric Tensor
+
+The metric tensor $g_{\mu\nu}$ defines the geometry of space-time. The line element is:
+
+$$
+ds^2 = g_{\mu\nu} dx^\mu dx^\nu
+$$
+
+This is a fundamental concept in General Relativity.

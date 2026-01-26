@@ -1,0 +1,47 @@
+[
+    {
+        "slug": "geometric-deep-learning",
+        "title": "Geometric Deep Learning",
+        "summary": "Exploring symmetry groups in neural network architectures to improve generalization.",
+        "key_terms": [
+            "Equivariance",
+            "Manifolds",
+            "Graph Neural Networks"
+        ],
+        "status": "Active",
+        "what_im_working_on": [
+            "Implementing SE(3)-equivariant formulations",
+            "Benchmarking on molecular dynamics datasets"
+        ]
+    },
+    {
+        "slug": "quantum-gravity",
+        "title": "Quantum Gravity & Holography",
+        "summary": "Investigating the AdS/CFT correspondence and its implications for information scrambling.",
+        "key_terms": [
+            "AdS/CFT",
+            "Entanglement Entropy",
+            "Black Holes"
+        ],
+        "status": "On Hold",
+        "what_im_working_on": [
+            "Reviewing recent literature on island proposals",
+            "Toy models of evaporation"
+        ]
+    },
+    {
+        "slug": "category-theory-physics",
+        "title": "Categorical Quantum Mechanics",
+        "summary": "Using monoidal categories to formalize quantum processes and diagrammatic reasoning.",
+        "key_terms": [
+            "Monoidal Categories",
+            "ZX-calculus",
+            "Process Theories"
+        ],
+        "status": "Active",
+        "what_im_working_on": [
+            "Refining the diagrammatic proof for teleportation",
+            "Connecting ZX-calculus to tensor networks"
+        ]
+    }
+]
