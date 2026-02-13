@@ -4,40 +4,68 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Container } from "./Container";
 import { cn } from "@/lib/utils";
+import { Orbit } from "lucide-react";
 
 export function SiteHeader() {
-    const pathname = usePathname();
+  const pathname = usePathname();
 
-    const isActive = (path: string) => pathname?.startsWith(path);
+  const isActive = (path: string) => {
+    if (!pathname) return false;
+    return path === "/" ? pathname === "/" : pathname.startsWith(path);
+  };
 
-    return (
-        <header className="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/80 backdrop-blur-md">
-            <Container className="flex h-16 items-center justify-between">
-                <Link href="/" className="font-semibold text-lg hover:text-gray-600 transition-colors">
-                    Yuvan
-                </Link>
-                <nav className="flex gap-6 text-sm font-medium text-gray-500">
-                    <Link
-                        href="/research"
-                        className={cn("hover:text-black transition-colors", isActive("/research") && "text-black")}
-                    >
-                        Research
-                    </Link>
-                    <Link
-                        href="/notes"
-                        className={cn("hover:text-black transition-colors", isActive("/notes") && "text-black")}
-                    >
-                        Notes
-                    </Link>
-                    <Link
-                        href="/contact"
-                        className={cn("hover:text-black transition-colors", isActive("/contact") && "text-black")}
-                    >
-                        Contact
-                    </Link>
-                </nav>
-            </Container>
-        </header>
-    );
+  return (
+    <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-bg/88 backdrop-blur-md">
+      <Container className="flex h-[4.5rem] items-center justify-between">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-[1.05rem] font-semibold tracking-wide text-text hover:text-accent"
+        >
+          <Orbit className="h-4 w-4 text-accent" />
+          Yuvan Physics Lab
+        </Link>
+
+        <div className="flex items-center gap-6">
+          <nav className="flex items-center gap-5 text-sm font-medium">
+            <Link
+              href="/research"
+              className={cn(
+                "text-muted",
+                isActive("/research") && "text-text underline decoration-accent/80"
+              )}
+            >
+              Research
+            </Link>
+            <Link
+              href="/notes"
+              className={cn(
+                "text-muted",
+                isActive("/notes") && "text-text underline decoration-accent/80"
+              )}
+            >
+              Notes
+            </Link>
+            <Link
+              href="/about"
+              className={cn(
+                "text-muted",
+                isActive("/about") && "text-text underline decoration-accent/80"
+              )}
+            >
+              About
+            </Link>
+          </nav>
+
+          <Link
+            href="/about"
+            aria-label="Profile"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-surface text-xs font-semibold tracking-wide text-text hover:border-accent hover:text-accent"
+          >
+            YC
+          </Link>
+        </div>
+      </Container>
+    </header>
+  );
 }
 

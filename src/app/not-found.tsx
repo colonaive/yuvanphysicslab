@@ -1,22 +1,18 @@
-import Link from "next/link";
 import { Container } from "@/components/site/Container";
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 
 export default function NotFound() {
-    return (
-        <Container>
-            <div className="flex flex-col items-center justify-center min-h-[50vh] text-center space-y-6">
-                <h1 className="text-4xl font-bold tracking-tight">404</h1>
-                <h2 className="text-xl font-medium text-gray-500">Page not found</h2>
-                <p className="text-gray-400 max-w-sm">
-                    The page you are looking for might have been moved, deleted, or is temporarily unavailable.
-                </p>
-                <Link
-                    href="/"
-                    className="inline-flex items-center justify-center rounded-md bg-black px-6 py-2.5 text-sm font-medium text-white hover:bg-gray-800 transition-all"
-                >
-                    Return Home
-                </Link>
-            </div>
-        </Container>
-    );
+  return (
+    <Container>
+      <Card className="mx-auto flex min-h-[50vh] max-w-2xl flex-col items-center justify-center space-y-5 p-8 text-center">
+        <h1>404</h1>
+        <h2 className="text-muted">Page not found</h2>
+        <p className="max-w-sm text-muted">
+          The page you are looking for might have been moved, deleted, or is temporarily unavailable.
+        </p>
+        <Button href="/">Return Home</Button>
+      </Card>
+    </Container>
+  );
 }

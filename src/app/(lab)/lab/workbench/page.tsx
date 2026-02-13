@@ -8,6 +8,7 @@ import { FeedbackPane } from "@/components/lab/FeedbackPane";
 import type { ProfessorFeedback } from "@/lib/ai-adapter";
 import { FlaskConical } from "lucide-react";
 import { Container } from "@/components/site/Container";
+import { Card } from "@/components/ui/Card";
 
 export default function WorkbenchPage() {
     const [feedback, setFeedback] = useState<ProfessorFeedback | null>(null);
@@ -30,7 +31,7 @@ export default function WorkbenchPage() {
             } else {
                 setError(data.error || "Critique engine failed");
             }
-        } catch (err) {
+        } catch {
             setError("Connection failure");
         } finally {
             setIsReviewing(false);
@@ -42,12 +43,12 @@ export default function WorkbenchPage() {
             <div className="py-6 h-full flex flex-col space-y-6">
                 <header className="flex items-center justify-between shrink-0">
                     <div className="flex items-center gap-3">
-                        <div className="h-8 w-8 bg-black text-white rounded-lg flex items-center justify-center">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-button border border-border bg-surface2 text-accent">
                             <FlaskConical className="h-5 w-5" />
                         </div>
                         <div>
                             <h1 className="text-xl font-bold tracking-tight">Lab Workbench</h1>
-                            <p className="text-[10px] text-gray-400 uppercase tracking-widest font-medium">Experimental Research Environment</p>
+                            <p className="text-[10px] text-muted uppercase tracking-widest font-medium">Experimental Research Environment</p>
                         </div>
                     </div>
                 </header>
@@ -59,9 +60,9 @@ export default function WorkbenchPage() {
                         feedbackPane={
                             <div className="h-full flex flex-col">
                                 {error && (
-                                    <div className="mb-4 p-3 bg-red-50 text-red-600 text-[11px] rounded-md border border-red-100">
+                                    <Card className="mb-4 border-red-400/30 bg-red-500/10 p-3 text-[11px] text-red-500">
                                         {error}
-                                    </div>
+                                    </Card>
                                 )}
                                 <FeedbackPane feedback={feedback} isLoading={isReviewing} />
                             </div>

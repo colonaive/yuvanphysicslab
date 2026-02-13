@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { FlaskConical, PenTool, Home } from "lucide-react";
+import { PenTool, Home } from "lucide-react";
 
 export function LabNav() {
     const pathname = usePathname();
@@ -12,7 +12,7 @@ export function LabNav() {
     ];
 
     return (
-        <nav className="flex items-center gap-2 bg-gray-100 p-1.5 rounded-lg">
+        <nav className="flex items-center gap-2 rounded-card border border-border bg-surface2 p-1.5">
             {links.map((link) => {
                 const Icon = link.icon;
                 const isActive = pathname === link.href;
@@ -23,8 +23,8 @@ export function LabNav() {
                         className={cn(
                             "flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors",
                             isActive
-                                ? "bg-white text-black shadow-sm"
-                                : "text-gray-500 hover:text-gray-900 hover:bg-gray-200/50"
+                                ? "bg-surface text-text shadow-soft"
+                                : "text-muted hover:text-accent hover:bg-surface"
                         )}
                     >
                         <Icon className="h-4 w-4" />

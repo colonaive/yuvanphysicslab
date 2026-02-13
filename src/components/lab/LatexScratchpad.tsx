@@ -5,7 +5,8 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeKatex from "rehype-katex";
 import TextareaAutosize from "react-textarea-autosize";
-import { Copy, Trash2, Save, FileText } from "lucide-react";
+import { Copy, Trash2 } from "lucide-react";
+import { semanticClasses } from "@/theme/tokens";
 
 const INITIAL_CONTENT = "# Scratchpad\n\nStart typing LaTeX formulas here...\n\n$$ \nE = mc^2 \n$$";
 
@@ -22,21 +23,17 @@ const SNIPPETS = [
 ];
 
 export function LatexScratchpad() {
-    const [content, setContent] = useState("");
-    const [mounted, setMounted] = useState(false);
+    const [content, setContent] = useState(() => {
+        if (typeof window === "undefined") return INITIAL_CONTENT;
+        return localStorage.getItem("scratchpad_content") || INITIAL_CONTENT;
+    });
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
-        const saved = localStorage.getItem("scratchpad_content");
-        setContent(saved || INITIAL_CONTENT);
-        setMounted(true);
-    }, []);
-
-    useEffect(() => {
-        if (mounted) {
+        if (typeof window !== "undefined") {
             localStorage.setItem("scratchpad_content", content);
         }
-    }, [content, mounted]);
+    }, [content]);
 
     const insertAtCursor = (textToInsert: string) => {
         const textarea = textareaRef.current;
@@ -65,41 +62,39 @@ export function LatexScratchpad() {
         }
     };
 
-    if (!mounted) return null;
-
     return (
         <div className="flex flex-col h-[calc(100vh-8rem)] gap-4">
             {/* Toolbar */}
-            <div className="bg-white p-3 rounded-lg border border-gray-200 shadow-sm flex flex-col md:flex-row gap-4 overflow-x-auto">
+            <div className="rounded-card border border-border bg-surface p-3 shadow-soft flex flex-col md:flex-row gap-4 overflow-x-auto">
                 <div className="flex gap-1 flex-wrap min-w-[200px]">
                     {SYMBOLS.map((sym) => (
                         <button
                             key={sym}
                             onClick={() => insertAtCursor(sym)}
-                            className="p-1.5 hover:bg-gray-100 rounded text-sm font-mono"
+                            className="rounded-button p-1.5 text-sm font-mono hover:bg-surface2"
                             title={sym}
                         >
                             ${sym}$
                         </button>
                     ))}
                 </div>
-                <div className="w-px bg-gray-200 hidden md:block" />
+                <div className="hidden w-px bg-border md:block" />
                 <div className="flex gap-2 flex-wrap">
                     {SNIPPETS.map((snip) => (
                         <button
                             key={snip.label}
                             onClick={() => insertAtCursor(snip.code)}
-                            className="px-2 py-1 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded text-xs font-medium text-gray-700"
+                            className="rounded-button border border-border bg-surface2 px-2 py-1 text-xs font-medium text-text hover:border-accent/50"
                         >
                             {snip.label}
                         </button>
                     ))}
                 </div>
-                <div className="md:ml-auto flex gap-2 border-l pl-4 border-gray-200">
-                    <button onClick={copyToClipboard} className="text-gray-500 hover:text-black" title="Copy Markdown">
+                <div className="md:ml-auto flex gap-2 border-l pl-4 border-border">
+                    <button onClick={copyToClipboard} className="text-muted hover:text-accent" title="Copy Markdown">
                         <Copy className="h-5 w-5" />
                     </button>
-                    <button onClick={clearContent} className="text-red-400 hover:text-red-600" title="Clear">
+                    <button onClick={clearContent} className="text-muted hover:text-accent" title="Clear">
                         <Trash2 className="h-5 w-5" />
                     </button>
                 </div>
@@ -108,20 +103,20 @@ export function LatexScratchpad() {
             {/* Editor & Preview Split */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 min-h-0">
                 <div className="h-full flex flex-col">
-                    <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Editor</label>
+                    <label className={semanticClasses.sectionMarker}>Editor</label>
                     <TextareaAutosize
                         ref={textareaRef}
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
-                        className="flex-1 w-full p-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-100 font-mono text-sm resize-none bg-white overflow-y-auto"
+                        className="flex-1 w-full resize-none overflow-y-auto rounded-card border border-border bg-surface p-4 font-mono text-sm text-text focus:outline-none focus:ring-2 focus:ring-accent/35"
                         placeholder="Type your notes here..."
                         spellCheck={false}
                     />
                 </div>
 
                 <div className="h-full flex flex-col min-h-[300px]">
-                    <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Preview</label>
-                    <div className="flex-1 p-6 rounded-xl border border-gray-100 bg-white overflow-y-auto prose prose-sm max-w-none">
+                    <label className={semanticClasses.sectionMarker}>Preview</label>
+                    <div className="prose-lab flex-1 overflow-y-auto rounded-card border border-border bg-surface p-6">
                         <Markdown
                             remarkPlugins={[remarkGfm]}
                             rehypePlugins={[rehypeKatex]}

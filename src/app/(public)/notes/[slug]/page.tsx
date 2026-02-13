@@ -3,61 +3,64 @@ import { getAllContent, getContentBySlug } from "@/lib/mdx";
 import { format } from "date-fns";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, FileText } from "lucide-react";
+import { semanticClasses } from "@/theme/tokens";
 
 interface PageProps {
-    params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-    const notes = await getAllContent("notes");
-    return notes.map((note) => ({
-        slug: note.slug,
-    }));
+  const notes = await getAllContent("notes");
+  return notes.map((note) => ({
+    slug: note.slug,
+  }));
 }
 
 export default async function NotePage({ params }: PageProps) {
-    const { slug } = await params;
-    const note = await getContentBySlug("notes", slug);
+  const { slug } = await params;
+  const note = await getContentBySlug("notes", slug);
 
-    if (!note) {
-        notFound();
-    }
+  if (!note) {
+    notFound();
+  }
 
-    const { meta, content } = note;
+  const { meta, content } = note;
 
-    return (
-        <Container>
-            <Link href="/notes" className="inline-flex items-center text-sm text-gray-400 hover:text-gray-900 mb-8 transition-colors">
-                <ArrowLeft className="mr-2 h-4 w-4" /> Back to Notes
-            </Link>
+  return (
+    <Container className="space-y-8">
+      <Link href="/notes" className="inline-flex items-center gap-2 text-sm text-muted">
+        <ArrowLeft className="h-4 w-4" />
+        Back to Notes
+      </Link>
 
-            <article className="prose prose-slate max-w-none prose-headings:font-semibold prose-a:text-blue-600 prose-img:rounded-xl">
-                <header className="mb-10 not-prose border-b border-gray-100 pb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-4">{meta.title}</h1>
-                    <div className="flex gap-4 text-sm text-gray-500">
-                        <time>{format(new Date(meta.date), "MMMM d, yyyy")}</time>
-                        <span className="text-gray-300">•</span>
-                        <span>{meta.readingTime || "5 min read"}</span>
-                    </div>
-                    {meta.tags && (
-                        <div className="flex gap-2 mt-4">
-                            {meta.tags.map(tag => (
-                                <span key={tag} className="bg-gray-50 text-gray-500 px-2 py-1 rounded text-xs px-2.5 py-0.5 rounded-full font-medium">
-                                    {tag}
-                                </span>
-                            ))}
-                        </div>
-                    )}
-                </header>
-
-                {content}
-
-            </article>
-
-            <div className="mt-16 pt-8 border-t border-gray-100 text-sm italic text-gray-400">
-                End of note.
+      <article className="space-y-8">
+        <header className="space-y-4 border-b border-border pb-8">
+          <p className={semanticClasses.sectionMarker}>
+            <FileText className="h-4 w-4 text-accent" />
+            Research Note
+          </p>
+          <h1>{meta.title}</h1>
+          <div className="flex flex-wrap items-center gap-3 text-sm text-muted">
+            <time>{format(new Date(meta.date), "MMMM d, yyyy")}</time>
+            <span aria-hidden="true">•</span>
+            <span>{meta.readingTime || "5 min read"}</span>
+          </div>
+          {meta.tags && (
+            <div className="flex flex-wrap gap-2">
+              {meta.tags.map((tag) => (
+                <span key={tag} className="rounded-full border border-border px-2.5 py-0.5 text-xs text-muted">
+                  {tag}
+                </span>
+              ))}
             </div>
-        </Container>
-    );
+          )}
+        </header>
+
+        <div className="prose-lab">{content}</div>
+      </article>
+
+      <p className="border-t border-border pt-6 text-sm italic text-muted">End of note.</p>
+    </Container>
+  );
 }

@@ -1,73 +1,68 @@
 import { Container } from "@/components/site/Container";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Atom, FileText } from "lucide-react";
 import { getRecentContent } from "@/lib/mdx";
 import { format } from "date-fns";
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
+import { SpacetimeGrid } from "@/components/SpacetimeGrid";
+import { semanticClasses } from "@/theme/tokens";
 
 export default async function HomePage() {
-    const recentContent = await getRecentContent();
+  const recentContent = await getRecentContent();
+  const featuredPaper = recentContent.find((item) => item.type === "research") ?? recentContent[0];
 
-    return (
-        <Container>
-            <section className="space-y-8">
-                <div className="space-y-4">
-                    <h1 className="text-3xl font-bold tracking-tight md:text-5xl">
-                        Physics, Geometry, and Machine Learning
-                    </h1>
-                    <p className="max-w-xl text-lg text-gray-600 leading-relaxed">
-                        Welcome to my digital garden. I explore the intersection of theoretical physics and modern AI.
-                        Here you will find my research notes, half-baked ideas, and project logs.
-                    </p>
-                </div>
+  return (
+    <Container className="space-y-14">
+      <section className="relative overflow-hidden rounded-card border border-border bg-surface px-6 py-12 shadow-soft sm:px-10 sm:py-14">
+        <SpacetimeGrid />
+        <div className="relative space-y-6">
+          <p className={semanticClasses.sectionMarker}>
+            <Atom className="h-4 w-4 text-accent" />
+            Academic Physics Research
+          </p>
+          <h1 className="max-w-3xl">
+            Precision Notes on Physics, Geometry, and Learning Systems
+          </h1>
+          <p className="max-w-2xl text-muted">
+            A focused archive of ongoing research, formal notes, and long-form essays on symmetry,
+            field theories, and machine intelligence.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <Button href={featuredPaper ? `/${featuredPaper.type}/${featuredPaper.slug}` : "/research"}>
+              Read Featured Paper <ArrowRight className="h-4 w-4" />
+            </Button>
+            <Button href="/about" variant="outline">
+              About
+            </Button>
+          </div>
+        </div>
+      </section>
 
-                <div className="flex gap-4">
-                    <Link
-                        href="/research"
-                        className="inline-flex items-center gap-2 rounded-md bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 transition-colors"
-                    >
-                        Research Directions <ArrowRight className="h-4 w-4" />
-                    </Link>
-                    <Link
-                        href="/notes"
-                        className="inline-flex items-center gap-2 rounded-md border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 transition-colors"
-                    >
-                        Read Notes
-                    </Link>
+      <section className="space-y-5">
+        <h2 className={semanticClasses.sectionMarker}>
+          <FileText className="h-4 w-4 text-accent" />
+          Latest Publications
+        </h2>
+        <div className="space-y-4">
+          {recentContent.map((item) => (
+            <Card key={item.slug} className="p-5 transition-colors hover:border-accent/55">
+              <Link href={`/${item.type}/${item.slug}`} className="block space-y-2">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+                    {item.type === "research" ? "Research Paper" : "Research Note"}
+                  </p>
+                  <time className="text-sm text-muted">
+                    {format(new Date(item.date), "MMMM d, yyyy")}
+                  </time>
                 </div>
-
-                <div className="mt-16 border-t border-gray-100 pt-8">
-                    <h2 className="text-lg font-semibold mb-6">Latest Updates</h2>
-                    <div className="space-y-6">
-                        {recentContent.map((item) => (
-                            <Link
-                                key={item.slug}
-                                href={`/${item.type}/${item.slug}`}
-                                className="block group"
-                            >
-                                <article className="flex items-baseline justify-between mb-1">
-                                    <div className="flex items-center gap-3">
-                                        <span className={`text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full ${item.type === 'research'
-                                            ? 'bg-blue-50 text-blue-600'
-                                            : 'bg-gray-100 text-gray-600'
-                                            }`}>
-                                            {item.type === 'research' ? 'Research' : 'Note'}
-                                        </span>
-                                        <h3 className="text-base font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
-                                            {item.title}
-                                        </h3>
-                                    </div>
-                                    <time className="text-sm text-gray-400 shrink-0 ml-4">
-                                        {format(new Date(item.date), "MMM d")}
-                                    </time>
-                                </article>
-                                <p className="text-sm text-gray-500 line-clamp-1 ml-[calc(2rem+.75rem)]">
-                                    {item.summary}
-                                </p>
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-            </section>
-        </Container>
-    );
+                <h3 className="text-xl leading-tight">{item.title}</h3>
+                <p className="text-sm text-muted">{item.summary}</p>
+              </Link>
+            </Card>
+          ))}
+        </div>
+      </section>
+    </Container>
+  );
 }

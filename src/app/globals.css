@@ -1,7 +1,7 @@
+@config "../../tailwind.config.ts";
 @import "tailwindcss";
 @import "katex/dist/katex.min.css";
 
-/* Custom utility for no-scrollbar if needed */
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {
     display: none;
@@ -13,8 +13,155 @@
   }
 }
 
+:root {
+  --color-bg: #f6f4ef;
+  --color-surface: #fcfbf8;
+  --color-surface-2: #efebe2;
+  --color-text: #121723;
+  --color-muted: #5a6270;
+  --color-border: #d2cfc6;
+  --color-accent: #4cc9f0;
+  --color-accent-2: #2f89ad;
+
+  --radius-card: 1rem;
+  --radius-button: 0.75rem;
+  --shadow-soft: 0 14px 40px -26px rgb(10 13 18 / 48%);
+  --page-gutter: clamp(1.25rem, 4vw, 3rem);
+
+  color-scheme: light;
+}
+
+.dark {
+  --color-bg: #090d12;
+  --color-surface: #111820;
+  --color-surface-2: #18212b;
+  --color-text: #f3f6fb;
+  --color-muted: #a6b2c2;
+  --color-border: #2a3646;
+  --color-accent: #4cc9f0;
+  --color-accent-2: #7fdfff;
+
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #090d12;
+    --color-surface: #111820;
+    --color-surface-2: #18212b;
+    --color-text: #f3f6fb;
+    --color-muted: #a6b2c2;
+    --color-border: #2a3646;
+    --color-accent: #4cc9f0;
+    --color-accent-2: #7fdfff;
+
+    color-scheme: dark;
+  }
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+html {
+  font-size: 16px;
+}
+
 body {
-  background-color: #fdfdfd;
-  color: #1a1a1a;
-  font-family: system-ui, -apple-system, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(1rem, 0.98rem + 0.15vw, 1.125rem);
+  line-height: 1.65;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading), serif;
+  letter-spacing: -0.018em;
+  color: var(--color-text);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 4.2vw, 2.75rem);
+  line-height: 1.08;
+}
+
+h2 {
+  font-size: clamp(1.75rem, 3vw, 2rem);
+  line-height: 1.18;
+}
+
+h3 {
+  font-size: clamp(1.25rem, 2.2vw, 1.5rem);
+  line-height: 1.24;
+}
+
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.22em;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-accent);
+  text-decoration-color: currentColor;
+}
+
+.prose-lab {
+  color: var(--color-text);
+}
+
+.prose-lab :is(h1, h2, h3) {
+  margin-top: 1.65em;
+  margin-bottom: 0.45em;
+}
+
+.prose-lab p,
+.prose-lab ul,
+.prose-lab ol,
+.prose-lab blockquote {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.prose-lab code {
+  background: color-mix(in oklab, var(--color-surface-2) 74%, transparent);
+  border-radius: 0.35rem;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.9em;
+}
+
+.prose-lab pre {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.prose-lab a {
+  color: var(--color-accent-2);
+  text-decoration-color: color-mix(in oklab, var(--color-accent-2) 55%, transparent);
+}
+
+.prose-lab a:hover {
+  color: var(--color-accent);
+  text-decoration-color: currentColor;
+}
+
+.prose-lab blockquote {
+  border-left: 2px solid var(--color-accent);
+  color: var(--color-muted);
+  padding-left: 1rem;
+}
+
+.prose-lab hr {
+  border: 0;
+  border-top: 1px solid var(--color-border);
 }

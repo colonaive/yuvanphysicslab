@@ -1,5 +1,21 @@
 import "./globals.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { Crimson_Pro, Source_Sans_3 } from "next/font/google";
+import { colors } from "@/theme/tokens";
+
+const headingFont = Crimson_Pro({
+  subsets: ["latin"],
+  variable: "--font-heading",
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
+});
+
+const bodyFont = Source_Sans_3({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
   title: {
@@ -21,6 +37,13 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
 };
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: colors.light.bg },
+    { media: "(prefers-color-scheme: dark)", color: colors.dark.bg },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -31,7 +54,9 @@ export default function RootLayout({
       <head>
         <meta name="apple-mobile-web-app-title" content="Lab" />
       </head>
-      <body className="antialiased min-h-screen flex flex-col">
+      <body
+        className={`${headingFont.variable} ${bodyFont.variable} min-h-screen bg-bg text-text antialiased flex flex-col`}
+      >
         {children}
       </body>
     </html>

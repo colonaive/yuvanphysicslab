@@ -1,4 +1,6 @@
 import { cn } from "@/lib/utils";
+import { spacing } from "@/theme/tokens";
+import type { CSSProperties } from "react";
 
 interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
     children: React.ReactNode;
@@ -8,7 +10,8 @@ interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
 export function Container({ children, className, ...props }: ContainerProps) {
     return (
         <div
-            className={cn("mx-auto w-full max-w-3xl px-6 md:px-8", className)}
+            className={cn("mx-auto w-full max-w-5xl px-gutter", className)}
+            style={{ "--page-gutter": spacing.pageGutter } as CSSProperties}
             {...props}
         >
             {children}
