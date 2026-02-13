@@ -5,7 +5,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
   return (
     <>
       <SiteHeader />
-      <main className="flex-1 py-10 md:py-14">{children}</main>
+      <main className="flex-1 py-14 md:py-20">{children}</main>
       <SiteFooter />
     </>
   );

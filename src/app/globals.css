@@ -14,65 +14,69 @@
 }
 
 :root {
-  --color-bg: #f6f4ef;
-  --color-surface: #fcfbf8;
-  --color-surface-2: #efebe2;
-  --color-text: #121723;
-  --color-muted: #5a6270;
-  --color-border: #d2cfc6;
-  --color-accent: #4cc9f0;
+  --color-bg: #f5f6f8;
+  --color-surface: #ffffff;
+  --color-surface-2: #f1f5f9;
+  --color-text: #0f172a;
+  --color-muted: #334155;
+  --color-border: rgba(15, 23, 42, 0.1);
+  --color-accent: #2563eb;
+  --color-accent-2: #06b6d4;
 
   --radius-card: 1rem;
   --radius-button: 0.75rem;
-  --shadow-soft: 0 14px 40px -26px rgb(10 13 18 / 48%);
+  --shadow-soft: 0 16px 42px -24px rgb(15 23 42 / 28%);
   --page-gutter: clamp(1.25rem, 4vw, 3rem);
-  --font-heading-stack: "Crimson Pro", "STIX Two Text", Georgia, serif;
-  --font-body-stack: "Source Sans 3", "Inter", ui-sans-serif, system-ui, sans-serif;
-  --type-h1: clamp(2.5rem, 4.2vw, 2.75rem);
-  --type-h2: clamp(1.75rem, 3vw, 2rem);
-  --type-h3: clamp(1.25rem, 2.2vw, 1.5rem);
+  --font-heading-stack: "Playfair Display", "Libre Baskerville", "Times New Roman", serif;
+  --font-body-stack: "Inter", "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  --type-h1: clamp(2.6rem, 4.4vw, 3.7rem);
+  --type-h2: clamp(1.9rem, 3vw, 2.55rem);
+  --type-h3: clamp(1.3rem, 2.2vw, 1.75rem);
   --type-body: clamp(1rem, 0.98rem + 0.15vw, 1.125rem);
-  --leading-h1: 1.08;
+  --leading-h1: 1.06;
   --leading-h2: 1.18;
-  --leading-h3: 1.24;
-  --leading-body: 1.65;
+  --leading-h3: 1.28;
+  --leading-body: 1.68;
 
   color-scheme: light;
 }
 
 :root.light {
-  --color-bg: #f6f4ef;
-  --color-surface: #fcfbf8;
-  --color-surface-2: #efebe2;
-  --color-text: #121723;
-  --color-muted: #5a6270;
-  --color-border: #d2cfc6;
-  --color-accent: #4cc9f0;
+  --color-bg: #f5f6f8;
+  --color-surface: #ffffff;
+  --color-surface-2: #f1f5f9;
+  --color-text: #0f172a;
+  --color-muted: #334155;
+  --color-border: rgba(15, 23, 42, 0.1);
+  --color-accent: #2563eb;
+  --color-accent-2: #06b6d4;
 
   color-scheme: light;
 }
 
 :root.dark {
-  --color-bg: #090d12;
-  --color-surface: #111820;
-  --color-surface-2: #18212b;
-  --color-text: #f3f6fb;
-  --color-muted: #a6b2c2;
-  --color-border: #2a3646;
-  --color-accent: #4cc9f0;
+  --color-bg: #0b1220;
+  --color-surface: #0f172a;
+  --color-surface-2: #111c33;
+  --color-text: #f8fafc;
+  --color-muted: #cbd5e1;
+  --color-border: rgba(248, 250, 252, 0.12);
+  --color-accent: #60a5fa;
+  --color-accent-2: #22d3ee;
 
   color-scheme: dark;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not(.light):not(.dark) {
-    --color-bg: #090d12;
-    --color-surface: #111820;
-    --color-surface-2: #18212b;
-    --color-text: #f3f6fb;
-    --color-muted: #a6b2c2;
-    --color-border: #2a3646;
-    --color-accent: #4cc9f0;
+    --color-bg: #0b1220;
+    --color-surface: #0f172a;
+    --color-surface-2: #111c33;
+    --color-text: #f8fafc;
+    --color-muted: #cbd5e1;
+    --color-border: rgba(248, 250, 252, 0.12);
+    --color-accent: #60a5fa;
+    --color-accent-2: #22d3ee;
 
     color-scheme: dark;
   }
@@ -84,24 +88,43 @@
 
 html {
   font-size: 16px;
+  scroll-behavior: smooth;
 }
 
 body {
   background-color: var(--color-bg);
+  background-image:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.02), rgba(37, 99, 235, 0.02)),
+    radial-gradient(circle at 20% 20%, rgba(15, 23, 42, 0.03) 0.6px, transparent 0.8px);
+  background-size: 100% 100%, 8px 8px;
   color: var(--color-text);
   font-family: var(--font-body), var(--font-body-stack), sans-serif;
   font-size: var(--type-body);
   line-height: var(--leading-body);
+  min-height: 100vh;
+}
+
+:root.dark body {
+  background-image:
+    linear-gradient(180deg, rgba(96, 165, 250, 0.08), rgba(0, 0, 0, 0)),
+    radial-gradient(circle at 20% 20%, rgba(248, 250, 252, 0.025) 0.6px, transparent 0.8px);
+  background-size: 100% 100%, 8px 8px;
 }
 
 h1,
-h2,
-h3,
-h4 {
+h2 {
   font-family: var(--font-heading), var(--font-heading-stack), serif;
-  letter-spacing: -0.018em;
+  letter-spacing: 0.004em;
   color: var(--color-text);
   text-wrap: balance;
+}
+
+h3,
+h4 {
+  font-family: var(--font-body), var(--font-body-stack), sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
 }
 
 h1 {
@@ -128,7 +151,7 @@ a {
 }
 
 a:hover {
-  color: var(--color-accent);
+  color: var(--color-accent-2);
   text-decoration-color: currentColor;
 }
 
@@ -171,12 +194,12 @@ a:focus-visible {
 }
 
 .prose-lab a {
-  color: var(--color-accent);
-  text-decoration-color: color-mix(in oklab, var(--color-accent) 55%, transparent);
+  color: var(--color-accent-2);
+  text-decoration-color: color-mix(in oklab, var(--color-accent-2) 55%, transparent);
 }
 
 .prose-lab a:hover {
-  color: var(--color-accent);
+  color: var(--color-accent-2);
   text-decoration-color: currentColor;
 }
 
@@ -189,4 +212,68 @@ a:focus-visible {
 .prose-lab hr {
   border: 0;
   border-top: 1px solid var(--color-border);
+}
+
+.lab-section {
+  position: relative;
+  padding-block: clamp(3.5rem, 7vw, 5.5rem);
+}
+
+.lab-section-alt {
+  background: transparent;
+}
+
+.section-panel {
+  border: 1px solid color-mix(in oklab, var(--color-border) 90%, transparent);
+  background: color-mix(in oklab, var(--color-surface-2) 86%, transparent);
+  border-radius: 1.25rem;
+  padding: clamp(1.25rem, 2vw, 2rem);
+}
+
+.section-divider {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklab, var(--color-accent) 30%, transparent) 30%,
+    color-mix(in oklab, var(--color-accent-2) 45%, transparent) 50%,
+    color-mix(in oklab, var(--color-accent) 30%, transparent) 70%,
+    transparent 100%
+  );
+}
+
+.hero-ambient {
+  animation: ambientShift 16s ease-in-out infinite alternate;
+}
+
+.reveal-section {
+  animation: fadeLiftIn 220ms ease both;
+}
+
+@keyframes ambientShift {
+  0% { opacity: 0.7; }
+  100% { opacity: 0.9; }
+}
+
+@keyframes fadeLiftIn {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .hero-ambient,
+  .reveal-section {
+    animation: none;
+  }
 }

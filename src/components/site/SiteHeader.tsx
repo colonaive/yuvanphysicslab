@@ -32,8 +32,8 @@ function HeaderLink({
     <Link
       href={href}
       className={cn(
-        "whitespace-nowrap text-sm font-medium text-muted transition-colors hover:text-text hover:underline hover:decoration-accent/75 underline-offset-4",
-        active && "text-text underline decoration-accent/80"
+        "relative whitespace-nowrap text-sm font-medium text-muted transition-colors duration-200 hover:text-text after:absolute after:-bottom-1.5 after:left-0 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:bg-accent after:transition-transform after:duration-200 hover:after:scale-x-100",
+        active && "text-text after:scale-x-100"
       )}
     >
       {label}
@@ -46,6 +46,7 @@ export function SiteHeader() {
   const router = useRouter();
   const [isAuthed, setIsAuthed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const loadSession = async () => {
@@ -58,6 +59,13 @@ export function SiteHeader() {
       }
     };
     loadSession();
+  }, [pathname]);
+
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, [pathname]);
 
   const isActive = (path: string) => {
@@ -77,21 +85,29 @@ export function SiteHeader() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-bg/92 backdrop-blur-md">
+    <header
+      className={cn(
+        "sticky top-0 z-50 w-full transition-all duration-200 backdrop-blur-[12px]",
+        isScrolled || isMobileOpen
+          ? "border-b border-border bg-[rgba(245,246,248,0.88)] shadow-[0_8px_22px_-18px_rgba(15,23,42,0.35)] dark:bg-[rgba(11,18,32,0.74)]"
+          : "border-b border-border/70 bg-[rgba(245,246,248,0.72)] dark:bg-[rgba(11,18,32,0.55)]"
+      )}
+    >
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-accent/10" />
       <Container>
         <div className="flex min-h-[4.9rem] items-center justify-between gap-3">
           <Link
             href="/"
             aria-label="Yuvan Physics Lab home"
-            className="inline-flex shrink-0 items-center gap-2.5 text-sm font-semibold tracking-wide text-text transition-colors hover:text-accent sm:text-[1.05rem]"
+            className="inline-flex shrink-0 items-center gap-2.5 text-sm font-semibold tracking-wide text-text transition-colors hover:text-accent sm:text-[1.02rem]"
           >
-            <span className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full">
+            <span className="relative h-7 w-7 shrink-0 overflow-hidden rounded-full">
               <Image
                 src="/brand/yuvan-logo-badge-light.png"
                 alt=""
                 aria-hidden="true"
-                width={32}
-                height={32}
+                width={28}
+                height={28}
                 className="h-full w-full object-contain dark:hidden"
                 priority
               />
@@ -99,24 +115,14 @@ export function SiteHeader() {
                 src="/brand/yuvan-logo-badge-dark.png"
                 alt=""
                 aria-hidden="true"
-                width={32}
-                height={32}
+                width={28}
+                height={28}
                 className="hidden h-full w-full object-contain dark:block"
                 priority
               />
             </span>
-            <span className="sm:hidden">Yuvan</span>
-            <span className="hidden sm:inline lg:hidden">Yuvan Physics Lab</span>
-            <span className="hidden lg:inline">
-              <Image
-                src="/brand/yuvan-logo-lockup.png"
-                alt=""
-                aria-hidden="true"
-                width={168}
-                height={52}
-                className="h-7 w-auto object-contain dark:brightness-110 dark:invert"
-                priority
-              />
+            <span className="inline text-[0.98rem] font-semibold tracking-[0.01em] sm:text-[1.04rem]">
+              Yuvan Physics Lab
             </span>
             <span className="sr-only">Yuvan Physics Lab</span>
           </Link>

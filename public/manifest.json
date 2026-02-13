@@ -3,8 +3,8 @@
   "short_name": "Yuvan Lab",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f6f4ef",
-  "theme_color": "#f6f4ef",
+  "background_color": "#F5F6F8",
+  "theme_color": "#2563EB",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",

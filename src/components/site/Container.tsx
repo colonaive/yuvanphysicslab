@@ -10,7 +10,7 @@ interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
 export function Container({ children, className, ...props }: ContainerProps) {
     return (
         <div
-            className={cn("mx-auto w-full max-w-6xl px-gutter", className)}
+            className={cn("mx-auto w-full max-w-[72rem] px-gutter", className)}
             style={{ "--page-gutter": spacing.pageGutter } as CSSProperties}
             {...props}
         >

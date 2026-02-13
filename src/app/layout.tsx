@@ -1,6 +1,6 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
-import { Crimson_Pro, Source_Sans_3 } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import { colors, typography } from "@/theme/tokens";
 import type { CSSProperties } from "react";
 import Script from "next/script";
@@ -8,14 +8,14 @@ import { themeInitScript } from "@/lib/theme";
 import { RouteTracker } from "@/components/site/RouteTracker";
 import { BackToTopButton } from "@/components/site/BackToTopButton";
 
-const headingFont = Crimson_Pro({
+const headingFont = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-heading",
   display: "swap",
-  weight: ["400", "500", "600", "700"],
+  weight: ["500", "600", "700"],
 });
 
-const bodyFont = Source_Sans_3({
+const bodyFont = Inter({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",

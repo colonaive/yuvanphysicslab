@@ -5,11 +5,12 @@ import { semanticClasses } from "@/theme/tokens";
 
 export default function ContactPage() {
   const inputClasses =
-    "flex h-11 w-full rounded-button border border-border bg-surface px-3 py-2 text-sm text-text placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40";
+    "flex h-11 w-full rounded-button border border-border bg-surface px-3 py-2 text-sm text-text placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/45";
 
   return (
-    <Container>
-      <Card className="mx-auto max-w-3xl space-y-8 p-6 sm:p-8">
+    <section className="lab-section reveal-section">
+      <Container>
+        <Card className="mx-auto max-w-3xl space-y-8 p-6 sm:p-8">
         <div className="space-y-2">
           <p className={semanticClasses.sectionMarker}>Contact</p>
           <h1>Contact</h1>
@@ -72,7 +73,8 @@ export default function ContactPage() {
 
           <Button type="submit">Send Message</Button>
         </form>
-      </Card>
-    </Container>
+        </Card>
+      </Container>
+    </section>
   );
 }

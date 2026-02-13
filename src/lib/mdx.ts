@@ -27,6 +27,20 @@ export interface UnifiedPostMeta extends Frontmatter {
     type: ContentType;
 }
 
+function dedupeByKey<T>(items: T[], getKey: (item: T) => string) {
+    const seen = new Set<string>();
+    return items.filter((item) => {
+        const key = getKey(item);
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+    });
+}
+
+function dedupeByTitle<T extends { title: string }>(items: T[]) {
+    return dedupeByKey(items, (item) => item.title.trim().toLowerCase());
+}
+
 export async function getContentBySlug(type: ContentType, slug: string) {
     const realSlug = slug.replace(/\.mdx$/, "");
     const filePath = path.join(rootContentDir, type, `${realSlug}.mdx`);
@@ -84,7 +98,8 @@ export async function getAllContent(type: ContentType) {
         items.push(meta);
     }
 
-    return items.sort((a, b) => (new Date(b.date).getTime() - new Date(a.date).getTime()));
+    const sorted = items.sort((a, b) => (new Date(b.date).getTime() - new Date(a.date).getTime()));
+    return dedupeByKey(sorted, (item) => item.slug);
 }
 
 export async function getRecentContent() {
@@ -92,9 +107,9 @@ export async function getRecentContent() {
     const notes = await getAllContent("notes");
     const research = await getAllContent("research");
 
-    const all = [...notes, ...research];
+    const all = dedupeByKey([...notes, ...research], (item) => `${item.type}:${item.slug}`);
 
-    return all
+    return dedupeByTitle(all)
         .sort((a, b) => (new Date(b.date).getTime() - new Date(a.date).getTime()))
         .slice(0, 3);
 }
@@ -102,7 +117,7 @@ export async function getRecentContent() {
 export async function getAllPosts(): Promise<UnifiedPostMeta[]> {
     const notes = await getAllContent("notes");
     const research = await getAllContent("research");
-    return [...research, ...notes].sort(
+    return dedupeByKey([...research, ...notes], (item) => `${item.type}:${item.slug}`).sort(
         (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     ) as UnifiedPostMeta[];
 }
