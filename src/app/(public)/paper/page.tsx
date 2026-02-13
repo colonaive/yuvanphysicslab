@@ -1,8 +1,7 @@
 import { Container } from "@/components/site/Container";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Download, FileText, Sigma } from "lucide-react";
-import { semanticClasses } from "@/theme/tokens";
+import { Download } from "lucide-react";
 import Markdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
@@ -30,31 +29,30 @@ const sections = [
 ] as const;
 
 export default function FeaturedPaperPage() {
+  const lastUpdated = "February 13, 2026";
+
   return (
-    <Container className="space-y-8">
-      <header className="space-y-3 border-b border-border pb-8">
-        <p className={semanticClasses.sectionMarker}>
-          <FileText className="h-4 w-4 text-accent" />
-          Featured Paper
+    <Container className="space-y-7">
+      <header className="space-y-3 border-b border-border pb-7">
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
+          Featured Preprint
         </p>
         <h1>Investigating Spacetimes with Closed Timelike Curves</h1>
         <p className="text-sm text-muted">
           Yuvan Raam Chandra • December 2023
         </p>
+        <p className="text-xs text-muted">Last Updated: {lastUpdated}</p>
       </header>
 
-      <Card className="space-y-2 p-5">
-        <p className={semanticClasses.sectionMarker}>Citation</p>
+      <Card className="space-y-2 p-5 md:p-6">
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Citation</p>
         <p className="text-sm text-text">
           Chandra, Y. R. (2023). <em>Investigating Spacetimes with Closed Timelike Curves</em>. Independent Manuscript.
         </p>
       </Card>
 
-      <Card muted className="space-y-3 p-6">
-        <p className={semanticClasses.sectionMarker}>
-          <Sigma className="h-4 w-4 text-accent" />
-          Abstract
-        </p>
+      <Card muted className="space-y-3 border-l-2 border-l-accent p-6 md:p-7">
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Abstract</p>
         <p className="text-sm text-muted">
           This work examines the structure of spacetimes admitting closed timelike
           curves, with emphasis on temporal ordering, causal pathologies, and the
@@ -63,11 +61,11 @@ export default function FeaturedPaperPage() {
         </p>
       </Card>
 
-      <Card className="space-y-4 p-6">
-        <p className={semanticClasses.sectionMarker}>Section Outline</p>
-        <ul className="list-disc space-y-1 pl-5 text-sm">
+      <Card className="space-y-3 p-6">
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Sections</p>
+        <ul className="flex flex-wrap gap-x-5 gap-y-1 text-sm">
           {sections.map((section) => (
-            <li key={section.id}>
+            <li key={section.id} className="list-none">
               <a href={`#${section.id}`} className="text-muted">
                 {section.title}
               </a>
@@ -76,9 +74,9 @@ export default function FeaturedPaperPage() {
         </ul>
       </Card>
 
-      <section className="space-y-4">
+      <section className="space-y-3">
         {sections.map((section) => (
-          <Card key={section.id} id={section.id} className="space-y-2 p-6">
+          <Card key={section.id} id={section.id} className="space-y-2 p-6 md:p-7">
             <h2 className="text-2xl">{section.title}</h2>
             <div className="prose-lab">
               <Markdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
@@ -91,10 +89,7 @@ export default function FeaturedPaperPage() {
 
       <section className="space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className={semanticClasses.sectionMarker}>
-            <FileText className="h-4 w-4 text-accent" />
-            PDF
-          </p>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">PDF</p>
           <Button href="/papers/ctc-paper.pdf" download>
             Download PDF <Download className="h-4 w-4" />
           </Button>
