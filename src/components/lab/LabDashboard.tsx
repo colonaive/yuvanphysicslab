@@ -55,7 +55,7 @@ export function LabDashboard({ drafts, published }: LabDashboardProps) {
                     <h1 className="mb-1 text-3xl">Lab Dashboard</h1>
                     <p className="text-sm text-muted italic">&quot;Nullius in verba&quot;</p>
                 </div>
-                <form action="/api/lab/logout" method="POST">
+                <form action="/logout" method="POST">
                     <Button type="submit" variant="ghost" className="text-xs">
                         Logout
                     </Button>

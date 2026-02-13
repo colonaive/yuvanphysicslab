@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { verifyLabAuth } from "@/lib/auth";
 
 interface UpdatePayload {
   title?: string;
@@ -8,20 +10,47 @@ interface UpdatePayload {
   status?: "draft" | "published";
 }
 
+function createLabWriteClient() {
+  const url = process.env.SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (url && serviceRoleKey) {
+    return createClient(url, serviceRoleKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+      },
+    });
+  }
+
+  return null;
+}
+
 export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const isAuthed = await verifyLabAuth();
+  if (!isAuthed) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const { id } = await params;
 
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
+  const adminClient = createLabWriteClient();
+  let supabase: any;
 
-  if (userError || !user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (adminClient) {
+    supabase = adminClient;
+  } else {
+    try {
+      supabase = await createSupabaseServerClient();
+    } catch {
+      return NextResponse.json(
+        { error: "Lab write access is not configured." },
+        { status: 500 }
+      );
+    }
   }
 
   const payload = (await req.json()) as UpdatePayload;
@@ -52,9 +81,8 @@ export async function PUT(
     error: existingError,
   } = await supabase
     .from("posts")
-    .select("id,author_id,published_at")
+    .select("id,published_at")
     .eq("id", id)
-    .eq("author_id", user.id)
     .maybeSingle();
 
   if (existingError) {
@@ -84,7 +112,6 @@ export async function PUT(
       published_at: publishedAt,
     })
     .eq("id", id)
-    .eq("author_id", user.id)
     .select("id,title,slug,status,updated_at,published_at")
     .single();
 

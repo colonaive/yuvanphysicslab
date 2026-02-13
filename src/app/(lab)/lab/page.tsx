@@ -1,11 +1,9 @@
 import { LabDashboard } from "@/components/lab/LabDashboard";
 import { Container } from "@/components/site/Container";
-import { requireSupabaseUser } from "@/lib/supabase/auth";
-import { getAuthorPosts } from "@/lib/posts";
+import { getLabPosts } from "@/lib/posts";
 
 export default async function LabPage() {
-  const user = await requireSupabaseUser();
-  const posts = await getAuthorPosts(user.id);
+  const posts = await getLabPosts();
   const drafts = posts.filter((post) => post.status === "draft");
   const published = posts.filter((post) => post.status === "published");
 

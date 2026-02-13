@@ -37,6 +37,114 @@ function createPublicPostsClient() {
   });
 }
 
+function createLabAdminClient() {
+  const url = process.env.SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !serviceRoleKey) return null;
+
+  return createClient(url, serviceRoleKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+    },
+  });
+}
+
+async function createLabReadClient() {
+  const adminClient = createLabAdminClient();
+  if (adminClient) return adminClient;
+
+  if (!getSupabaseConfig()) return null;
+
+  try {
+    return await createSupabaseServerClient();
+  } catch {
+    return null;
+  }
+}
+
+export async function getLabPosts(): Promise<CmsPost[]> {
+  const client = await createLabReadClient();
+  if (!client) return [];
+
+  const { data, error } = await client
+    .from("posts")
+    .select(postSelectFields)
+    .order("updated_at", { ascending: false });
+
+  if (error) {
+    console.error("Failed to load lab posts:", error.message);
+    return [];
+  }
+
+  return (data || []) as CmsPost[];
+}
+
+export async function getLabPostById(id: string): Promise<CmsPost | null> {
+  const client = await createLabReadClient();
+  if (!client) return null;
+
+  const { data, error } = await client
+    .from("posts")
+    .select(postSelectFields)
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Failed to load lab post:", error.message);
+    return null;
+  }
+
+  return (data as CmsPost | null) ?? null;
+}
+
+export async function createLabDraft(): Promise<string | null> {
+  const adminClient = createLabAdminClient();
+  if (!adminClient) return null;
+
+  let authorId = process.env.LAB_AUTHOR_ID ?? null;
+  if (!authorId) {
+    const { data: firstPost } = await adminClient
+      .from("posts")
+      .select("author_id")
+      .limit(1)
+      .maybeSingle();
+    authorId = firstPost?.author_id ?? null;
+  }
+
+  if (!authorId) {
+    console.error("LAB_AUTHOR_ID is required to create drafts when no posts exist.");
+    return null;
+  }
+
+  const now = new Date();
+  const slug = `untitled-${now.getTime()}`;
+  const nowIso = now.toISOString();
+
+  const { data, error } = await adminClient
+    .from("posts")
+    .insert({
+      author_id: authorId,
+      title: "Untitled Draft",
+      slug,
+      excerpt: null,
+      content_md: "# Untitled Draft\n\nStart writing here.",
+      status: "draft",
+      created_at: nowIso,
+      updated_at: nowIso,
+      published_at: null,
+    })
+    .select("id")
+    .single();
+
+  if (error || !data) {
+    console.error("Failed to create lab draft:", error?.message);
+    return null;
+  }
+
+  return data.id as string;
+}
+
 export async function getAuthorPosts(userId: string): Promise<CmsPost[]> {
   if (!getSupabaseConfig()) return [];
 

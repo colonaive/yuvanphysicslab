@@ -1,8 +1,7 @@
 import { notFound } from "next/navigation";
 import { Container } from "@/components/site/Container";
 import { PostEditorForm } from "@/components/lab/PostEditorForm";
-import { getAuthorPostById } from "@/lib/posts";
-import { requireSupabaseUser } from "@/lib/supabase/auth";
+import { getLabPostById } from "@/lib/posts";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -10,8 +9,7 @@ interface PageProps {
 
 export default async function LabEditDraftPage({ params }: PageProps) {
   const { id } = await params;
-  const user = await requireSupabaseUser();
-  const post = await getAuthorPostById(user.id, id);
+  const post = await getLabPostById(id);
 
   if (!post) {
     notFound();

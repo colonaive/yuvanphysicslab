@@ -78,10 +78,9 @@ export function SiteHeader() {
   const modeHref = isLabRoute ? "/" : "/lab";
 
   const handleLogout = async () => {
-    await fetch("/api/lab/logout", { method: "POST" });
     setIsAuthed(false);
     setIsMobileOpen(false);
-    router.refresh();
+    router.push("/logout");
   };
 
   return (
@@ -145,7 +144,7 @@ export function SiteHeader() {
                     isActive("/lab") && "text-text"
                   )}
                 >
-                  Writing Lab
+                  Lab
                 </Link>
                 <Link
                   href="/lab/new"
@@ -258,7 +257,7 @@ export function SiteHeader() {
                     isActive("/lab") && "bg-surface2 text-text"
                   )}
                 >
-                  Writing Lab
+                  Lab
                 </Link>
                 <Link
                   href="/lab/new"

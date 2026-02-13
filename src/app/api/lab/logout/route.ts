@@ -1,19 +1,24 @@
 import { NextResponse } from "next/server";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { LAB_AUTH_COOKIE, LAB_AUTH_SIG_COOKIE } from "@/lib/auth";
 
 export async function POST() {
-    if (process.env.SUPABASE_URL && process.env.SUPABASE_ANON_KEY) {
-        const supabase = await createSupabaseServerClient();
-        await supabase.auth.signOut();
-    }
+  const response = NextResponse.json({ success: true });
 
-    const response = NextResponse.json({ success: true });
+  response.cookies.set(LAB_AUTH_COOKIE, "", {
+    httpOnly: true,
+    path: "/",
+    expires: new Date(0),
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+  });
 
-    response.cookies.set("lab_auth", "", {
-        httpOnly: true,
-        path: "/",
-        expires: new Date(0),
-    });
-    
-    return response;
+  response.cookies.set(LAB_AUTH_SIG_COOKIE, "", {
+    httpOnly: true,
+    path: "/",
+    expires: new Date(0),
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+  });
+
+  return response;
 }
