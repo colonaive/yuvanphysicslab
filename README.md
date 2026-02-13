@@ -39,6 +39,13 @@ npm run dev
 ```
 Open [http://localhost:3000](http://localhost:3000) to view the site.
 
+If you need local port `4100`, use:
+```bash
+npm run start:local
+```
+
+`npm run start` is production-only (`next start -p 4100`) and should not be used for local development.
+
 ## Deployment
 
 ### Netlify Deployment (Recommended)
