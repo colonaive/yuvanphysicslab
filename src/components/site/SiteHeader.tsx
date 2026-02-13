@@ -89,6 +89,15 @@ export function SiteHeader() {
               Notes
             </Link>
             <Link
+              href="/reading"
+              className={cn(
+                "hidden text-muted md:inline",
+                isActive("/reading") && "text-text underline decoration-accent/80"
+              )}
+            >
+              Reading
+            </Link>
+            <Link
               href="/about"
               className={cn(
                 "text-muted",
@@ -96,7 +105,7 @@ export function SiteHeader() {
               )}
             >
               About
-              </Link>
+            </Link>
           </nav>
 
           {isAuthed ? (

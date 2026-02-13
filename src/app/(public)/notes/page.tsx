@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { FileText } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { semanticClasses } from "@/theme/tokens";
+import { Button } from "@/components/ui/Button";
 
 export default async function NotesPage() {
   const notes = await getAllContent("notes");
@@ -39,6 +40,12 @@ export default async function NotesPage() {
             </Link>
           </Card>
         ))}
+      </div>
+
+      <div className="border-t border-border pt-5">
+        <Button href="/reading" variant="outline">
+          Continue to reading list →
+        </Button>
       </div>
     </Container>
   );

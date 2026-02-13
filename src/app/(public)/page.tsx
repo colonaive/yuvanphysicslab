@@ -10,7 +10,6 @@ import { semanticClasses } from "@/theme/tokens";
 
 export default async function HomePage() {
   const recentContent = await getRecentContent();
-  const featuredPaper = recentContent.find((item) => item.type === "research") ?? recentContent[0];
 
   return (
     <Container className="space-y-14">
@@ -29,11 +28,11 @@ export default async function HomePage() {
             field theories, and machine intelligence.
           </p>
           <div className="flex flex-wrap gap-3">
-            <Button href={featuredPaper ? `/${featuredPaper.type}/${featuredPaper.slug}` : "/research"}>
-              Read Featured Paper <ArrowRight className="h-4 w-4" />
+            <Button href="/research">
+              Research Focus <ArrowRight className="h-4 w-4" />
             </Button>
-            <Button href="/about" variant="outline">
-              About
+            <Button href="/paper" variant="outline">
+              Current Paper
             </Button>
           </div>
         </div>
