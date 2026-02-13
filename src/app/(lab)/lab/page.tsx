@@ -1,14 +1,17 @@
-import { verifyLabAuth } from "@/lib/auth";
-import { LabLogin } from "@/components/lab/LabLogin";
 import { LabDashboard } from "@/components/lab/LabDashboard";
 import { Container } from "@/components/site/Container";
+import { requireSupabaseUser } from "@/lib/supabase/auth";
+import { getAuthorPosts } from "@/lib/posts";
 
 export default async function LabPage() {
-    const isAuthed = await verifyLabAuth();
+  const user = await requireSupabaseUser();
+  const posts = await getAuthorPosts(user.id);
+  const drafts = posts.filter((post) => post.status === "draft");
+  const published = posts.filter((post) => post.status === "published");
 
-    return (
-        <Container className="py-12">
-            {isAuthed ? <LabDashboard /> : <LabLogin />}
-        </Container>
-    );
+  return (
+    <Container className="py-12">
+      <LabDashboard drafts={drafts} published={published} />
+    </Container>
+  );
 }

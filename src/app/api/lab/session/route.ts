@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { verifyLabAuth } from "@/lib/auth";
+import { getSupabaseUser } from "@/lib/supabase/auth";
 
 export async function GET() {
-  const authenticated = await verifyLabAuth();
-  return NextResponse.json({ authenticated });
+  const user = await getSupabaseUser();
+  return NextResponse.json({ authenticated: Boolean(user) });
 }

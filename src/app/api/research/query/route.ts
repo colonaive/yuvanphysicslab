@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyLabAuth } from "@/lib/auth";
+import { getSupabaseUser } from "@/lib/supabase/auth";
 import { queryResearch } from "@/lib/ai-adapter";
 
 export async function POST(req: NextRequest) {
-    const isAuthed = await verifyLabAuth();
-    if (!isAuthed) {
+    const user = await getSupabaseUser();
+    if (!user) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
         }
 
         return NextResponse.json(result);
-    } catch (e) {
+    } catch {
         return NextResponse.json({ error: "Invalid request" }, { status: 400 });
     }
 }

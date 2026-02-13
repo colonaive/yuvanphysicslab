@@ -38,94 +38,95 @@ export function SiteHeader() {
     router.refresh();
   };
 
+  const publicLinks = [
+    { href: "/research", label: "Research" },
+    { href: "/reading", label: "Reading" },
+    { href: "/paper", label: "Paper" },
+    { href: "/posts", label: "Research Notes" },
+    { href: "/about", label: "About" },
+    { href: "/contact", label: "Contact" },
+  ];
+  const isLabRoute = Boolean(pathname?.startsWith("/lab"));
+  const modeLabel = isLabRoute ? "LAB MODE" : "PUBLIC VIEW";
+  const modeHref = isLabRoute ? "/" : "/lab";
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-bg/88 backdrop-blur-md">
-      <Container className="flex h-[4.5rem] items-center justify-between">
+      <Container className="flex min-h-[4.5rem] items-center gap-4 py-3">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-text hover:text-accent sm:text-[1.05rem]"
+          className="inline-flex shrink-0 items-center gap-2 text-sm font-semibold tracking-wide text-text hover:text-accent sm:text-[1.05rem]"
         >
           <Orbit className="h-4 w-4 text-accent" />
           <span>Yuvan</span>
           <span className="hidden sm:inline">Physics Lab</span>
         </Link>
 
-        <div className="flex items-center gap-3 sm:gap-5">
-          <nav className="flex items-center gap-3 text-xs font-medium sm:gap-4 sm:text-sm">
-            <Link
-              href="/research"
-              className={cn(
-                "text-muted",
-                isActive("/research") && "text-text underline decoration-accent/80"
-              )}
-            >
-              Research
-            </Link>
-            <Link
-              href="/reading"
-              className={cn(
-                "text-muted",
-                isActive("/reading") && "text-text underline decoration-accent/80"
-              )}
-            >
-              Reading
-            </Link>
-            <Link
-              href="/paper"
-              className={cn(
-                "hidden text-muted sm:inline",
-                isActive("/paper") && "text-text underline decoration-accent/80"
-              )}
-            >
-              Paper
-            </Link>
-            <Link
-              href="/posts"
-              className={cn(
-                "hidden text-muted sm:inline",
-                isActive("/posts") && "text-text underline decoration-accent/80"
-              )}
-            >
-              Posts
-            </Link>
-            <Link
-              href="/notes"
-              className={cn(
-                "hidden text-muted md:inline",
-                isActive("/notes") && "text-text underline decoration-accent/80"
-              )}
-            >
-              Notes
-            </Link>
-            <Link
-              href="/about"
-              className={cn(
-                "text-muted",
-                isActive("/about") && "text-text underline decoration-accent/80"
-              )}
-            >
-              About
-            </Link>
-            <Link
-              href="/contact"
-              className={cn(
-                "hidden text-muted md:inline",
-                isActive("/contact") && "text-text underline decoration-accent/80"
-              )}
-            >
-              Contact
-            </Link>
-          </nav>
+        <div className="min-w-0 flex-1 overflow-x-auto">
+          <nav className="flex min-w-max items-center gap-4 pr-2">
+            {publicLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={cn(
+                  "whitespace-nowrap text-sm font-medium text-muted transition-colors hover:text-text hover:underline hover:decoration-accent/75 underline-offset-4",
+                  isActive(link.href) &&
+                    "text-text underline decoration-accent/80"
+                )}
+              >
+                {link.label}
+              </Link>
+            ))}
 
+            {isAuthed ? (
+              <div className="ml-1 flex items-center gap-3 border-l border-border/75 pl-4">
+                <Link
+                  href="/lab"
+                  className={cn(
+                    "whitespace-nowrap text-xs font-medium uppercase tracking-[0.08em] text-muted transition-colors hover:text-text",
+                    isActive("/lab") && "text-text"
+                  )}
+                >
+                  Writing Lab
+                </Link>
+                <Link
+                  href="/lab/new"
+                  className="whitespace-nowrap text-xs font-medium uppercase tracking-[0.08em] text-muted transition-colors hover:text-text"
+                >
+                  New Draft
+                </Link>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="whitespace-nowrap text-xs font-medium uppercase tracking-[0.08em] text-muted transition-colors hover:text-text"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : null}
+          </nav>
+        </div>
+
+        <div className="flex shrink-0 items-center gap-3">
           {isAuthed ? (
-            <Button variant="ghost" className="px-2 py-1 text-xs sm:px-3 sm:py-1.5" onClick={handleLogout}>
-              Logout
-            </Button>
-          ) : (
-            <Link href="/login" className="text-xs font-medium text-muted hover:text-accent">
-              Login
+            <Link
+              href={modeHref}
+              className={cn(
+                "hidden rounded-full border px-2.5 py-1 text-[10px] font-semibold tracking-[0.12em] sm:inline-flex",
+                isLabRoute
+                  ? "border-accent/55 bg-accent/10 text-accent"
+                  : "border-border text-muted"
+              )}
+            >
+              {modeLabel}
             </Link>
-          )}
+          ) : null}
+
+          {!isAuthed ? (
+            <Button href="/login" variant="outline" className="h-9 px-3 text-xs">
+              Login
+            </Button>
+          ) : null}
 
           <Link
             href="/about"
