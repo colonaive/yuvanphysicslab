@@ -1,18 +1,41 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { Container } from "./Container";
 import { cn } from "@/lib/utils";
 import { Orbit } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/Button";
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const router = useRouter();
+  const [isAuthed, setIsAuthed] = useState(false);
+
+  useEffect(() => {
+    const loadSession = async () => {
+      try {
+        const res = await fetch("/api/lab/session", { cache: "no-store" });
+        const data = await res.json();
+        setIsAuthed(Boolean(data.authenticated));
+      } catch {
+        setIsAuthed(false);
+      }
+    };
+    loadSession();
+  }, [pathname]);
 
   const isActive = (path: string) => {
     if (!pathname) return false;
     return path === "/" ? pathname === "/" : pathname.startsWith(path);
+  };
+
+  const handleLogout = async () => {
+    await fetch("/api/lab/logout", { method: "POST" });
+    setIsAuthed(false);
+    router.refresh();
   };
 
   return (
@@ -27,11 +50,29 @@ export function SiteHeader() {
         </Link>
 
         <div className="flex items-center gap-6">
-          <nav className="flex items-center gap-5 text-sm font-medium">
+          <nav className="flex items-center gap-4 text-sm font-medium">
+            <Link
+              href="/paper"
+              className={cn(
+                "text-muted",
+                isActive("/paper") && "text-text underline decoration-accent/80"
+              )}
+            >
+              Paper
+            </Link>
+            <Link
+              href="/posts"
+              className={cn(
+                "text-muted",
+                isActive("/posts") && "text-text underline decoration-accent/80"
+              )}
+              >
+                Posts
+              </Link>
             <Link
               href="/research"
               className={cn(
-                "text-muted",
+                "hidden text-muted md:inline",
                 isActive("/research") && "text-text underline decoration-accent/80"
               )}
             >
@@ -40,7 +81,7 @@ export function SiteHeader() {
             <Link
               href="/notes"
               className={cn(
-                "text-muted",
+                "hidden text-muted md:inline",
                 isActive("/notes") && "text-text underline decoration-accent/80"
               )}
             >
@@ -54,8 +95,18 @@ export function SiteHeader() {
               )}
             >
               About
-            </Link>
+              </Link>
           </nav>
+
+          {isAuthed ? (
+            <Button variant="ghost" className="px-3 py-1.5 text-xs" onClick={handleLogout}>
+              Logout
+            </Button>
+          ) : (
+            <Link href="/login" className="text-xs font-medium text-muted hover:text-accent">
+              Login
+            </Link>
+          )}
 
           <Link
             href="/about"

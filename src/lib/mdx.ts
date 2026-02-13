@@ -22,6 +22,10 @@ export interface Frontmatter {
     type?: ContentType; // Injected during load
 }
 
+export interface UnifiedPostMeta extends Frontmatter {
+    type: ContentType;
+}
+
 export async function getContentBySlug(type: ContentType, slug: string) {
     const realSlug = slug.replace(/\.mdx$/, "");
     const filePath = path.join(rootContentDir, type, `${realSlug}.mdx`);
@@ -92,4 +96,22 @@ export async function getRecentContent() {
     return all
         .sort((a, b) => (new Date(b.date).getTime() - new Date(a.date).getTime()))
         .slice(0, 3);
+}
+
+export async function getAllPosts(): Promise<UnifiedPostMeta[]> {
+    const notes = await getAllContent("notes");
+    const research = await getAllContent("research");
+    return [...research, ...notes].sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    ) as UnifiedPostMeta[];
+}
+
+export async function getPostBySlug(slug: string) {
+    const researchPost = await getContentBySlug("research", slug);
+    if (researchPost?.meta) return researchPost;
+
+    const notePost = await getContentBySlug("notes", slug);
+    if (notePost?.meta) return notePost;
+
+    return null;
 }

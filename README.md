@@ -1,13 +1,14 @@
 # Yuvan Physics Lab
 
-A digital garden exploring the intersection of Theoretical Physics, Geometry, and Machine Learning. Built with Next.js (App Router), Tailwind CSS, KaTeX, and MDX.
+A digital physics research site built with Next.js (App Router), TypeScript, Tailwind CSS, KaTeX, and MDX. Public pages are journal-style; a private lab workspace is also included.
 
 ## Features
 
-- **Digital Garden**: Combined feed of Notes and Research logs.
+- **Public Research Surface**: Home, featured paper, posts index, and post detail routes.
 - **Math Ready**: Premium KaTeX integration for high-quality mathematical typesetting.
-- **Private Lab**: Passcode-protected workspace for drafts and tools.
+- **Private Lab**: Auth-gated writing workspace routes under `/lab`.
 - **Contact Form**: Integrated with Netlify Forms for collaboration inquiries.
+- **Supabase Scaffold**: Client/server helpers plus SQL migration for `posts` with RLS policies.
 - **SEO Optimized**: Automated sitemaps, robots.txt, and optimized metadata.
 
 ## Local Development
@@ -25,6 +26,11 @@ npm install
 Create a `.env.local` file in the root directory:
 ```bash
 LAB_PASSCODE=your_secret_passcode_here
+LAB_SESSION_SECRET=your_cookie_signing_secret
+
+# Supabase (for auth/db integration)
+SUPABASE_URL=https://YOUR_PROJECT_ID.supabase.co
+SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
 ### 4. Run Development Server
@@ -36,11 +42,17 @@ Open [http://localhost:3000](http://localhost:3000) to view the site.
 ## Deployment
 
 ### Netlify Deployment (Recommended)
-This project is configured for one-click deployment to Netlify.
+This project is configured for Netlify deployment with `@netlify/plugin-nextjs`.
 
 1. **GitHub**: Push your code to a GitHub repository.
 2. **Netlify**: Connect your repository to a new site on Netlify.
-3. **Environment Variables**: Add `LAB_PASSCODE` in the Netlify site settings (Site configuration > Environment variables).
+3. **Environment Variables**: Add the following in Netlify site settings.
+```bash
+LAB_PASSCODE=...
+LAB_SESSION_SECRET=...
+SUPABASE_URL=...
+SUPABASE_ANON_KEY=...
+```
 4. **Deploy**: Build command is `npm run build`, and publish directory is automatically handled by `@netlify/plugin-nextjs`.
 
 ## Project Structure
@@ -48,7 +60,9 @@ This project is configured for one-click deployment to Netlify.
 - `src/app`: Next.js App Router pages and layouts.
 - `src/content`: MDX content files for nodes and research.
 - `src/lib`: Content loaders and utility functions.
+- `src/lib/supabase`: Supabase browser/server/auth helpers.
 - `src/components`: Reusable UI components.
+- `supabase/migrations`: SQL migrations including `posts` schema + RLS.
 
 ## License
 &copy; 2026 Yuvan. All rights reserved.
