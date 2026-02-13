@@ -1,37 +1,20 @@
 import { Container } from "@/components/site/Container";
 import Link from "next/link";
-import { FileText, Sigma } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { semanticClasses } from "@/theme/tokens";
 import { researchFocus } from "@/content/research-focus";
 
 export default function ResearchPage() {
   return (
-    <Container className="space-y-7">
-      <header className="space-y-2">
-        <p className={semanticClasses.sectionMarker}>
-          <FileText className="h-4 w-4 text-accent" />
-          Research Profile
-        </p>
+    <Container className="space-y-10">
+      <header className="space-y-3 border-b border-border pb-7">
         <h1>Research Focus</h1>
         <p className="text-muted">{researchFocus.focus}</p>
       </header>
 
-      <section className="space-y-2.5">
-        <h2 className="text-2xl">Research Interests</h2>
-        <div className="flex flex-wrap gap-2">
-          {researchFocus.interests.map((interest) => (
-            <span key={interest} className="rounded-full border border-border px-3 py-1 text-xs text-muted">
-              {interest}
-            </span>
-          ))}
-        </div>
-      </section>
-
-      <section className="space-y-2.5">
-        <h2 className="text-2xl">Core Questions I&apos;m Exploring</h2>
-        <Card className="p-6">
+      <section className="space-y-3">
+        <h2>Core Questions I Am Exploring</h2>
+        <Card className="p-6 md:p-7">
           <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
             {researchFocus.coreQuestions.map((question) => (
               <li key={question}>{question}</li>
@@ -40,13 +23,9 @@ export default function ResearchPage() {
         </Card>
       </section>
 
-      <section className="space-y-2.5">
-        <h2 className="text-2xl">Current Work</h2>
-        <Card className="space-y-3 p-6">
-          <p className={semanticClasses.sectionMarker}>
-            <Sigma className="h-4 w-4 text-accent" />
-            Featured Manuscript
-          </p>
+      <section className="space-y-3">
+        <h2>Current Work</h2>
+        <Card className="space-y-3 p-6 md:p-7">
           <h3>{researchFocus.currentPaper.title}</h3>
           <p className="text-sm text-muted">{researchFocus.currentPaper.summary}</p>
           <div className="flex flex-wrap gap-3">
@@ -58,9 +37,9 @@ export default function ResearchPage() {
         </Card>
       </section>
 
-      <section className="space-y-2.5">
-        <h2 className="text-2xl">Collaboration</h2>
-        <Card className="space-y-3 p-6">
+      <section className="space-y-3">
+        <h2>Collaboration</h2>
+        <Card className="space-y-3 p-6 md:p-7">
           <p className="text-sm text-muted">{researchFocus.collaboration.message}</p>
           <Button href={researchFocus.collaboration.contactHref} variant="outline">
             Contact
