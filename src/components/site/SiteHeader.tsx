@@ -43,14 +43,15 @@ export function SiteHeader() {
       <Container className="flex h-[4.5rem] items-center justify-between">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-[1.05rem] font-semibold tracking-wide text-text hover:text-accent"
+          className="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-text hover:text-accent sm:text-[1.05rem]"
         >
           <Orbit className="h-4 w-4 text-accent" />
-          Yuvan Physics Lab
+          <span>Yuvan</span>
+          <span className="hidden sm:inline">Physics Lab</span>
         </Link>
 
-        <div className="flex items-center gap-6">
-          <nav className="flex items-center gap-4 text-sm font-medium">
+        <div className="flex items-center gap-3 sm:gap-5">
+          <nav className="flex items-center gap-3 text-xs font-medium sm:gap-4 sm:text-sm">
             <Link
               href="/paper"
               className={cn(
@@ -99,7 +100,7 @@ export function SiteHeader() {
           </nav>
 
           {isAuthed ? (
-            <Button variant="ghost" className="px-3 py-1.5 text-xs" onClick={handleLogout}>
+            <Button variant="ghost" className="px-2 py-1 text-xs sm:px-3 sm:py-1.5" onClick={handleLogout}>
               Logout
             </Button>
           ) : (
@@ -111,13 +112,13 @@ export function SiteHeader() {
           <Link
             href="/about"
             aria-label="Profile"
-            className="inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-border bg-surface hover:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+            className="inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-border bg-surface md:h-10 md:w-10 hover:ring-2 hover:ring-accent/45 hover:ring-offset-2 hover:ring-offset-bg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/55 focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
           >
             <Image
-              src="/profile-circle.svg"
+              src="/images/yuvan-profile.png"
               alt="Yuvan profile"
-              width={36}
-              height={36}
+              width={40}
+              height={40}
               className="h-full w-full object-cover"
             />
           </Link>
