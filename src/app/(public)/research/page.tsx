@@ -8,19 +8,17 @@ import { researchFocus } from "@/content/research-focus";
 
 export default function ResearchPage() {
   return (
-    <Container className="space-y-8">
-      <header className="space-y-3">
+    <Container className="space-y-7">
+      <header className="space-y-2">
         <p className={semanticClasses.sectionMarker}>
           <FileText className="h-4 w-4 text-accent" />
           Research Profile
         </p>
         <h1>Research Focus</h1>
-        <p className="text-muted">
-          Core themes, active questions, and open problems shaping this lab&apos;s current work.
-        </p>
+        <p className="text-muted">{researchFocus.focus}</p>
       </header>
 
-      <section className="space-y-3">
+      <section className="space-y-2.5">
         <h2 className="text-2xl">Research Interests</h2>
         <div className="flex flex-wrap gap-2">
           {researchFocus.interests.map((interest) => (
@@ -31,8 +29,8 @@ export default function ResearchPage() {
         </div>
       </section>
 
-      <section className="space-y-3">
-        <h2 className="text-2xl">Core Questions Being Explored</h2>
+      <section className="space-y-2.5">
+        <h2 className="text-2xl">Core Questions I&apos;m Exploring</h2>
         <Card className="p-6">
           <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
             {researchFocus.coreQuestions.map((question) => (
@@ -42,8 +40,8 @@ export default function ResearchPage() {
         </Card>
       </section>
 
-      <section className="space-y-3">
-        <h2 className="text-2xl">Current Paper</h2>
+      <section className="space-y-2.5">
+        <h2 className="text-2xl">Current Work</h2>
         <Card className="space-y-3 p-6">
           <p className={semanticClasses.sectionMarker}>
             <Sigma className="h-4 w-4 text-accent" />
@@ -60,14 +58,13 @@ export default function ResearchPage() {
         </Card>
       </section>
 
-      <section className="space-y-3">
-        <h2 className="text-2xl">Open Problems</h2>
-        <Card className="p-6">
-          <ul className="list-disc space-y-2 pl-5 text-sm text-muted">
-            {researchFocus.openProblems.map((problem) => (
-              <li key={problem}>{problem}</li>
-            ))}
-          </ul>
+      <section className="space-y-2.5">
+        <h2 className="text-2xl">Collaboration</h2>
+        <Card className="space-y-3 p-6">
+          <p className="text-sm text-muted">{researchFocus.collaboration.message}</p>
+          <p className="text-sm text-text">
+            Contact: <span className="font-medium">{researchFocus.collaboration.email}</span>
+          </p>
         </Card>
       </section>
 

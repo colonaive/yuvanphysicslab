@@ -23,10 +23,14 @@ export default function ReadingPage() {
         {readingList.map((item) => (
           <Card key={item.title} className="space-y-3 p-6">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <h2 className="text-2xl leading-tight">{item.title}</h2>
+              <h2 className="text-xl leading-tight">
+                <span className="italic">{item.title}</span>
+              </h2>
               <span className="text-xs text-muted">{item.year}</span>
             </div>
-            <p className="text-sm text-muted">{item.authors}</p>
+            <p className="text-sm text-muted">
+              {item.authors} ({item.year})
+            </p>
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
               {item.area}
             </p>

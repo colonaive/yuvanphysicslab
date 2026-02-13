@@ -53,9 +53,27 @@ export function SiteHeader() {
         <div className="flex items-center gap-3 sm:gap-5">
           <nav className="flex items-center gap-3 text-xs font-medium sm:gap-4 sm:text-sm">
             <Link
-              href="/paper"
+              href="/research"
               className={cn(
                 "text-muted",
+                isActive("/research") && "text-text underline decoration-accent/80"
+              )}
+            >
+              Research
+            </Link>
+            <Link
+              href="/reading"
+              className={cn(
+                "text-muted",
+                isActive("/reading") && "text-text underline decoration-accent/80"
+              )}
+            >
+              Reading
+            </Link>
+            <Link
+              href="/paper"
+              className={cn(
+                "hidden text-muted sm:inline",
                 isActive("/paper") && "text-text underline decoration-accent/80"
               )}
             >
@@ -64,20 +82,11 @@ export function SiteHeader() {
             <Link
               href="/posts"
               className={cn(
-                "text-muted",
+                "hidden text-muted sm:inline",
                 isActive("/posts") && "text-text underline decoration-accent/80"
               )}
-              >
-                Posts
-              </Link>
-            <Link
-              href="/research"
-              className={cn(
-                "hidden text-muted md:inline",
-                isActive("/research") && "text-text underline decoration-accent/80"
-              )}
             >
-              Research
+              Posts
             </Link>
             <Link
               href="/notes"
@@ -87,15 +96,6 @@ export function SiteHeader() {
               )}
             >
               Notes
-            </Link>
-            <Link
-              href="/reading"
-              className={cn(
-                "hidden text-muted md:inline",
-                isActive("/reading") && "text-text underline decoration-accent/80"
-              )}
-            >
-              Reading
             </Link>
             <Link
               href="/about"

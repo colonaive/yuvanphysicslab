@@ -12,12 +12,20 @@ export function SiteFooter() {
     <footer className="mt-auto border-t border-border/80 py-8">
       <Container>
         <div className="flex flex-col gap-2 text-sm text-muted md:flex-row md:items-end md:justify-between">
-          <p>
-            Contact:{" "}
-            <Link href="mailto:yuvan.lab@proton.me" className="font-medium text-text">
-              yuvan.lab@proton.me
-            </Link>
-          </p>
+          <div className="space-y-1">
+            <p>
+              Contact:{" "}
+              <Link href="mailto:yuvan.lab@proton.me" className="font-medium text-text">
+                yuvan.lab@proton.me
+              </Link>
+            </p>
+            <p className="text-xs">
+              <Link href="/research" className="mr-3">
+                Research
+              </Link>
+              <Link href="/reading">Reading</Link>
+            </p>
+          </div>
           <div className="space-y-1 text-xs md:text-right">
             <p>Last updated: {lastUpdated}</p>
             <p>© {new Date().getFullYear()} Yuvan Physics Lab</p>
