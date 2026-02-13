@@ -13,11 +13,12 @@ export interface Frontmatter {
     title: string;
     date: string;
     summary: string;
+    description?: string;
     abstract?: string;
     pdfUrl?: string;
     tags?: string[];
     slug: string;
-    status?: "public" | "private" | "draft";
+    status?: "public" | "published" | "private" | "draft";
     readingTime?: string;
     type?: ContentType; // Injected during load
 }

@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, FileText } from "lucide-react";
 import { semanticClasses } from "@/theme/tokens";
+import type { Metadata } from "next";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -15,6 +16,23 @@ export async function generateStaticParams() {
   return notes.map((note) => ({
     slug: note.slug,
   }));
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const note = await getContentBySlug("notes", slug);
+
+  if (!note) {
+    return {
+      title: "Note Not Found",
+      description: "The requested research note could not be found.",
+    };
+  }
+
+  return {
+    title: note.meta.title,
+    description: note.meta.description || note.meta.summary,
+  };
 }
 
 export default async function NotePage({ params }: PageProps) {

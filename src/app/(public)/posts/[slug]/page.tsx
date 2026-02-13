@@ -5,6 +5,7 @@ import Link from "next/link";
 import { format } from "date-fns";
 import { ArrowLeft, FileText } from "lucide-react";
 import { semanticClasses } from "@/theme/tokens";
+import type { Metadata } from "next";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -13,6 +14,23 @@ interface PageProps {
 export async function generateStaticParams() {
   const posts = await getAllPosts();
   return posts.map((post) => ({ slug: post.slug }));
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
+
+  if (!post) {
+    return {
+      title: "Post Not Found",
+      description: "The requested post could not be found.",
+    };
+  }
+
+  return {
+    title: post.meta.title,
+    description: post.meta.description || post.meta.summary,
+  };
 }
 
 export default async function PostDetailPage({ params }: PageProps) {
