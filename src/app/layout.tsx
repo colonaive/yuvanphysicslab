@@ -1,7 +1,8 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import { Crimson_Pro, Source_Sans_3 } from "next/font/google";
-import { colors } from "@/theme/tokens";
+import { colors, typography } from "@/theme/tokens";
+import type { CSSProperties } from "react";
 
 const headingFont = Crimson_Pro({
   subsets: ["latin"],
@@ -49,6 +50,19 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const themeStyles = {
+    "--font-heading-stack": typography.fonts.heading,
+    "--font-body-stack": typography.fonts.body,
+    "--type-h1": typography.scale.h1,
+    "--type-h2": typography.scale.h2,
+    "--type-h3": typography.scale.h3,
+    "--type-body": typography.scale.body,
+    "--leading-h1": String(typography.lineHeights.headingTight),
+    "--leading-h2": String(typography.lineHeights.h2),
+    "--leading-h3": String(typography.lineHeights.h3),
+    "--leading-body": String(typography.lineHeights.body),
+  } as CSSProperties;
+
   return (
     <html lang="en">
       <head>
@@ -56,6 +70,7 @@ export default function RootLayout({
       </head>
       <body
         className={`${headingFont.variable} ${bodyFont.variable} min-h-screen bg-bg text-text antialiased flex flex-col`}
+        style={themeStyles}
       >
         {children}
       </body>

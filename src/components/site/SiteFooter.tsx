@@ -18,7 +18,10 @@ export function SiteFooter() {
               yuvan.lab@proton.me
             </Link>
           </p>
-          <p className="text-xs">Last updated: {lastUpdated}</p>
+          <div className="space-y-1 text-xs md:text-right">
+            <p>Last updated: {lastUpdated}</p>
+            <p>© {new Date().getFullYear()} Yuvan Physics Lab</p>
+          </div>
         </div>
       </Container>
     </footer>

@@ -99,7 +99,7 @@ export function ResearchPane() {
                                             href={cite.url}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="flex items-center gap-2 text-[11px] text-accent2"
+                                            className="flex items-center gap-2 text-[11px] text-accent"
                                         >
                                             <Globe className="h-3 w-3 shrink-0" />
                                             <span className="truncate">{cite.title}</span>

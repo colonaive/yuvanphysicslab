@@ -13,7 +13,6 @@ const config: Config = {
         muted: "var(--color-muted)",
         border: "var(--color-border)",
         accent: "var(--color-accent)",
-        accent2: "var(--color-accent-2)",
       },
       borderRadius: {
         card: "var(--radius-card)",

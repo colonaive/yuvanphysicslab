@@ -21,12 +21,21 @@
   --color-muted: #5a6270;
   --color-border: #d2cfc6;
   --color-accent: #4cc9f0;
-  --color-accent-2: #2f89ad;
 
   --radius-card: 1rem;
   --radius-button: 0.75rem;
   --shadow-soft: 0 14px 40px -26px rgb(10 13 18 / 48%);
   --page-gutter: clamp(1.25rem, 4vw, 3rem);
+  --font-heading-stack: "Crimson Pro", "STIX Two Text", Georgia, serif;
+  --font-body-stack: "Source Sans 3", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --type-h1: clamp(2.5rem, 4.2vw, 2.75rem);
+  --type-h2: clamp(1.75rem, 3vw, 2rem);
+  --type-h3: clamp(1.25rem, 2.2vw, 1.5rem);
+  --type-body: clamp(1rem, 0.98rem + 0.15vw, 1.125rem);
+  --leading-h1: 1.08;
+  --leading-h2: 1.18;
+  --leading-h3: 1.24;
+  --leading-body: 1.65;
 
   color-scheme: light;
 }
@@ -39,7 +48,6 @@
   --color-muted: #a6b2c2;
   --color-border: #2a3646;
   --color-accent: #4cc9f0;
-  --color-accent-2: #7fdfff;
 
   color-scheme: dark;
 }
@@ -53,7 +61,6 @@
     --color-muted: #a6b2c2;
     --color-border: #2a3646;
     --color-accent: #4cc9f0;
-    --color-accent-2: #7fdfff;
 
     color-scheme: dark;
   }
@@ -70,34 +77,34 @@ html {
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
-  font-family: var(--font-body), sans-serif;
-  font-size: clamp(1rem, 0.98rem + 0.15vw, 1.125rem);
-  line-height: 1.65;
+  font-family: var(--font-body), var(--font-body-stack), sans-serif;
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
 }
 
 h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-heading), serif;
+  font-family: var(--font-heading), var(--font-heading-stack), serif;
   letter-spacing: -0.018em;
   color: var(--color-text);
   text-wrap: balance;
 }
 
 h1 {
-  font-size: clamp(2.5rem, 4.2vw, 2.75rem);
-  line-height: 1.08;
+  font-size: var(--type-h1);
+  line-height: var(--leading-h1);
 }
 
 h2 {
-  font-size: clamp(1.75rem, 3vw, 2rem);
-  line-height: 1.18;
+  font-size: var(--type-h2);
+  line-height: var(--leading-h2);
 }
 
 h3 {
-  font-size: clamp(1.25rem, 2.2vw, 1.5rem);
-  line-height: 1.24;
+  font-size: var(--type-h3);
+  line-height: var(--leading-h3);
 }
 
 a {
@@ -110,6 +117,12 @@ a {
 
 a:hover {
   color: var(--color-accent);
+  text-decoration-color: currentColor;
+}
+
+a:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--color-accent) 70%, transparent);
+  outline-offset: 3px;
   text-decoration-color: currentColor;
 }
 
@@ -146,8 +159,8 @@ a:hover {
 }
 
 .prose-lab a {
-  color: var(--color-accent-2);
-  text-decoration-color: color-mix(in oklab, var(--color-accent-2) 55%, transparent);
+  color: var(--color-accent);
+  text-decoration-color: color-mix(in oklab, var(--color-accent) 55%, transparent);
 }
 
 .prose-lab a:hover {

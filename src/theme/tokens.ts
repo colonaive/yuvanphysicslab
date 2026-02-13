@@ -6,7 +6,6 @@ export type ThemeScale = {
   muted: string;
   border: string;
   accent: string;
-  accent2: string;
 };
 
 export const colors: { light: ThemeScale; dark: ThemeScale } = {
@@ -18,7 +17,6 @@ export const colors: { light: ThemeScale; dark: ThemeScale } = {
     muted: "#5a6270",
     border: "#d2cfc6",
     accent: "#4cc9f0",
-    accent2: "#2f89ad",
   },
   dark: {
     bg: "#090d12",
@@ -28,9 +26,27 @@ export const colors: { light: ThemeScale; dark: ThemeScale } = {
     muted: "#a6b2c2",
     border: "#2a3646",
     accent: "#4cc9f0",
-    accent2: "#7fdfff",
   },
 };
+
+export const typography = {
+  fonts: {
+    heading: '"Crimson Pro", "STIX Two Text", Georgia, serif',
+    body: '"Source Sans 3", "Inter", ui-sans-serif, system-ui, sans-serif',
+  },
+  scale: {
+    h1: "clamp(2.5rem, 4.2vw, 2.75rem)",
+    h2: "clamp(1.75rem, 3vw, 2rem)",
+    h3: "clamp(1.25rem, 2.2vw, 1.5rem)",
+    body: "clamp(1rem, 0.98rem + 0.15vw, 1.125rem)",
+  },
+  lineHeights: {
+    headingTight: 1.08,
+    h2: 1.18,
+    h3: 1.24,
+    body: 1.65,
+  },
+} as const;
 
 export const radii = {
   card: "1rem",
@@ -49,7 +65,7 @@ export const semanticClasses = {
   card: "rounded-card border border-border bg-surface shadow-soft",
   cardMuted: "rounded-card border border-border bg-surface2 shadow-soft",
   buttonPrimary:
-    "inline-flex items-center justify-center gap-2 rounded-button bg-accent px-5 py-2.5 text-sm font-semibold text-bg transition-colors hover:bg-accent2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 disabled:pointer-events-none disabled:opacity-55",
+    "inline-flex items-center justify-center gap-2 rounded-button bg-accent px-5 py-2.5 text-sm font-semibold text-bg transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 disabled:pointer-events-none disabled:opacity-55",
   buttonOutline:
     "inline-flex items-center justify-center gap-2 rounded-button border border-border bg-transparent px-5 py-2.5 text-sm font-semibold text-text transition-colors hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 disabled:pointer-events-none disabled:opacity-55",
   buttonGhost:

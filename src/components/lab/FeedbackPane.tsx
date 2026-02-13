@@ -73,7 +73,7 @@ export function FeedbackPane({ feedback, isLoading }: FeedbackPaneProps) {
                     <ul className="space-y-1.5">
                         {mathematicalGaps.map((item, i) => (
                             <li key={i} className="text-[11px] text-text flex gap-2">
-                                <span className="text-accent2">•</span> {item}
+                                <span className="text-accent">•</span> {item}
                             </li>
                         ))}
                     </ul>

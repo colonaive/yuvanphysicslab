@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 import { Container } from "./Container";
 import { cn } from "@/lib/utils";
 import { Orbit } from "lucide-react";
@@ -59,9 +60,15 @@ export function SiteHeader() {
           <Link
             href="/about"
             aria-label="Profile"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-surface text-xs font-semibold tracking-wide text-text hover:border-accent hover:text-accent"
+            className="inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-border bg-surface hover:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
           >
-            YC
+            <Image
+              src="/profile-circle.svg"
+              alt="Yuvan profile"
+              width={36}
+              height={36}
+              className="h-full w-full object-cover"
+            />
           </Link>
         </div>
       </Container>

@@ -61,7 +61,7 @@ export function LabDashboard() {
                 <Link href="/lab/workbench" className="group block">
                     <Card className="h-full p-6 transition-colors hover:border-accent/55">
                         <div className="flex items-start justify-between mb-4">
-                            <div className="rounded-button border border-border bg-surface2 p-3 text-accent2">
+                            <div className="rounded-button border border-border bg-surface2 p-3 text-accent">
                                 <Sparkles className="h-6 w-6" />
                             </div>
                             <ArrowRight className="h-5 w-5 text-muted group-hover:text-accent transition-colors" />
