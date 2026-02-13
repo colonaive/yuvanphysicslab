@@ -40,7 +40,19 @@
   color-scheme: light;
 }
 
-.dark {
+:root.light {
+  --color-bg: #f6f4ef;
+  --color-surface: #fcfbf8;
+  --color-surface-2: #efebe2;
+  --color-text: #121723;
+  --color-muted: #5a6270;
+  --color-border: #d2cfc6;
+  --color-accent: #4cc9f0;
+
+  color-scheme: light;
+}
+
+:root.dark {
   --color-bg: #090d12;
   --color-surface: #111820;
   --color-surface-2: #18212b;
@@ -53,7 +65,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not(.light):not(.dark) {
     --color-bg: #090d12;
     --color-surface: #111820;
     --color-surface-2: #18212b;

@@ -65,7 +65,7 @@ export const semanticClasses = {
   card: "rounded-card border border-border bg-surface shadow-soft",
   cardMuted: "rounded-card border border-border bg-surface2 shadow-soft",
   buttonPrimary:
-    "inline-flex items-center justify-center gap-2 rounded-button bg-accent px-5 py-2.5 text-sm font-semibold text-bg transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 disabled:pointer-events-none disabled:opacity-55",
+    "inline-flex items-center justify-center gap-2 rounded-button bg-accent px-5 py-2.5 text-sm font-semibold text-[#0a1c25] transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 disabled:pointer-events-none disabled:opacity-55",
   buttonOutline:
     "inline-flex items-center justify-center gap-2 rounded-button border border-border bg-transparent px-5 py-2.5 text-sm font-semibold text-text transition-colors hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 disabled:pointer-events-none disabled:opacity-55",
   buttonGhost:

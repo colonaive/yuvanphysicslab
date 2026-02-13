@@ -4,10 +4,13 @@ import { semanticClasses } from "@/theme/tokens";
 import { readingList } from "@/content/reading-list";
 import { BookOpen } from "lucide-react";
 import Link from "next/link";
+import { SmartBackButton } from "@/components/site/SmartBackButton";
 
 export default function ReadingPage() {
   return (
     <Container className="space-y-8">
+      <SmartBackButton fallbackHref="/" label="Back" />
+
       <header className="space-y-3">
         <p className={semanticClasses.sectionMarker}>
           <BookOpen className="h-4 w-4 text-accent" />

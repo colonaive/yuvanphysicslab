@@ -1,15 +1,15 @@
 import { Container } from "@/components/site/Container";
 import { getPublishedPostBySlug } from "@/lib/posts";
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { format } from "date-fns";
-import { ArrowLeft, FileText } from "lucide-react";
+import { FileText } from "lucide-react";
 import { semanticClasses } from "@/theme/tokens";
 import type { Metadata } from "next";
 import Markdown from "react-markdown";
 import remarkMath from "remark-math";
 import remarkGfm from "remark-gfm";
 import rehypeKatex from "rehype-katex";
+import { SmartBackButton } from "@/components/site/SmartBackButton";
 
 export const dynamic = "force-dynamic";
 
@@ -45,10 +45,7 @@ export default async function PostDetailPage({ params }: PageProps) {
 
   return (
     <Container className="space-y-8">
-      <Link href="/posts" className="inline-flex items-center gap-2 text-sm text-muted">
-        <ArrowLeft className="h-4 w-4" />
-        Back to Posts
-      </Link>
+      <SmartBackButton fallbackHref="/posts" label="Back to Research Notes" />
 
       <article className="space-y-8">
         <header className="space-y-4 border-b border-border pb-8">

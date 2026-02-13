@@ -3,6 +3,10 @@ import type { Metadata, Viewport } from "next";
 import { Crimson_Pro, Source_Sans_3 } from "next/font/google";
 import { colors, typography } from "@/theme/tokens";
 import type { CSSProperties } from "react";
+import Script from "next/script";
+import { themeInitScript } from "@/lib/theme";
+import { RouteTracker } from "@/components/site/RouteTracker";
+import { BackToTopButton } from "@/components/site/BackToTopButton";
 
 const headingFont = Crimson_Pro({
   subsets: ["latin"],
@@ -64,15 +68,22 @@ export default function RootLayout({
   } as CSSProperties;
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="apple-mobile-web-app-title" content="Lab" />
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: themeInitScript }}
+        />
       </head>
       <body
         className={`${headingFont.variable} ${bodyFont.variable} min-h-screen bg-bg text-text antialiased flex flex-col`}
         style={themeStyles}
       >
+        <RouteTracker />
         {children}
+        <BackToTopButton />
       </body>
     </html>
   );

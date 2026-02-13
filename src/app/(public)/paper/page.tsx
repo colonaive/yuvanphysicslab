@@ -6,6 +6,7 @@ import Markdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import Link from "next/link";
+import { SmartBackButton } from "@/components/site/SmartBackButton";
 
 const sections = [
   {
@@ -33,6 +34,8 @@ export default function FeaturedPaperPage() {
 
   return (
     <Container className="space-y-7">
+      <SmartBackButton fallbackHref="/" label="Back" />
+
       <header className="space-y-3 border-b border-border pb-7">
         <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
           Featured Preprint
