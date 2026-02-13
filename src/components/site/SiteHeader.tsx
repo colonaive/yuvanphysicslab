@@ -19,26 +19,6 @@ const publicLinks = [
   { href: "/contact", label: "Contact" },
 ];
 
-function BrandMark() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      className="h-5 w-5 text-accent"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.4"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="12" cy="12" r="6.4" />
-      <ellipse cx="12" cy="12" rx="9.5" ry="4.2" />
-      <path d="M6.4 6.8c1.8 1 4.3 1.6 7 1.6s5.2-.6 7-1.6" />
-      <circle cx="17.8" cy="8.4" r="1.2" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-
 function HeaderLink({
   href,
   label,
@@ -102,11 +82,43 @@ export function SiteHeader() {
         <div className="flex min-h-[4.9rem] items-center justify-between gap-3">
           <Link
             href="/"
+            aria-label="Yuvan Physics Lab home"
             className="inline-flex shrink-0 items-center gap-2.5 text-sm font-semibold tracking-wide text-text transition-colors hover:text-accent sm:text-[1.05rem]"
           >
-            <BrandMark />
-            <span>Yuvan</span>
-            <span className="hidden sm:inline">Physics Lab</span>
+            <span className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full">
+              <Image
+                src="/brand/yuvan-logo-badge-light.png"
+                alt=""
+                aria-hidden="true"
+                width={32}
+                height={32}
+                className="h-full w-full object-contain dark:hidden"
+                priority
+              />
+              <Image
+                src="/brand/yuvan-logo-badge-dark.png"
+                alt=""
+                aria-hidden="true"
+                width={32}
+                height={32}
+                className="hidden h-full w-full object-contain dark:block"
+                priority
+              />
+            </span>
+            <span className="sm:hidden">Yuvan</span>
+            <span className="hidden sm:inline lg:hidden">Yuvan Physics Lab</span>
+            <span className="hidden lg:inline">
+              <Image
+                src="/brand/yuvan-logo-lockup.png"
+                alt=""
+                aria-hidden="true"
+                width={168}
+                height={52}
+                className="h-7 w-auto object-contain dark:brightness-110 dark:invert"
+                priority
+              />
+            </span>
+            <span className="sr-only">Yuvan Physics Lab</span>
           </Link>
 
           <nav className="hidden min-w-0 flex-1 items-center gap-4 overflow-x-auto pr-2 lg:flex">

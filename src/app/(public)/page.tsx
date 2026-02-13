@@ -10,6 +10,8 @@ import { semanticClasses } from "@/theme/tokens";
 
 export default async function HomePage() {
   const recentContent = await getRecentContent();
+  const latestNote = recentContent.find((item) => item.type === "notes");
+  const latestUpdate = recentContent[0];
 
   return (
     <Container className="space-y-14">
@@ -34,8 +36,30 @@ export default async function HomePage() {
             <Button href="/paper" variant="outline">
               Current Paper
             </Button>
+            <Button href={latestNote ? `/notes/${latestNote.slug}` : "/notes"} variant="outline">
+              Read latest note
+            </Button>
+            <Button href="/notes" variant="outline">
+              Research notes
+            </Button>
           </div>
+          {latestUpdate ? (
+            <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted">
+              Last updated: {format(new Date(latestUpdate.date), "MMMM d, yyyy")}
+            </p>
+          ) : null}
         </div>
+      </section>
+
+      <section className="space-y-5">
+        <h2 className={semanticClasses.sectionMarker}>Currently Thinking About</h2>
+        <Card className="p-6">
+          <ul className="list-disc space-y-2 pl-5 text-muted marker:text-accent">
+            <li>Chronology-horizon instability and what counts as physical protection of causality.</li>
+            <li>Which averaged energy constraints remain meaningful in semiclassical gravity.</li>
+            <li>How symmetry-first geometry can inform more reliable machine-learning models.</li>
+          </ul>
+        </Card>
       </section>
 
       <section className="space-y-5">
