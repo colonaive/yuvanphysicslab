@@ -13,10 +13,9 @@ export function SiteFooter() {
       <Container>
         <div className="flex flex-col gap-2 text-sm text-muted md:flex-row md:items-end md:justify-between">
           <div className="space-y-1">
-            <p>
-              Contact:{" "}
-              <Link href="mailto:yuvan.lab@proton.me" className="font-medium text-text">
-                yuvan.lab@proton.me
+            <p className="text-sm">
+              <Link href="/contact" className="font-medium text-text">
+                Contact
               </Link>
             </p>
             <p className="text-xs">

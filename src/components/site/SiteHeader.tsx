@@ -106,6 +106,15 @@ export function SiteHeader() {
             >
               About
             </Link>
+            <Link
+              href="/contact"
+              className={cn(
+                "hidden text-muted md:inline",
+                isActive("/contact") && "text-text underline decoration-accent/80"
+              )}
+            >
+              Contact
+            </Link>
           </nav>
 
           {isAuthed ? (

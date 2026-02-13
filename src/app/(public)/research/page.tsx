@@ -62,9 +62,9 @@ export default function ResearchPage() {
         <h2 className="text-2xl">Collaboration</h2>
         <Card className="space-y-3 p-6">
           <p className="text-sm text-muted">{researchFocus.collaboration.message}</p>
-          <p className="text-sm text-text">
-            Contact: <span className="font-medium">{researchFocus.collaboration.email}</span>
-          </p>
+          <Button href={researchFocus.collaboration.contactHref} variant="outline">
+            Contact
+          </Button>
         </Card>
       </section>
 

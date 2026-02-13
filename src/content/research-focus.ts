@@ -24,6 +24,6 @@ export const researchFocus = {
   collaboration: {
     message:
       "I welcome collaboration with students, researchers, and professors working in gravitation, causality, or mathematically rigorous spacetime modeling.",
-    email: "yuvan [dot] lab [at] proton [dot] me",
+    contactHref: "/contact",
   },
 } as const;
