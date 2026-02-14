@@ -94,20 +94,29 @@ export function SiteHeader() {
     >
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-accent/10" />
       <Container>
-        <div className="flex min-h-[5.5rem] items-center justify-between gap-3 md:min-h-[6rem]">
+        <div className="flex min-h-[6rem] items-center justify-between gap-3 md:min-h-[6.5rem]">
           <Link
             href="/"
             aria-label="Yuvan Physics Lab home"
             className="inline-flex shrink-0 items-center gap-3 text-sm font-semibold tracking-wide text-text transition-colors hover:text-accent sm:text-[1.08rem]"
           >
-            <span className="relative flex h-8 w-8 shrink-0 items-center justify-center sm:h-9 sm:w-9 md:h-10 md:w-10">
+            <span className="relative flex h-10 w-10 shrink-0 items-center justify-center sm:h-11 sm:w-11 md:h-12 md:w-12">
               <Image
-                src="/brand/yuvan-logo-mark-dark.png"
+                src="/brand/yuvan-logo-mark-header-light.png"
                 alt=""
                 aria-hidden="true"
-                width={32}
-                height={32}
-                className="h-full w-full object-contain dark:invert dark:brightness-[1.85]"
+                width={48}
+                height={48}
+                className="h-full w-full object-contain dark:hidden"
+                priority
+              />
+              <Image
+                src="/brand/yuvan-logo-mark-header-dark.png"
+                alt=""
+                aria-hidden="true"
+                width={48}
+                height={48}
+                className="hidden h-full w-full object-contain dark:block"
                 priority
               />
             </span>
