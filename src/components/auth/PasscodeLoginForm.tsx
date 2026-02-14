@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Loader2, Lock } from "lucide-react";
+import { Eye, EyeOff, Loader2, Lock } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 
@@ -22,6 +22,7 @@ export function PasscodeLoginForm() {
   const [passcode, setPasscode] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPasscode, setShowPasscode] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -67,16 +68,31 @@ export function PasscodeLoginForm() {
           <label htmlFor="passcode" className="text-sm font-medium">
             Passcode
           </label>
-          <input
-            id="passcode"
-            type="password"
-            required
-            value={passcode}
-            onChange={(event) => setPasscode(event.target.value)}
-            className="h-11 w-full rounded-button border border-border bg-surface px-3 text-sm text-text focus:outline-none focus:ring-2 focus:ring-accent/35"
-            placeholder="Enter passcode"
-            autoComplete="current-password"
-          />
+          <div className="relative">
+            <input
+              id="passcode"
+              type={showPasscode ? "text" : "password"}
+              required
+              value={passcode}
+              onChange={(event) => setPasscode(event.target.value)}
+              className="h-11 w-full rounded-button border border-border bg-surface px-3 pr-11 text-sm text-text focus:outline-none focus:ring-2 focus:ring-accent/35"
+              placeholder="Enter passcode"
+              autoComplete="current-password"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPasscode((visible) => !visible)}
+              className="absolute inset-y-0 right-0 inline-flex w-11 items-center justify-center rounded-r-button text-muted transition-colors hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+              aria-label={showPasscode ? "Hide passcode" : "Show passcode"}
+              title={showPasscode ? "Hide passcode" : "Show passcode"}
+            >
+              {showPasscode ? (
+                <EyeOff className="h-4 w-4" />
+              ) : (
+                <Eye className="h-4 w-4" />
+              )}
+            </button>
+          </div>
         </div>
 
         {error ? <p className="text-sm text-red-500">{error}</p> : null}
