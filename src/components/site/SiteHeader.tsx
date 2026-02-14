@@ -98,30 +98,25 @@ export function SiteHeader() {
           <Link
             href="/"
             aria-label="Yuvan Physics Lab home"
-            className="inline-flex shrink-0 items-center gap-3 text-sm font-semibold tracking-wide text-text transition-colors hover:text-accent sm:text-[1.08rem]"
+            className="inline-flex shrink-0 items-center text-sm font-semibold tracking-wide text-text transition-colors hover:text-accent sm:text-[1.08rem]"
           >
-            <span className="relative flex h-10 w-10 shrink-0 items-center justify-center sm:h-11 sm:w-11 md:h-12 md:w-12">
+            <span className="relative block h-[2.6rem] w-[172px] sm:h-[3rem] sm:w-[212px] md:h-[3.4rem] md:w-[252px] lg:h-[3.7rem] lg:w-[286px]">
               <Image
-                src="/brand/yuvan-logo-mark-header-light.png"
+                src="/brand/yuvan-logo-lockup-header-light.png"
                 alt=""
                 aria-hidden="true"
-                width={48}
-                height={48}
-                className="h-full w-full object-contain dark:hidden"
+                fill
+                className="object-contain object-left dark:hidden"
                 priority
               />
               <Image
-                src="/brand/yuvan-logo-mark-header-dark.png"
+                src="/brand/yuvan-logo-lockup-header-dark.png"
                 alt=""
                 aria-hidden="true"
-                width={48}
-                height={48}
-                className="hidden h-full w-full object-contain dark:block"
+                fill
+                className="hidden object-contain object-left dark:block"
                 priority
               />
-            </span>
-            <span className="inline text-[1.05rem] font-semibold tracking-[0.01em] sm:text-[1.16rem]">
-              Yuvan Physics Lab
             </span>
             <span className="sr-only">Yuvan Physics Lab</span>
           </Link>
