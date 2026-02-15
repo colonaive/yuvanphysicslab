@@ -106,14 +106,22 @@ export function SiteHeader() {
               aria-label="Yuvan Physics Lab home"
               className="inline-flex shrink-0 items-center gap-3 text-sm font-semibold tracking-wide text-text"
             >
-              <span className="flex items-center gap-3">
+              <span className="flex items-center dark:rounded-lg dark:bg-white/90 dark:px-2 dark:py-1 dark:shadow-sm dark:ring-1 dark:ring-white/10">
                 <Image
-                  src="/brand/yuvan-logo-lockup-header-light.png"
+                  src="/brand/ypl-logo-lockup-header-light.png"
                   alt="Yuvan Physics Lab"
                   width={340}
                   height={110}
                   priority
-                  style={{ height: "56px", width: "auto" }}
+                  className="block h-11 w-auto max-w-[min(64vw,20rem)] object-contain dark:hidden"
+                />
+                <Image
+                  src="/brand/ypl-logo-lockup-header-dark.png"
+                  alt="Yuvan Physics Lab"
+                  width={340}
+                  height={110}
+                  priority
+                  className="hidden h-11 w-auto max-w-[min(64vw,20rem)] object-contain dark:block"
                 />
               </span>
             </Link>
