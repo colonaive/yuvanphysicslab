@@ -48,6 +48,7 @@ export function SiteHeader() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [profileImageError, setProfileImageError] = useState(false);
 
   useEffect(() => {
     const loadSession = async () => {
@@ -103,35 +104,29 @@ export function SiteHeader() {
             <Link
               href="/"
               aria-label="Yuvan Physics Lab home"
-              className="inline-flex shrink-0 items-center gap-3.5 text-sm font-semibold tracking-wide text-text transition-colors hover:text-accent"
+              className="inline-flex shrink-0 items-center text-sm font-semibold tracking-wide text-text transition-opacity hover:opacity-95"
             >
-              <span className="relative block h-12 w-12 shrink-0 sm:h-14 sm:w-14 md:h-16 md:w-16">
+              <span className="relative block w-[188px] shrink-0 sm:w-[230px] md:w-[300px] lg:w-[340px]">
                 <Image
-                  src="/brand/yuvan-logo-mark-header-light.png"
+                  src="/brand/yuvan-logo-lockup-header-light.png"
                   alt=""
                   aria-hidden="true"
-                  fill
+                  width={1400}
+                  height={504}
                   priority
-                  sizes="(max-width: 640px) 48px, (max-width: 1024px) 56px, 64px"
-                  className="block object-contain dark:hidden"
+                  sizes="(max-width: 640px) 188px, (max-width: 768px) 230px, (max-width: 1024px) 300px, 340px"
+                  className="h-auto w-full object-contain [image-rendering:auto] dark:hidden"
                 />
                 <Image
-                  src="/brand/yuvan-logo-mark-header-dark.png"
+                  src="/brand/yuvan-logo-lockup-header-dark.png"
                   alt=""
                   aria-hidden="true"
-                  fill
+                  width={1400}
+                  height={504}
                   priority
-                  sizes="(max-width: 640px) 48px, (max-width: 1024px) 56px, 64px"
-                  className="hidden object-contain dark:block dark:brightness-110 dark:contrast-125"
+                  sizes="(max-width: 640px) 188px, (max-width: 768px) 230px, (max-width: 1024px) 300px, 340px"
+                  className="hidden h-auto w-full object-contain [image-rendering:auto] dark:block dark:brightness-[1.18] dark:contrast-[1.24] dark:drop-shadow-[0_1px_1px_rgba(191,219,254,0.35)]"
                 />
-              </span>
-              <span className="flex min-w-0 flex-col leading-none">
-                <span className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-muted sm:text-[0.74rem] md:text-[0.78rem]">
-                  Yuvan
-                </span>
-                <span className="mt-1 text-[1.45rem] font-semibold tracking-tight text-text sm:text-[1.7rem] md:text-[2rem]">
-                  Physics Lab
-                </span>
               </span>
               <span className="sr-only">Yuvan Physics Lab</span>
             </Link>
@@ -160,15 +155,42 @@ export function SiteHeader() {
                   aria-label="Profile"
                   className="inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-border bg-surface transition hover:ring-2 hover:ring-accent/45 hover:ring-offset-2 hover:ring-offset-bg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/55 focus-visible:ring-offset-2 focus-visible:ring-offset-bg md:h-14 md:w-14"
                 >
-                  <Image
-                    src="/images/yuvan-profile.png"
-                    alt="Yuvan profile"
-                    width={56}
-                    height={56}
-                    className="h-full w-full object-cover"
-                  />
+                  {profileImageError ? (
+                    <span className="inline-flex h-full w-full items-center justify-center bg-surface2 text-sm font-semibold text-text">
+                      Y
+                    </span>
+                  ) : (
+                    <Image
+                      src="/images/yuvan-profile.png"
+                      alt="Yuvan profile"
+                      width={56}
+                      height={56}
+                      className="h-full w-full object-cover"
+                      onError={() => setProfileImageError(true)}
+                    />
+                  )}
                 </Link>
-              ) : null}
+              ) : (
+                <span
+                  aria-label="Profile placeholder"
+                  className="inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-border/80 bg-surface/70 md:h-14 md:w-14"
+                >
+                  {profileImageError ? (
+                    <span className="inline-flex h-full w-full items-center justify-center bg-surface2 text-sm font-semibold text-muted">
+                      Y
+                    </span>
+                  ) : (
+                    <Image
+                      src="/images/yuvan-profile.png"
+                      alt="Yuvan profile"
+                      width={56}
+                      height={56}
+                      className="h-full w-full object-cover opacity-85"
+                      onError={() => setProfileImageError(true)}
+                    />
+                  )}
+                </span>
+              )}
               <button
                 type="button"
                 aria-label={isMobileOpen ? "Close menu" : "Open menu"}
