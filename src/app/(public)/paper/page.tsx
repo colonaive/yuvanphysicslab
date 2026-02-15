@@ -20,6 +20,7 @@ export default async function FeaturedPaperPage() {
 
   const paper = paperPosts[0] ?? null;
   const lastUpdated = paper?.updated_at ?? page?.updated_at ?? null;
+  const paperPdfHref = "/papers/ctc-paper.pdf";
 
   return (
     <Container className="space-y-7">
@@ -59,16 +60,24 @@ export default async function FeaturedPaperPage() {
       <section className="space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">PDF</p>
-          <Button href="/papers/ctc-paper.pdf" download>
+          <Button href={paperPdfHref} download>
             Download PDF <Download className="h-4 w-4" />
           </Button>
         </div>
         <div className="overflow-hidden rounded-card border border-border bg-surface shadow-soft">
-          <iframe
-            src="/papers/ctc-paper.pdf"
-            title="Investigating Spacetimes with Closed Timelike Curves"
+          <object
+            data={`${paperPdfHref}#view=FitH`}
+            type="application/pdf"
+            aria-label="Investigating Spacetimes with Closed Timelike Curves"
             className="h-[70vh] min-h-[30rem] w-full"
-          />
+          >
+            <div className="flex h-[70vh] min-h-[30rem] flex-col items-center justify-center gap-2 px-6 text-center text-sm text-muted">
+              <p>Unable to preview the PDF in this browser.</p>
+              <Link href={paperPdfHref} target="_blank" rel="noreferrer" className="text-accent2">
+                Open PDF in a new tab
+              </Link>
+            </div>
+          </object>
         </div>
       </section>
 

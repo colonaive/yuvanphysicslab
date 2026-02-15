@@ -49,6 +49,7 @@ export function SiteHeader() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
 
   useEffect(() => {
     const loadSession = async () => {
@@ -72,6 +73,19 @@ export function SiteHeader() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [pathname]);
 
+  useEffect(() => {
+    const root = document.documentElement;
+    const syncTheme = () => {
+      setIsDarkTheme(root.classList.contains("dark"));
+    };
+
+    syncTheme();
+
+    const observer = new MutationObserver(syncTheme);
+    observer.observe(root, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+  }, []);
+
   const isActive = (path: string) => {
     if (!pathname) return false;
     return path === "/" ? pathname === "/" : pathname.startsWith(path);
@@ -81,6 +95,9 @@ export function SiteHeader() {
   const modeLabel = isLabRoute ? "LAB MODE" : "PUBLIC VIEW";
   const modeHref = isLabRoute ? "/" : "/lab";
   const editorHref = isAuthed && isAdmin ? getEditorHrefForPath(pathname) : null;
+  const logoSrc = isDarkTheme
+    ? "/brand/yuvan-logo-lockup-header-dark.png"
+    : "/brand/yuvan-logo-lockup-header-light.png";
 
   const handleLogout = async () => {
     setIsAuthed(false);
@@ -100,144 +117,150 @@ export function SiteHeader() {
     >
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-accent/10" />
       <Container>
-        <div className="flex min-h-[6rem] items-center justify-between gap-3 md:min-h-[6.5rem]">
-          <Link
-            href="/"
-            aria-label="Yuvan Physics Lab home"
-            className="inline-flex shrink-0 items-center text-sm font-semibold tracking-wide text-text transition-colors hover:text-accent sm:text-[1.08rem]"
-          >
-            <span className="relative block h-[2.6rem] w-[172px] sm:h-[3rem] sm:w-[212px] md:h-[3.4rem] md:w-[252px] lg:h-[3.7rem] lg:w-[286px]">
-              <Image
-                src="/brand/yuvan-logo-lockup-header-light.png"
-                alt=""
-                aria-hidden="true"
-                fill
-                className="object-contain object-left dark:hidden"
-                priority
-              />
-              <Image
-                src="/brand/yuvan-logo-lockup-header-dark.png"
-                alt=""
-                aria-hidden="true"
-                fill
-                className="hidden object-contain object-left dark:block"
-                priority
-              />
-            </span>
-            <span className="sr-only">Yuvan Physics Lab</span>
-          </Link>
+        <div className="py-3 md:py-4">
+          <div className="flex min-h-[4.5rem] items-center justify-between gap-3 md:min-h-[4.75rem]">
+            <Link
+              href="/"
+              aria-label="Yuvan Physics Lab home"
+              className="inline-flex shrink-0 items-center text-sm font-semibold tracking-wide text-text transition-colors hover:text-accent"
+            >
+              <span className="relative block h-[2.55rem] w-[168px] sm:h-[2.8rem] sm:w-[206px] md:h-[3rem] md:w-[224px] lg:h-[3.2rem] lg:w-[250px]">
+                <Image
+                  src={logoSrc}
+                  alt=""
+                  aria-hidden="true"
+                  fill
+                  priority
+                  sizes="(max-width: 640px) 168px, (max-width: 1024px) 224px, 250px"
+                  className="object-contain object-left"
+                />
+              </span>
+              <span className="sr-only">Yuvan Physics Lab</span>
+            </Link>
 
-          <nav className="hidden min-w-0 flex-1 items-center gap-4 overflow-x-auto pr-2 lg:flex">
-            {publicLinks.map((link) => (
-              <HeaderLink
-                key={link.href}
-                href={link.href}
-                label={link.label}
-                active={isActive(link.href)}
-              />
-            ))}
-            {isAuthed ? (
-              <div className="ml-2 flex items-center gap-3 border-l border-border/70 pl-4">
-                <Link
-                  href="/lab"
-                  className={cn(
-                    "whitespace-nowrap text-xs font-medium uppercase tracking-[0.08em] text-muted transition-colors hover:text-text",
-                    isActive("/lab") && "text-text"
-                  )}
+            <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+              {!isAuthed ? (
+                <Button
+                  href="/login"
+                  variant="outline"
+                  className="hidden h-9 px-3 text-xs sm:inline-flex sm:text-sm"
                 >
-                  Lab
-                </Link>
-                <Link
-                  href="/lab/new"
-                  className="whitespace-nowrap text-xs font-medium uppercase tracking-[0.08em] text-muted transition-colors hover:text-text"
-                >
-                  New Draft
-                </Link>
-                {isAdmin ? (
-                  <Link
-                    href="/lab/editor"
-                    className={cn(
-                      "whitespace-nowrap text-xs font-medium uppercase tracking-[0.08em] text-muted transition-colors hover:text-text",
-                      isActive("/lab/editor") && "text-text"
-                    )}
-                  >
-                    CMS
-                  </Link>
-                ) : null}
-                <button
-                  type="button"
-                  onClick={handleLogout}
-                  className="whitespace-nowrap text-xs font-medium uppercase tracking-[0.08em] text-muted transition-colors hover:text-text"
-                >
-                  Logout
-                </button>
-              </div>
-            ) : null}
-          </nav>
+                  Login
+                </Button>
+              ) : null}
 
-          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-            {isAuthed ? (
-              <div className="hidden items-center gap-2 sm:flex">
-                {editorHref ? (
-                  <Button href={editorHref} variant="outline" className="h-9 px-3 text-xs">
-                    Edit
-                  </Button>
-                ) : null}
-                <Link
-                  href={modeHref}
-                  className={cn(
-                    "rounded-full border px-2.5 py-1 text-[10px] font-semibold tracking-[0.12em]",
-                    isLabRoute
-                      ? "border-accent/55 bg-accent/10 text-accent"
-                      : "border-border text-muted"
-                  )}
-                >
-                  {modeLabel}
-                </Link>
-              </div>
-            ) : (
-              <Button
-                href="/login"
-                variant="outline"
-                className="h-9 px-3 text-xs sm:text-sm"
+              <ThemeToggle />
+
+              <Link
+                href="/about"
+                aria-label="Profile"
+                className="inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-border bg-surface transition hover:ring-2 hover:ring-accent/45 hover:ring-offset-2 hover:ring-offset-bg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/55 focus-visible:ring-offset-2 focus-visible:ring-offset-bg sm:h-11 sm:w-11"
               >
+                <Image
+                  src="/images/yuvan-profile.png"
+                  alt="Yuvan profile"
+                  width={48}
+                  height={48}
+                  className="h-full w-full object-cover"
+                />
+              </Link>
+
+              <button
+                type="button"
+                aria-label={isMobileOpen ? "Close menu" : "Open menu"}
+                onClick={() => setIsMobileOpen((open) => !open)}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface text-muted transition-colors hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/55 focus-visible:ring-offset-2 focus-visible:ring-offset-bg md:hidden"
+              >
+                {isMobileOpen ? (
+                  <X className="h-4 w-4" />
+                ) : (
+                  <Menu className="h-4 w-4" />
+                )}
+              </button>
+            </div>
+          </div>
+
+          <div className="mt-2.5 hidden items-center justify-between gap-4 md:flex">
+            <nav className="flex flex-wrap items-center gap-x-5 gap-y-2">
+              {publicLinks.map((link) => (
+                <HeaderLink
+                  key={link.href}
+                  href={link.href}
+                  label={link.label}
+                  active={isActive(link.href)}
+                />
+              ))}
+            </nav>
+
+            {!isAuthed ? (
+              <Button href="/login" variant="outline" className="h-8 px-3 text-xs">
                 Login
               </Button>
-            )}
-
-            <ThemeToggle />
-
-            <button
-              type="button"
-              aria-label={isMobileOpen ? "Close menu" : "Open menu"}
-              onClick={() => setIsMobileOpen((open) => !open)}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface text-muted transition-colors hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/55 focus-visible:ring-offset-2 focus-visible:ring-offset-bg lg:hidden"
-            >
-              {isMobileOpen ? (
-                <X className="h-4 w-4" />
-              ) : (
-                <Menu className="h-4 w-4" />
-              )}
-            </button>
-
-            <Link
-              href="/about"
-              aria-label="Profile"
-              className="inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-border bg-surface md:h-12 md:w-12 lg:h-12 lg:w-12 hover:ring-2 hover:ring-accent/45 hover:ring-offset-2 hover:ring-offset-bg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/55 focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
-            >
-              <Image
-                src="/images/yuvan-profile.png"
-                alt="Yuvan profile"
-                width={48}
-                height={48}
-                className="h-full w-full object-cover"
-              />
-            </Link>
+            ) : null}
           </div>
         </div>
 
+        {isAuthed ? (
+          <div className="border-t border-border/75 bg-surface2/45 py-2.5">
+            <nav className="flex flex-wrap items-center gap-x-4 gap-y-2">
+              <Link
+                href="/lab"
+                className={cn(
+                  "rounded-button px-2.5 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:bg-surface hover:text-text",
+                  isActive("/lab") && "bg-surface text-text"
+                )}
+              >
+                Lab
+              </Link>
+              <Link
+                href="/lab/new"
+                className={cn(
+                  "rounded-button px-2.5 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:bg-surface hover:text-text",
+                  isActive("/lab/new") && "bg-surface text-text"
+                )}
+              >
+                New Draft
+              </Link>
+              {isAdmin ? (
+                <Link
+                  href="/lab/editor"
+                  className={cn(
+                    "rounded-button px-2.5 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:bg-surface hover:text-text",
+                    isActive("/lab/editor") && "bg-surface text-text"
+                  )}
+                >
+                  CMS
+                </Link>
+              ) : null}
+              {editorHref ? (
+                <Button href={editorHref} variant="outline" className="h-8 px-2.5 text-[11px]">
+                  Edit
+                </Button>
+              ) : null}
+              <Link
+                href={modeHref}
+                className={cn(
+                  "rounded-full border px-2.5 py-1 text-[10px] font-semibold tracking-[0.12em]",
+                  isLabRoute
+                    ? "border-accent/55 bg-accent/10 text-accent"
+                    : "border-border text-muted"
+                )}
+              >
+                {modeLabel}
+              </Link>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="rounded-button px-2.5 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:bg-surface hover:text-text"
+              >
+                Logout
+              </button>
+            </nav>
+          </div>
+        ) : null}
+
         {isMobileOpen ? (
-          <div className="border-t border-border/75 py-4 lg:hidden">
+          <div className="border-t border-border/75 py-3 md:hidden">
             <nav className="space-y-1">
               {publicLinks.map((link) => (
                 <Link
@@ -252,69 +275,16 @@ export function SiteHeader() {
                   {link.label}
                 </Link>
               ))}
+              {!isAuthed ? (
+                <Link
+                  href="/login"
+                  onClick={() => setIsMobileOpen(false)}
+                  className="block rounded-button px-2.5 py-2 text-sm font-medium text-muted transition-colors hover:bg-surface2 hover:text-text"
+                >
+                  Login
+                </Link>
+              ) : null}
             </nav>
-
-            {isAuthed ? (
-              <div className="mt-3 space-y-1 border-t border-border/70 pt-3">
-                <Link
-                  href={modeHref}
-                  onClick={() => setIsMobileOpen(false)}
-                  className={cn(
-                    "inline-flex rounded-full border px-2.5 py-1 text-[10px] font-semibold tracking-[0.12em]",
-                    isLabRoute
-                      ? "border-accent/55 bg-accent/10 text-accent"
-                      : "border-border text-muted"
-                  )}
-                >
-                  {modeLabel}
-                </Link>
-                <Link
-                  href="/lab"
-                  onClick={() => setIsMobileOpen(false)}
-                  className={cn(
-                    "block rounded-button px-2.5 py-2 text-xs font-medium uppercase tracking-[0.08em] text-muted transition-colors hover:bg-surface2 hover:text-text",
-                    isActive("/lab") && "bg-surface2 text-text"
-                  )}
-                >
-                  Lab
-                </Link>
-                <Link
-                  href="/lab/new"
-                  onClick={() => setIsMobileOpen(false)}
-                  className="block rounded-button px-2.5 py-2 text-xs font-medium uppercase tracking-[0.08em] text-muted transition-colors hover:bg-surface2 hover:text-text"
-                >
-                  New Draft
-                </Link>
-                {isAdmin ? (
-                  <Link
-                    href="/lab/editor"
-                    onClick={() => setIsMobileOpen(false)}
-                    className={cn(
-                      "block rounded-button px-2.5 py-2 text-xs font-medium uppercase tracking-[0.08em] text-muted transition-colors hover:bg-surface2 hover:text-text",
-                      isActive("/lab/editor") && "bg-surface2 text-text"
-                    )}
-                  >
-                    CMS
-                  </Link>
-                ) : null}
-                {editorHref ? (
-                  <Link
-                    href={editorHref}
-                    onClick={() => setIsMobileOpen(false)}
-                    className="block rounded-button px-2.5 py-2 text-xs font-medium uppercase tracking-[0.08em] text-muted transition-colors hover:bg-surface2 hover:text-text"
-                  >
-                    Edit This Page
-                  </Link>
-                ) : null}
-                <button
-                  type="button"
-                  onClick={handleLogout}
-                  className="block w-full rounded-button px-2.5 py-2 text-left text-xs font-medium uppercase tracking-[0.08em] text-muted transition-colors hover:bg-surface2 hover:text-text"
-                >
-                  Logout
-                </button>
-              </div>
-            ) : null}
           </div>
         ) : null}
       </Container>

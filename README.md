@@ -23,15 +23,14 @@ npm install
 ```
 
 ### 3. Environment Variables
-Create a `.env.local` file in the root directory:
-```bash
-LAB_PASSCODE=your_secret_passcode_here
-LAB_SESSION_SECRET=your_cookie_signing_secret
-
-# Supabase (for auth/db integration)
-SUPABASE_URL=https://YOUR_PROJECT_ID.supabase.co
-SUPABASE_ANON_KEY=your_supabase_anon_key
-```
+Create a `.env.local` file in the root directory and define these variable names:
+- `LAB_PASSCODE`
+- `LAB_SESSION_SECRET`
+- `SUPABASE_URL`
+- `SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY` (required for server-side writes)
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
 ### 4. Run Development Server
 ```bash
@@ -53,13 +52,14 @@ This project is configured for Netlify deployment with `@netlify/plugin-nextjs`.
 
 1. **GitHub**: Push your code to a GitHub repository.
 2. **Netlify**: Connect your repository to a new site on Netlify.
-3. **Environment Variables**: Add the following in Netlify site settings.
-```bash
-LAB_PASSCODE=...
-LAB_SESSION_SECRET=...
-SUPABASE_URL=...
-SUPABASE_ANON_KEY=...
-```
+3. **Environment Variables**: Add these names in Netlify site settings.
+   - `LAB_PASSCODE`
+   - `LAB_SESSION_SECRET`
+   - `SUPABASE_URL`
+   - `SUPABASE_ANON_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 4. **Deploy**: Build command is `npm run build`, and publish directory is automatically handled by `@netlify/plugin-nextjs`.
 
 ## Project Structure
