@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import {
+  BookOpen,
   ChevronDown,
   ChevronUp,
   Copy,
@@ -24,7 +25,9 @@ import {
   normalizeHashtagList,
   suggestLinkedInHashtags,
 } from "@/lib/linkedin-hashtags";
+import { generateLinkedInSnippetFromMarkdown } from "@/lib/linkedin-snippet";
 import type { LinkedInDraftRecord, LinkedInImageMeta } from "@/lib/linkedin-drafts";
+import { getPublicHrefForPost } from "@/lib/content-routing";
 import { cn } from "@/lib/utils";
 
 const SOFT_WARNING_BODY_LENGTH = 2800;
@@ -91,6 +94,46 @@ interface ApiDraftMutationResponse {
   error?: string;
 }
 
+interface ResearchNoteSummary {
+  id: string;
+  slug: string;
+  title: string;
+  updatedAt: string;
+  publishedAt: string | null;
+}
+
+interface ResearchNoteDetail {
+  id: string;
+  slug: string;
+  title: string;
+  contentMd: string;
+  updatedAt: string;
+}
+
+interface ApiResearchNotesListResponse {
+  success: boolean;
+  posts?: Array<{
+    id?: string;
+    slug?: string;
+    title?: string;
+    updated_at?: string;
+    published_at?: string | null;
+  }>;
+  error?: string;
+}
+
+interface ApiResearchNoteDetailResponse {
+  success: boolean;
+  post?: {
+    id?: string;
+    slug?: string;
+    title?: string;
+    content_md?: string;
+    updated_at?: string;
+  };
+  error?: string;
+}
+
 export function LinkedInComposer() {
   const previewUrlsRef = useRef<string[]>([]);
 
@@ -117,6 +160,11 @@ export function LinkedInComposer() {
   const [isLoadingDrafts, setIsLoadingDrafts] = useState(false);
   const [isSavingDraft, setIsSavingDraft] = useState(false);
   const [deletingDraftId, setDeletingDraftId] = useState<string | null>(null);
+  const [showResearchNotePicker, setShowResearchNotePicker] = useState(false);
+  const [researchNotes, setResearchNotes] = useState<ResearchNoteSummary[]>([]);
+  const [researchSearch, setResearchSearch] = useState("");
+  const [isLoadingResearchNotes, setIsLoadingResearchNotes] = useState(false);
+  const [generatingFromNoteId, setGeneratingFromNoteId] = useState<string | null>(null);
 
   const [statusMessage, setStatusMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -162,6 +210,42 @@ export function LinkedInComposer() {
     }
   }, []);
 
+  const loadResearchNotes = useCallback(async () => {
+    setIsLoadingResearchNotes(true);
+    setErrorMessage("");
+
+    try {
+      const response = await fetch("/api/lab/posts?type=research-notes", {
+        cache: "no-store",
+      });
+      const data = (await response.json()) as ApiResearchNotesListResponse;
+
+      if (!response.ok || !data.success) {
+        setErrorMessage(data.error || "Unable to load research notes.");
+        return;
+      }
+
+      const normalized: ResearchNoteSummary[] = (data.posts ?? [])
+        .map((entry) => ({
+          id: typeof entry.id === "string" ? entry.id : "",
+          slug: typeof entry.slug === "string" ? entry.slug : "",
+          title:
+            typeof entry.title === "string" && entry.title.trim().length > 0
+              ? entry.title.trim()
+              : "Untitled note",
+          updatedAt: typeof entry.updated_at === "string" ? entry.updated_at : "",
+          publishedAt: typeof entry.published_at === "string" ? entry.published_at : null,
+        }))
+        .filter((entry) => entry.id && entry.slug);
+
+      setResearchNotes(normalized);
+    } catch {
+      setErrorMessage("Unable to load research notes.");
+    } finally {
+      setIsLoadingResearchNotes(false);
+    }
+  }, []);
+
   useEffect(() => {
     void loadDrafts();
   }, [loadDrafts]);
@@ -177,9 +261,30 @@ export function LinkedInComposer() {
     [checklistState]
   );
   const suggestedHashtags = useMemo(() => suggestLinkedInHashtags(title, body), [title, body]);
+  const filteredResearchNotes = useMemo(() => {
+    const query = researchSearch.trim().toLowerCase();
+    if (!query) return researchNotes;
+
+    return researchNotes.filter(
+      (note) =>
+        note.title.toLowerCase().includes(query) || note.slug.toLowerCase().includes(query)
+    );
+  }, [researchNotes, researchSearch]);
 
   const composedText = useMemo(() => {
-    const sections = [title.trim(), body.trim(), linkUrl.trim(), hashtags.join(" ")].filter(Boolean);
+    const normalizedTitle = title.trim();
+    const normalizedBody = body.trim();
+    const normalizedLink = linkUrl.trim();
+    const bodyContainsLink =
+      normalizedLink.length > 0 &&
+      normalizedBody.toLowerCase().includes(normalizedLink.toLowerCase());
+
+    const sections = [
+      normalizedTitle,
+      normalizedBody,
+      bodyContainsLink ? "" : normalizedLink,
+      hashtags.join(" "),
+    ].filter(Boolean);
     return sections.join("\n\n");
   }, [title, body, linkUrl, hashtags]);
 
@@ -360,6 +465,96 @@ export function LinkedInComposer() {
     }));
   }, []);
 
+  const openResearchNotePicker = useCallback(async () => {
+    setShowResearchNotePicker(true);
+    setResearchSearch("");
+    setStatusMessage("");
+
+    if (researchNotes.length === 0 && !isLoadingResearchNotes) {
+      await loadResearchNotes();
+    }
+  }, [isLoadingResearchNotes, loadResearchNotes, researchNotes.length]);
+
+  const generateFromResearchNote = useCallback(
+    async (note: ResearchNoteSummary) => {
+      setGeneratingFromNoteId(note.id);
+      setErrorMessage("");
+      setStatusMessage("");
+
+      try {
+        const detailResponse = await fetch(`/api/lab/posts/${encodeURIComponent(note.id)}`, {
+          cache: "no-store",
+        });
+        const detailData = (await detailResponse.json()) as ApiResearchNoteDetailResponse;
+
+        if (!detailResponse.ok || !detailData.success || !detailData.post?.id) {
+          setErrorMessage(detailData.error || "Unable to load selected note.");
+          return;
+        }
+
+        const detail: ResearchNoteDetail = {
+          id: detailData.post.id,
+          slug: typeof detailData.post.slug === "string" ? detailData.post.slug : note.slug,
+          title:
+            typeof detailData.post.title === "string" && detailData.post.title.trim().length > 0
+              ? detailData.post.title.trim()
+              : note.title,
+          contentMd: typeof detailData.post.content_md === "string" ? detailData.post.content_md : "",
+          updatedAt:
+            typeof detailData.post.updated_at === "string" ? detailData.post.updated_at : note.updatedAt,
+        };
+
+        if (!detail.contentMd.trim()) {
+          setErrorMessage("Selected note has no content to generate from.");
+          return;
+        }
+
+        const notePath = getPublicHrefForPost({ slug: detail.slug, type: "note" });
+        const configuredOrigin = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "");
+        const runtimeOrigin =
+          typeof window !== "undefined" ? window.location.origin.replace(/\/$/, "") : "";
+        const resolvedOrigin = configuredOrigin || runtimeOrigin;
+        const linkUrl = resolvedOrigin ? `${resolvedOrigin}${notePath}` : null;
+
+        const generated = generateLinkedInSnippetFromMarkdown({
+          title: detail.title,
+          slug: detail.slug,
+          contentMd: detail.contentMd,
+          linkUrl,
+        });
+
+        const createResponse = await fetch("/api/lab/linkedin/drafts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            slug: null,
+            title: generated.title,
+            body: generated.body,
+            hashtags: generated.hashtags,
+            linkUrl,
+            images: [],
+          }),
+        });
+        const createData = (await createResponse.json()) as ApiDraftMutationResponse;
+
+        if (!createResponse.ok || !createData.success || !createData.draft) {
+          setErrorMessage(createData.error || "Unable to save generated draft.");
+          return;
+        }
+
+        loadDraftIntoForm(createData.draft);
+        setShowResearchNotePicker(false);
+        setStatusMessage(`Generated draft from "${detail.title}".`);
+        await loadDrafts();
+      } catch {
+        setErrorMessage("Unable to generate draft from this research note.");
+      } finally {
+        setGeneratingFromNoteId(null);
+      }
+    },
+    [loadDraftIntoForm, loadDrafts]
+  );
+
   const bodyWarningMessage =
     bodyLength > RECOMMENDED_BODY_LENGTH
       ? `Above recommended ${RECOMMENDED_BODY_LENGTH} characters. Saving is still allowed up to ${API_MAX_BODY_LENGTH}.`
@@ -378,6 +573,13 @@ export function LinkedInComposer() {
           Save drafts in Supabase, preview your post, refine with coaching prompts, then copy and
           paste into LinkedIn.
         </p>
+        <Button
+          variant="outline"
+          className="h-10 px-4 text-sm"
+          onClick={() => void openResearchNotePicker()}
+        >
+          <BookOpen className="h-4 w-4" /> Generate from Research Notes
+        </Button>
       </header>
 
       <div className="grid gap-5 xl:grid-cols-[1.15fr_1fr_0.95fr]">
@@ -806,6 +1008,92 @@ export function LinkedInComposer() {
           </div>
         </Card>
       </div>
+
+      {showResearchNotePicker ? (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/55 px-4 py-8 backdrop-blur-sm">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Generate from research notes"
+            className="w-full max-w-3xl"
+          >
+            <Card className="space-y-4 p-5 md:p-6">
+              <div className="flex items-center justify-between gap-3">
+                <div className="space-y-1">
+                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted">
+                    Research Notes
+                  </p>
+                  <h2 className="text-2xl">Generate snippet from note</h2>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowResearchNotePicker(false)}
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-surface text-muted transition-colors hover:text-text"
+                  aria-label="Close picker"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="research-note-search" className="text-sm font-medium">
+                  Search by title or slug
+                </label>
+                <input
+                  id="research-note-search"
+                  value={researchSearch}
+                  onChange={(event) => setResearchSearch(event.target.value)}
+                  placeholder="Search notes..."
+                  className="h-11 w-full rounded-button border border-border bg-surface px-3 text-sm text-text focus:outline-none focus:ring-2 focus:ring-accent/35"
+                />
+              </div>
+
+              <div className="max-h-[26rem] space-y-2 overflow-y-auto pr-1">
+                {isLoadingResearchNotes ? (
+                  <div className="flex items-center gap-2 rounded-button border border-border bg-surface px-3 py-2 text-sm text-muted">
+                    <Loader2 className="h-4 w-4 animate-spin" /> Loading research notes...
+                  </div>
+                ) : filteredResearchNotes.length === 0 ? (
+                  <p className="rounded-button border border-border bg-surface px-3 py-3 text-sm text-muted">
+                    No notes matched your search.
+                  </p>
+                ) : (
+                  filteredResearchNotes.map((note) => (
+                    <div
+                      key={note.id}
+                      className="flex flex-wrap items-center justify-between gap-3 rounded-button border border-border bg-surface px-3 py-3"
+                    >
+                      <div className="min-w-0 space-y-1">
+                        <p className="truncate text-sm font-semibold text-text">{note.title}</p>
+                        <p className="text-xs text-muted">
+                          /notes/{note.slug} • Updated{" "}
+                          {note.updatedAt ? new Date(note.updatedAt).toLocaleDateString() : "unknown"}
+                        </p>
+                      </div>
+                      <Button
+                        variant="outline"
+                        className="h-9 px-3 text-xs"
+                        onClick={() => void generateFromResearchNote(note)}
+                        disabled={generatingFromNoteId === note.id}
+                      >
+                        {generatingFromNoteId === note.id ? (
+                          <>
+                            <Loader2 className="h-4 w-4 animate-spin" /> Generating
+                          </>
+                        ) : (
+                          <>
+                            <Sparkles className="h-4 w-4" /> Generate
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  ))
+                )}
+              </div>
+            </Card>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

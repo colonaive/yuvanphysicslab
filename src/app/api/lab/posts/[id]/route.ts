@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { verifyLabAuth } from "@/lib/auth";
+import { requireLabAdminResponse } from "@/lib/lab-admin-guard";
+import { getResearchNoteById } from "@/lib/lab-research-notes";
 
 interface UpdatePayload {
   title?: string;
@@ -24,6 +26,43 @@ function createLabWriteClient() {
   }
 
   return null;
+}
+
+export async function GET(
+  _req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const auth = await requireLabAdminResponse();
+  if (!auth.ok) return auth.response;
+
+  try {
+    const { id } = await params;
+    if (!id) {
+      return NextResponse.json({ success: false, error: "Post id is required." }, { status: 400 });
+    }
+
+    const post = await getResearchNoteById(id);
+    if (!post) {
+      return NextResponse.json({ success: false, error: "Research note not found." }, { status: 404 });
+    }
+
+    return NextResponse.json({
+      success: true,
+      post: {
+        id: post.id,
+        slug: post.slug,
+        title: post.title,
+        content_md: post.contentMd,
+        updated_at: post.updatedAt,
+      },
+    });
+  } catch (error) {
+    console.error("Failed to load research note:", error);
+    return NextResponse.json(
+      { success: false, error: "Unable to load research note." },
+      { status: 500 }
+    );
+  }
 }
 
 export async function PUT(
