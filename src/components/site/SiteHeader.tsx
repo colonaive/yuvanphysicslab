@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { Container } from "./Container";
 import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
-import { THEME_STORAGE_KEY, type ThemeMode } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 
 const publicLinks = [
@@ -45,10 +44,6 @@ function HeaderLink({
 export function SiteHeader() {
   const pathname = usePathname();
   const router = useRouter();
-  const [theme, setTheme] = useState<ThemeMode>(() => {
-    if (typeof document === "undefined") return "light";
-    return document.documentElement.classList.contains("dark") ? "dark" : "light";
-  });
   const [isAuthed, setIsAuthed] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -77,34 +72,6 @@ export function SiteHeader() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [pathname]);
 
-  useEffect(() => {
-    const root = document.documentElement;
-    const syncTheme = () => {
-      const currentTheme: ThemeMode = root.classList.contains("dark") ? "dark" : "light";
-      setTheme(currentTheme);
-    };
-
-    syncTheme();
-
-    const observer = new MutationObserver(syncTheme);
-    observer.observe(root, { attributes: true, attributeFilter: ["class"] });
-
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const onSystemThemeChange = () => {
-      const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
-      if (storedTheme !== "light" && storedTheme !== "dark") {
-        syncTheme();
-      }
-    };
-
-    mediaQuery.addEventListener("change", onSystemThemeChange);
-
-    return () => {
-      observer.disconnect();
-      mediaQuery.removeEventListener("change", onSystemThemeChange);
-    };
-  }, []);
-
   const isActive = (path: string) => {
     if (!pathname) return false;
     return path === "/" ? pathname === "/" : pathname.startsWith(path);
@@ -113,7 +80,6 @@ export function SiteHeader() {
   const isLabRoute = Boolean(pathname?.startsWith("/lab"));
   const modeLabel = isLabRoute ? "LAB MODE" : "PUBLIC VIEW";
   const modeHref = isLabRoute ? "/" : "/lab";
-  const logoSrc = theme === "dark" ? "/brand/logo-dark.svg" : "/brand/logo-light.svg";
 
   const handleLogout = async () => {
     setIsAuthed(false);
@@ -138,17 +104,16 @@ export function SiteHeader() {
             <Link
               href="/"
               aria-label="Yuvan Physics Lab home"
-              className="inline-flex shrink-0 items-center gap-3 text-sm font-semibold tracking-wide text-text transition-opacity hover:opacity-95"
+              className="inline-flex shrink-0 items-center gap-3 text-sm font-semibold tracking-wide text-text"
             >
               <span className="flex items-center gap-3">
                 <Image
-                  src={logoSrc}
+                  src="/brand/yuvan-logo-lockup-header-light.png"
                   alt="Yuvan Physics Lab"
-                  width={720}
-                  height={120}
+                  width={340}
+                  height={110}
                   priority
-                  sizes="(max-width: 640px) 220px, (max-width: 1024px) 250px, 280px"
-                  className="h-10 w-auto max-w-[min(68vw,17.5rem)]"
+                  style={{ height: "56px", width: "auto" }}
                 />
               </span>
             </Link>
