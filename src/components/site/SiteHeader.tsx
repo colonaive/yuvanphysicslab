@@ -104,29 +104,30 @@ export function SiteHeader() {
             <Link
               href="/"
               aria-label="Yuvan Physics Lab home"
-              className="inline-flex shrink-0 items-center text-sm font-semibold tracking-wide text-text transition-opacity hover:opacity-95"
+              className="inline-flex shrink-0 items-center gap-3 text-sm font-semibold tracking-wide text-text transition-opacity hover:opacity-95 md:gap-4"
             >
-              <span className="relative block w-[188px] shrink-0 sm:w-[230px] md:w-[300px] lg:w-[340px]">
+              <span className="relative block h-14 w-14 shrink-0 sm:h-16 sm:w-16 md:h-[4.7rem] md:w-[4.7rem]">
                 <Image
-                  src="/brand/yuvan-logo-lockup-header-light.png"
+                  src="/brand/yuvan-logo-mark-light.png"
                   alt=""
                   aria-hidden="true"
-                  width={1400}
-                  height={504}
+                  width={512}
+                  height={512}
                   priority
-                  sizes="(max-width: 640px) 188px, (max-width: 768px) 230px, (max-width: 1024px) 300px, 340px"
-                  className="h-auto w-full object-contain [image-rendering:auto] dark:hidden"
+                  sizes="(max-width: 640px) 56px, (max-width: 768px) 64px, 76px"
+                  className="h-full w-full object-contain [image-rendering:auto] dark:brightness-[1.2] dark:contrast-[1.2] dark:saturate-[1.15] dark:drop-shadow-[0_1px_2px_rgba(191,219,254,0.45)]"
                 />
-                <Image
-                  src="/brand/yuvan-logo-lockup-header-dark.png"
-                  alt=""
-                  aria-hidden="true"
-                  width={1400}
-                  height={504}
-                  priority
-                  sizes="(max-width: 640px) 188px, (max-width: 768px) 230px, (max-width: 1024px) 300px, 340px"
-                  className="hidden h-auto w-full object-contain [image-rendering:auto] dark:block dark:brightness-[1.18] dark:contrast-[1.24] dark:drop-shadow-[0_1px_1px_rgba(191,219,254,0.35)]"
-                />
+              </span>
+              <span className="flex min-w-0 flex-col leading-none">
+                <span className="text-[0.68rem] font-bold uppercase tracking-[0.31em] text-[#22345e] [text-shadow:0_0.4px_0_rgba(255,255,255,0.35)] sm:text-[0.72rem] md:text-[0.76rem] dark:text-[#dbeafe] dark:[text-shadow:0_0.4px_0_rgba(0,0,0,0.55)]">
+                  YUVAN
+                </span>
+                <span className="[font-family:var(--font-heading-stack)] mt-1 text-[1.9rem] font-semibold tracking-tight text-[#1b2d52] [text-shadow:0_0.6px_0_rgba(255,255,255,0.28)] sm:text-[2.05rem] md:text-[2.3rem] dark:text-[#f8fbff] dark:[text-shadow:0_0.6px_0_rgba(0,0,0,0.6)]">
+                  Physics Lab
+                </span>
+                <span className="[font-family:var(--font-heading-stack)] mt-1 text-[0.70rem] font-semibold tracking-[0.025em] text-[#32466f] sm:text-[0.76rem] md:text-[0.84rem] dark:text-[#dbeafe]">
+                  Geometry • Causality • Learning
+                </span>
               </span>
               <span className="sr-only">Yuvan Physics Lab</span>
             </Link>
