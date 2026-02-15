@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { Container } from "./Container";
 import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
+import { THEME_STORAGE_KEY, type ThemeMode } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 
 const publicLinks = [
@@ -44,6 +45,10 @@ function HeaderLink({
 export function SiteHeader() {
   const pathname = usePathname();
   const router = useRouter();
+  const [theme, setTheme] = useState<ThemeMode>(() => {
+    if (typeof document === "undefined") return "light";
+    return document.documentElement.classList.contains("dark") ? "dark" : "light";
+  });
   const [isAuthed, setIsAuthed] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -72,6 +77,34 @@ export function SiteHeader() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [pathname]);
 
+  useEffect(() => {
+    const root = document.documentElement;
+    const syncTheme = () => {
+      const currentTheme: ThemeMode = root.classList.contains("dark") ? "dark" : "light";
+      setTheme(currentTheme);
+    };
+
+    syncTheme();
+
+    const observer = new MutationObserver(syncTheme);
+    observer.observe(root, { attributes: true, attributeFilter: ["class"] });
+
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const onSystemThemeChange = () => {
+      const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+      if (storedTheme !== "light" && storedTheme !== "dark") {
+        syncTheme();
+      }
+    };
+
+    mediaQuery.addEventListener("change", onSystemThemeChange);
+
+    return () => {
+      observer.disconnect();
+      mediaQuery.removeEventListener("change", onSystemThemeChange);
+    };
+  }, []);
+
   const isActive = (path: string) => {
     if (!pathname) return false;
     return path === "/" ? pathname === "/" : pathname.startsWith(path);
@@ -80,6 +113,7 @@ export function SiteHeader() {
   const isLabRoute = Boolean(pathname?.startsWith("/lab"));
   const modeLabel = isLabRoute ? "LAB MODE" : "PUBLIC VIEW";
   const modeHref = isLabRoute ? "/" : "/lab";
+  const logoSrc = theme === "dark" ? "/brand/logo-dark.svg" : "/brand/logo-light.svg";
 
   const handleLogout = async () => {
     setIsAuthed(false);
@@ -104,32 +138,19 @@ export function SiteHeader() {
             <Link
               href="/"
               aria-label="Yuvan Physics Lab home"
-              className="inline-flex shrink-0 items-center gap-3 text-sm font-semibold tracking-wide text-text transition-opacity hover:opacity-95 md:gap-4"
+              className="inline-flex shrink-0 items-center gap-3 text-sm font-semibold tracking-wide text-text transition-opacity hover:opacity-95"
             >
-              <span className="relative block h-14 w-14 shrink-0 sm:h-16 sm:w-16 md:h-[4.7rem] md:w-[4.7rem]">
+              <span className="flex items-center gap-3">
                 <Image
-                  src="/brand/yuvan-logo-mark-light.png"
-                  alt=""
-                  aria-hidden="true"
-                  width={512}
-                  height={512}
+                  src={logoSrc}
+                  alt="Yuvan Physics Lab"
+                  width={720}
+                  height={120}
                   priority
-                  sizes="(max-width: 640px) 56px, (max-width: 768px) 64px, 76px"
-                  className="h-full w-full object-contain [image-rendering:auto] dark:brightness-[1.2] dark:contrast-[1.2] dark:saturate-[1.15] dark:drop-shadow-[0_1px_2px_rgba(191,219,254,0.45)]"
+                  sizes="(max-width: 640px) 220px, (max-width: 1024px) 250px, 280px"
+                  className="h-10 w-auto max-w-[min(68vw,17.5rem)]"
                 />
               </span>
-              <span className="flex min-w-0 flex-col leading-none">
-                <span className="text-[0.68rem] font-bold uppercase tracking-[0.31em] text-[#22345e] [text-shadow:0_0.4px_0_rgba(255,255,255,0.35)] sm:text-[0.72rem] md:text-[0.76rem] dark:text-[#dbeafe] dark:[text-shadow:0_0.4px_0_rgba(0,0,0,0.55)]">
-                  YUVAN
-                </span>
-                <span className="[font-family:var(--font-heading-stack)] mt-1 text-[1.9rem] font-semibold tracking-tight text-[#1b2d52] [text-shadow:0_0.6px_0_rgba(255,255,255,0.28)] sm:text-[2.05rem] md:text-[2.3rem] dark:text-[#f8fbff] dark:[text-shadow:0_0.6px_0_rgba(0,0,0,0.6)]">
-                  Physics Lab
-                </span>
-                <span className="[font-family:var(--font-heading-stack)] mt-1 text-[0.70rem] font-semibold tracking-[0.025em] text-[#32466f] sm:text-[0.76rem] md:text-[0.84rem] dark:text-[#dbeafe]">
-                  Geometry • Causality • Learning
-                </span>
-              </span>
-              <span className="sr-only">Yuvan Physics Lab</span>
             </Link>
 
             <nav className="hidden items-center justify-center gap-x-7 gap-y-3 px-2 md:flex md:flex-wrap">
