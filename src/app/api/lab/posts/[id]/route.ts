@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { verifyLabAuth } from "@/lib/auth";
 
@@ -38,7 +38,7 @@ export async function PUT(
   const { id } = await params;
 
   const adminClient = createLabWriteClient();
-  let supabase: any;
+  let supabase: SupabaseClient;
 
   if (adminClient) {
     supabase = adminClient;

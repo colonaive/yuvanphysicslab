@@ -32,7 +32,7 @@ function HeaderLink({
     <Link
       href={href}
       className={cn(
-        "relative whitespace-nowrap text-sm font-medium text-muted transition-colors duration-200 hover:text-text after:absolute after:-bottom-1.5 after:left-0 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:bg-accent after:transition-transform after:duration-200 hover:after:scale-x-100",
+        "relative whitespace-nowrap text-base font-semibold text-muted transition-colors duration-200 hover:text-text after:absolute after:-bottom-1.5 after:left-0 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:bg-accent after:transition-transform after:duration-200 hover:after:scale-x-100 xl:text-[1.08rem]",
         active && "text-text after:scale-x-100"
       )}
     >
@@ -97,38 +97,46 @@ export function SiteHeader() {
       )}
     >
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-accent/10" />
-      <Container>
-        <div className="py-2.5 md:py-3">
-          <div className="flex items-center justify-between gap-3 md:grid md:grid-cols-[auto_1fr_auto] md:gap-6">
+      <Container className="max-w-[84rem]">
+        <div className="py-3 md:py-4">
+          <div className="flex items-center justify-between gap-4 md:grid md:grid-cols-[auto_1fr_auto] md:gap-8">
             <Link
               href="/"
               aria-label="Yuvan Physics Lab home"
-              className="inline-flex shrink-0 items-center text-sm font-semibold tracking-wide text-text transition-colors hover:text-accent"
+              className="inline-flex shrink-0 items-center gap-3.5 text-sm font-semibold tracking-wide text-text transition-colors hover:text-accent"
             >
-              <span className="relative block h-[2.9rem] w-[190px] sm:h-[3.05rem] sm:w-[214px] md:h-[3.25rem] md:w-[238px] lg:h-[3.45rem] lg:w-[258px]">
+              <span className="relative block h-12 w-12 shrink-0 sm:h-14 sm:w-14 md:h-16 md:w-16">
                 <Image
-                  src="/brand/yuvan-logo-lockup-header-light.png"
+                  src="/brand/yuvan-logo-mark-header-light.png"
                   alt=""
                   aria-hidden="true"
                   fill
                   priority
-                  sizes="(max-width: 640px) 190px, (max-width: 1024px) 238px, 258px"
-                  className="block object-contain object-left dark:hidden"
+                  sizes="(max-width: 640px) 48px, (max-width: 1024px) 56px, 64px"
+                  className="block object-contain dark:hidden"
                 />
                 <Image
-                  src="/brand/yuvan-logo-lockup-header-dark.png"
+                  src="/brand/yuvan-logo-mark-header-dark.png"
                   alt=""
                   aria-hidden="true"
                   fill
                   priority
-                  sizes="(max-width: 640px) 190px, (max-width: 1024px) 238px, 258px"
-                  className="hidden object-contain object-left dark:block"
+                  sizes="(max-width: 640px) 48px, (max-width: 1024px) 56px, 64px"
+                  className="hidden object-contain dark:block dark:brightness-110 dark:contrast-125"
                 />
+              </span>
+              <span className="flex min-w-0 flex-col leading-none">
+                <span className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-muted sm:text-[0.74rem] md:text-[0.78rem]">
+                  Yuvan
+                </span>
+                <span className="mt-1 text-[1.45rem] font-semibold tracking-tight text-text sm:text-[1.7rem] md:text-[2rem]">
+                  Physics Lab
+                </span>
               </span>
               <span className="sr-only">Yuvan Physics Lab</span>
             </Link>
 
-            <nav className="hidden items-center justify-center gap-x-5 gap-y-2 px-2 md:flex md:flex-wrap">
+            <nav className="hidden items-center justify-center gap-x-7 gap-y-3 px-2 md:flex md:flex-wrap">
               {publicLinks.map((link) => (
                 <HeaderLink
                   key={link.href}
@@ -139,24 +147,24 @@ export function SiteHeader() {
               ))}
             </nav>
 
-            <div className="flex shrink-0 items-center justify-end gap-2">
+            <div className="flex shrink-0 items-center justify-end gap-3 md:gap-4">
               {!isAuthed ? (
-                <Button href="/login" variant="outline" className="h-9 px-3 text-xs sm:text-sm">
+                <Button href="/login" variant="outline" className="h-10 px-4 text-sm md:h-11 md:text-base">
                   Login
                 </Button>
               ) : null}
-              <ThemeToggle />
+              <ThemeToggle className="h-11 w-11 md:h-12 md:w-12" iconClassName="h-5 w-5" />
               {isAuthed ? (
                 <Link
                   href="/about"
                   aria-label="Profile"
-                  className="inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-border bg-surface transition hover:ring-2 hover:ring-accent/45 hover:ring-offset-2 hover:ring-offset-bg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/55 focus-visible:ring-offset-2 focus-visible:ring-offset-bg sm:h-11 sm:w-11"
+                  className="inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-border bg-surface transition hover:ring-2 hover:ring-accent/45 hover:ring-offset-2 hover:ring-offset-bg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/55 focus-visible:ring-offset-2 focus-visible:ring-offset-bg md:h-14 md:w-14"
                 >
                   <Image
                     src="/images/yuvan-profile.png"
                     alt="Yuvan profile"
-                    width={48}
-                    height={48}
+                    width={56}
+                    height={56}
                     className="h-full w-full object-cover"
                   />
                 </Link>
@@ -178,12 +186,12 @@ export function SiteHeader() {
         </div>
 
         {isAuthed ? (
-          <div className="border-t border-border/75 bg-surface2/55 py-2.5">
-            <nav className="flex flex-wrap items-center gap-x-2 gap-y-2">
+          <div className="border-t border-border/75 bg-surface2/55 py-3">
+            <nav className="flex flex-wrap items-center gap-x-3 gap-y-2.5">
               <Link
                 href="/lab"
                 className={cn(
-                  "rounded-button px-2.5 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:bg-surface hover:text-text",
+                  "rounded-button px-3 py-1.5 text-sm font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:bg-surface hover:text-text",
                   isActive("/lab") && "bg-surface text-text"
                 )}
               >
@@ -192,17 +200,26 @@ export function SiteHeader() {
               <Link
                 href="/lab/new"
                 className={cn(
-                  "rounded-button px-2.5 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:bg-surface hover:text-text",
+                  "rounded-button px-3 py-1.5 text-sm font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:bg-surface hover:text-text",
                   isActive("/lab/new") && "bg-surface text-text"
                 )}
               >
                 New Draft
               </Link>
+              <Link
+                href="/lab/linkedin"
+                className={cn(
+                  "rounded-button px-3 py-1.5 text-sm font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:bg-surface hover:text-text",
+                  isActive("/lab/linkedin") && "bg-surface text-text"
+                )}
+              >
+                LinkedIn
+              </Link>
               {isAdmin ? (
                 <Link
                   href="/lab/editor"
                   className={cn(
-                    "rounded-button px-2.5 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:bg-surface hover:text-text",
+                    "rounded-button px-3 py-1.5 text-sm font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:bg-surface hover:text-text",
                     isActive("/lab/editor") && "bg-surface text-text"
                   )}
                 >
@@ -212,7 +229,7 @@ export function SiteHeader() {
               <Link
                 href={modeHref}
                 className={cn(
-                  "rounded-full border px-2.5 py-1 text-[10px] font-semibold tracking-[0.12em]",
+                  "rounded-full border px-3 py-1.5 text-xs font-semibold tracking-[0.12em]",
                   isLabRoute
                     ? "border-accent/55 bg-accent/10 text-accent"
                     : "border-border text-muted"
@@ -223,7 +240,7 @@ export function SiteHeader() {
               <button
                 type="button"
                 onClick={handleLogout}
-                className="rounded-button px-2.5 py-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:bg-surface hover:text-text"
+                className="rounded-button px-3 py-1.5 text-sm font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:bg-surface hover:text-text"
               >
                 Logout
               </button>

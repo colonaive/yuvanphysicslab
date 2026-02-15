@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { THEME_STORAGE_KEY, type ThemeMode } from "@/lib/theme";
+import { cn } from "@/lib/utils";
 
 function getSystemTheme(): ThemeMode {
   return window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -17,7 +18,12 @@ function applyTheme(theme: ThemeMode) {
   root.style.colorScheme = theme;
 }
 
-export function ThemeToggle() {
+interface ThemeToggleProps {
+  className?: string;
+  iconClassName?: string;
+}
+
+export function ThemeToggle({ className, iconClassName }: ThemeToggleProps) {
   const [theme, setTheme] = useState<ThemeMode>(() => {
     if (typeof document === "undefined") return "light";
     return document.documentElement.classList.contains("dark") ? "dark" : "light";
@@ -61,12 +67,15 @@ export function ThemeToggle() {
       onClick={toggleTheme}
       aria-label={label}
       title={label}
-      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface text-muted transition-colors hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/55 focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+      className={cn(
+        "inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface text-muted transition-colors hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/55 focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
+        className
+      )}
     >
       {theme === "dark" ? (
-        <Sun className="h-4 w-4" />
+        <Sun className={cn("h-4 w-4", iconClassName)} />
       ) : (
-        <Moon className="h-4 w-4" />
+        <Moon className={cn("h-4 w-4", iconClassName)} />
       )}
     </button>
   );
