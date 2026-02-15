@@ -1,4 +1,7 @@
 {
   "task.allowAutomaticTasks": "off",
-  "npm.autoDetect": "off"
+  "npm.autoDetect": "off",
+  "css.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore",
+  "less.lint.unknownAtRules": "ignore"
 }

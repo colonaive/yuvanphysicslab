@@ -1,11 +1,10 @@
-import { verifyLabAuth } from "@/lib/auth";
-import { getSupabaseUser } from "@/lib/supabase/auth";
+import { getLabSession } from "@/lib/auth";
 
 export type LabAdminReason =
   | "ok"
   | "not_authenticated"
   | "allowlist_missing"
-  | "missing_supabase_user"
+  | "missing_session_email"
   | "email_not_allowed";
 
 export interface LabAdminState {
@@ -33,8 +32,8 @@ export function getAdminAllowlist() {
 }
 
 export async function getLabAdminState(): Promise<LabAdminState> {
-  const authenticated = await verifyLabAuth();
-  if (!authenticated) {
+  const session = await getLabSession();
+  if (!session.authenticated) {
     return {
       authenticated: false,
       isAdmin: false,
@@ -48,20 +47,19 @@ export async function getLabAdminState(): Promise<LabAdminState> {
     return {
       authenticated: true,
       isAdmin: false,
-      email: null,
+      email: session.email,
       reason: "allowlist_missing",
     };
   }
 
-  const user = await getSupabaseUser();
-  const email = user?.email ? normalizeEmail(user.email) : null;
+  const email = session.email ? normalizeEmail(session.email) : null;
 
   if (!email) {
     return {
       authenticated: true,
       isAdmin: false,
       email: null,
-      reason: "missing_supabase_user",
+      reason: "missing_session_email",
     };
   }
 

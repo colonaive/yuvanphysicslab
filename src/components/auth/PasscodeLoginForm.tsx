@@ -20,6 +20,7 @@ export function PasscodeLoginForm() {
   );
 
   const [passcode, setPasscode] = useState("");
+  const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPasscode, setShowPasscode] = useState(false);
@@ -33,7 +34,7 @@ export function PasscodeLoginForm() {
       const res = await fetch("/api/lab/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ passcode }),
+        body: JSON.stringify({ email, passcode }),
       });
 
       const data = (await res.json()) as { success?: boolean; error?: string };
@@ -59,11 +60,27 @@ export function PasscodeLoginForm() {
         </div>
         <h1>Private Lab Access</h1>
         <p className="text-sm text-muted">
-          Enter your lab passcode to access private research routes.
+          Enter your admin email and lab passcode to access private research routes.
         </p>
       </div>
 
       <form className="space-y-4" onSubmit={handleSubmit}>
+        <div className="space-y-2">
+          <label htmlFor="email" className="text-sm font-medium">
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            required
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            className="h-11 w-full rounded-button border border-border bg-surface px-3 text-sm text-text focus:outline-none focus:ring-2 focus:ring-accent/35"
+            placeholder="you@example.com"
+            autoComplete="email"
+          />
+        </div>
+
         <div className="space-y-2">
           <label htmlFor="passcode" className="text-sm font-medium">
             Passcode

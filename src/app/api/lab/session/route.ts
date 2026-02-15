@@ -5,6 +5,7 @@ export async function GET() {
   const state = await getLabAdminState();
   return NextResponse.json({
     authenticated: state.authenticated,
+    email: state.email,
     isAdmin: state.isAdmin,
   });
 }
