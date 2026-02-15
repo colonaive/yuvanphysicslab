@@ -1,15 +1,23 @@
 import { Container } from "@/components/site/Container";
 import { ArrowRight } from "lucide-react";
-import { getRecentContent } from "@/lib/mdx";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/Button";
 import { semanticClasses } from "@/theme/tokens";
 import { PublicationCard } from "@/components/content/PublicationCard";
+import { MdxRenderer } from "@/components/content/MdxRenderer";
+import { DraftNotCreated } from "@/components/content/DraftNotCreated";
+import { getPublicHrefForPost } from "@/lib/content-routing";
+import { getPublicPage, listLatestPublicPosts } from "@/lib/content";
+
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const recentContent = await getRecentContent();
-  const latestNote = recentContent.find((item) => item.type === "notes");
-  const latestUpdate = recentContent[0];
+  const [homePage, recentPosts] = await Promise.all([
+    getPublicPage("home"),
+    listLatestPublicPosts({ limit: 6 }),
+  ]);
+  const latestNote = recentPosts.find((item) => item.type === "note");
+  const latestUpdate = recentPosts[0];
 
   return (
     <div className="space-y-0">
@@ -20,17 +28,22 @@ export default async function HomePage() {
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
                 Academic Research Notes
               </p>
-              <h1 className="max-w-3xl">Precision Notes on Physics, Geometry, and Learning Systems</h1>
-              <p className="max-w-2xl text-muted">
-                Yuvan Physics Lab is a modern research platform for formal notes, ongoing
-                investigations, and long-form analysis across gravity, symmetry, and machine
-                intelligence.
-              </p>
+              <h1 className="max-w-3xl">
+                {homePage?.title || "Precision Notes on Physics, Geometry, and Learning Systems"}
+              </h1>
+              {homePage ? (
+                <MdxRenderer
+                  content={homePage.content_mdx}
+                  className="max-w-2xl text-muted [&_p:first-child]:mt-0"
+                />
+              ) : (
+                <DraftNotCreated slug="home" tableName="public_pages" />
+              )}
               <div className="flex flex-wrap gap-3">
                 <Button href="/research">
                   Research Focus <ArrowRight className="h-4 w-4" />
                 </Button>
-                <Button href={latestNote ? `/notes/${latestNote.slug}` : "/notes"} variant="outline">
+                <Button href={latestNote ? getPublicHrefForPost(latestNote) : "/notes"} variant="outline">
                   Read latest note
                 </Button>
                 <Button href="/notes" variant="outline">
@@ -39,7 +52,7 @@ export default async function HomePage() {
               </div>
               {latestUpdate ? (
                 <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted">
-                  Last updated: {format(new Date(latestUpdate.date), "MMMM d, yyyy")}
+                  Last updated: {format(new Date(latestUpdate.published_at ?? latestUpdate.updated_at), "MMMM d, yyyy")}
                 </p>
               ) : null}
             </div>
@@ -116,16 +129,25 @@ export default async function HomePage() {
         <Container className="space-y-6">
           <h2 className={semanticClasses.sectionMarker}>Latest Publications</h2>
           <div className="space-y-4">
-            {recentContent.map((item) => (
+            {recentPosts.map((item) => (
               <PublicationCard
                 key={`${item.type}:${item.slug}`}
-                href={`/${item.type}/${item.slug}`}
-                typeLabel={item.type === "research" ? "Research Paper" : "Research Note"}
+                href={getPublicHrefForPost(item)}
+                typeLabel={
+                  item.type === "paper"
+                    ? "Research Paper"
+                    : item.type === "note"
+                    ? "Research Note"
+                    : "Post"
+                }
                 title={item.title}
-                summary={item.summary}
-                dateLabel={format(new Date(item.date), "MMMM d, yyyy")}
+                summary={item.excerpt || "Fresh content from the lab."}
+                dateLabel={format(new Date(item.published_at ?? item.updated_at), "MMMM d, yyyy")}
               />
             ))}
+            {recentPosts.length === 0 ? (
+              <DraftNotCreated slug="latest-posts" tableName="public_posts" />
+            ) : null}
           </div>
         </Container>
       </section>

@@ -1,26 +1,22 @@
-import { Container } from "@/components/site/Container";
-import { getAllContent, getContentBySlug } from "@/lib/mdx";
+import Link from "next/link";
 import { format } from "date-fns";
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { ArrowLeft, FileText } from "lucide-react";
-import { semanticClasses } from "@/theme/tokens";
 import type { Metadata } from "next";
+import { Container } from "@/components/site/Container";
+import { semanticClasses } from "@/theme/tokens";
+import { MdxRenderer } from "@/components/content/MdxRenderer";
+import { getPublicPost } from "@/lib/content";
+
+export const dynamic = "force-dynamic";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateStaticParams() {
-  const notes = await getAllContent("notes");
-  return notes.map((note) => ({
-    slug: note.slug,
-  }));
-}
-
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const note = await getContentBySlug("notes", slug);
+  const note = await getPublicPost(slug, { type: "note" });
 
   if (!note) {
     return {
@@ -30,20 +26,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   return {
-    title: note.meta.title,
-    description: note.meta.description || note.meta.summary,
+    title: note.title,
+    description: note.excerpt || "Published research note from Yuvan Physics Lab.",
   };
 }
 
 export default async function NotePage({ params }: PageProps) {
   const { slug } = await params;
-  const note = await getContentBySlug("notes", slug);
+  const note = await getPublicPost(slug, { type: "note" });
 
   if (!note) {
     notFound();
   }
-
-  const { meta, content } = note;
 
   return (
     <Container className="space-y-8">
@@ -58,24 +52,16 @@ export default async function NotePage({ params }: PageProps) {
             <FileText className="h-4 w-4 text-accent" />
             Research Note
           </p>
-          <h1>{meta.title}</h1>
+          <h1>{note.title}</h1>
           <div className="flex flex-wrap items-center gap-3 text-sm text-muted">
-            <time>{format(new Date(meta.date), "MMMM d, yyyy")}</time>
+            <time>{format(new Date(note.published_at ?? note.updated_at), "MMMM d, yyyy")}</time>
             <span aria-hidden="true">•</span>
-            <span>{meta.readingTime || "5 min read"}</span>
+            <span>{Math.max(1, Math.round(note.content_mdx.split(/\s+/).length / 220))} min read</span>
           </div>
-          {meta.tags && (
-            <div className="flex flex-wrap gap-2">
-              {meta.tags.map((tag) => (
-                <span key={tag} className="rounded-full border border-border px-2.5 py-0.5 text-xs text-muted">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
+          {note.excerpt ? <p className="text-sm text-muted">{note.excerpt}</p> : null}
         </header>
 
-        <div className="prose-lab">{content}</div>
+        <MdxRenderer content={note.content_mdx} />
       </article>
 
       <p className="border-t border-border pt-6 text-sm italic text-muted">End of note.</p>

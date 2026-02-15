@@ -1,12 +1,18 @@
+import Link from "next/link";
+import { BookOpen } from "lucide-react";
 import { Container } from "@/components/site/Container";
 import { Card } from "@/components/ui/Card";
 import { semanticClasses } from "@/theme/tokens";
-import { readingList } from "@/content/reading-list";
-import { BookOpen } from "lucide-react";
-import Link from "next/link";
 import { SmartBackButton } from "@/components/site/SmartBackButton";
+import { DraftNotCreated } from "@/components/content/DraftNotCreated";
+import { MdxRenderer } from "@/components/content/MdxRenderer";
+import { getPublicPage } from "@/lib/content";
 
-export default function ReadingPage() {
+export const dynamic = "force-dynamic";
+
+export default async function ReadingPage() {
+  const page = await getPublicPage("reading");
+
   return (
     <Container className="space-y-8">
       <SmartBackButton fallbackHref="/" label="Back" />
@@ -16,30 +22,20 @@ export default function ReadingPage() {
           <BookOpen className="h-4 w-4 text-accent" />
           Curated References
         </p>
-        <h1>Reading List</h1>
+        <h1>{page?.title || "Reading List"}</h1>
         <p className="text-muted">
           A focused bibliography that informs current work in spacetime geometry and causality.
         </p>
       </header>
 
       <section className="space-y-4">
-        {readingList.map((item) => (
-          <Card key={item.title} className="space-y-3 p-6">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <h2 className="text-xl leading-tight">
-                <span className="italic">{item.title}</span>
-              </h2>
-              <span className="text-xs text-muted">{item.year}</span>
-            </div>
-            <p className="text-sm text-muted">
-              {item.authors} ({item.year})
-            </p>
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
-              {item.area}
-            </p>
-            <p className="text-sm text-muted">{item.commentary}</p>
+        {page ? (
+          <Card className="p-6">
+            <MdxRenderer content={page.content_mdx} />
           </Card>
-        ))}
+        ) : (
+          <DraftNotCreated slug="reading" tableName="public_pages" />
+        )}
       </section>
 
       <div className="border-t border-border pt-5 text-sm">

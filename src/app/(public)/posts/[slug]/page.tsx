@@ -1,15 +1,12 @@
 import { Container } from "@/components/site/Container";
-import { getPublishedPostBySlug } from "@/lib/posts";
+import { getPublicPost } from "@/lib/content";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
 import { FileText } from "lucide-react";
 import { semanticClasses } from "@/theme/tokens";
 import type { Metadata } from "next";
-import Markdown from "react-markdown";
-import remarkMath from "remark-math";
-import remarkGfm from "remark-gfm";
-import rehypeKatex from "rehype-katex";
 import { SmartBackButton } from "@/components/site/SmartBackButton";
+import { MdxRenderer } from "@/components/content/MdxRenderer";
 
 export const dynamic = "force-dynamic";
 
@@ -19,7 +16,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getPublishedPostBySlug(slug);
+  const post = await getPublicPost(slug, { type: "post" });
 
   if (!post) {
     return {
@@ -37,7 +34,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function PostDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const post = await getPublishedPostBySlug(slug);
+  const post = await getPublicPost(slug, { type: "post" });
 
   if (!post) {
     notFound();
@@ -51,7 +48,7 @@ export default async function PostDetailPage({ params }: PageProps) {
         <header className="space-y-4 border-b border-border pb-8">
           <p className={semanticClasses.sectionMarker}>
             <FileText className="h-4 w-4 text-accent" />
-            Research Note
+            Post
           </p>
           <h1>{post.title}</h1>
           <div className="flex flex-wrap items-center gap-3 text-sm text-muted">
@@ -62,16 +59,12 @@ export default async function PostDetailPage({ params }: PageProps) {
               )}
             </time>
             <span aria-hidden="true">•</span>
-            <span>{Math.max(1, Math.round(post.content_md.split(/\s+/).length / 220))} min read</span>
+            <span>{Math.max(1, Math.round(post.content_mdx.split(/\s+/).length / 220))} min read</span>
           </div>
           {post.excerpt ? <p className="text-sm text-muted">{post.excerpt}</p> : null}
         </header>
 
-        <div className="prose-lab">
-          <Markdown remarkPlugins={[remarkMath, remarkGfm]} rehypePlugins={[rehypeKatex]}>
-            {post.content_md}
-          </Markdown>
-        </div>
+        <MdxRenderer content={post.content_mdx} />
       </article>
     </Container>
   );

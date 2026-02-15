@@ -6,7 +6,8 @@ function isPrivatePath(pathname: string) {
     pathname.startsWith("/draft") ||
     pathname.startsWith("/workbench") ||
     pathname.startsWith("/api/research") ||
-    pathname.startsWith("/api/lab/posts")
+    pathname.startsWith("/api/lab/posts") ||
+    pathname.startsWith("/api/lab/content")
   );
 }
 

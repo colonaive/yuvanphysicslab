@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
-import { verifyLabAuth } from "@/lib/auth";
+import { getLabAdminState } from "@/lib/admin";
 
 export async function GET() {
-  const authenticated = await verifyLabAuth();
-  return NextResponse.json({ authenticated });
+  const state = await getLabAdminState();
+  return NextResponse.json({
+    authenticated: state.authenticated,
+    isAdmin: state.isAdmin,
+  });
 }

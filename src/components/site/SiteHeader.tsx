@@ -9,6 +9,7 @@ import { Container } from "./Container";
 import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { cn } from "@/lib/utils";
+import { getEditorHrefForPath } from "@/lib/content-routing";
 
 const publicLinks = [
   { href: "/research", label: "Research" },
@@ -45,6 +46,7 @@ export function SiteHeader() {
   const pathname = usePathname();
   const router = useRouter();
   const [isAuthed, setIsAuthed] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -54,8 +56,10 @@ export function SiteHeader() {
         const res = await fetch("/api/lab/session", { cache: "no-store" });
         const data = await res.json();
         setIsAuthed(Boolean(data.authenticated));
+        setIsAdmin(Boolean(data.isAdmin));
       } catch {
         setIsAuthed(false);
+        setIsAdmin(false);
       }
     };
     loadSession();
@@ -76,9 +80,11 @@ export function SiteHeader() {
   const isLabRoute = Boolean(pathname?.startsWith("/lab"));
   const modeLabel = isLabRoute ? "LAB MODE" : "PUBLIC VIEW";
   const modeHref = isLabRoute ? "/" : "/lab";
+  const editorHref = isAuthed && isAdmin ? getEditorHrefForPath(pathname) : null;
 
   const handleLogout = async () => {
     setIsAuthed(false);
+    setIsAdmin(false);
     setIsMobileOpen(false);
     router.push("/logout");
   };
@@ -147,6 +153,17 @@ export function SiteHeader() {
                 >
                   New Draft
                 </Link>
+                {isAdmin ? (
+                  <Link
+                    href="/lab/editor"
+                    className={cn(
+                      "whitespace-nowrap text-xs font-medium uppercase tracking-[0.08em] text-muted transition-colors hover:text-text",
+                      isActive("/lab/editor") && "text-text"
+                    )}
+                  >
+                    CMS
+                  </Link>
+                ) : null}
                 <button
                   type="button"
                   onClick={handleLogout}
@@ -160,17 +177,24 @@ export function SiteHeader() {
 
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             {isAuthed ? (
-              <Link
-                href={modeHref}
-                className={cn(
-                  "hidden rounded-full border px-2.5 py-1 text-[10px] font-semibold tracking-[0.12em] sm:inline-flex",
-                  isLabRoute
-                    ? "border-accent/55 bg-accent/10 text-accent"
-                    : "border-border text-muted"
-                )}
-              >
-                {modeLabel}
-              </Link>
+              <div className="hidden items-center gap-2 sm:flex">
+                {editorHref ? (
+                  <Button href={editorHref} variant="outline" className="h-9 px-3 text-xs">
+                    Edit
+                  </Button>
+                ) : null}
+                <Link
+                  href={modeHref}
+                  className={cn(
+                    "rounded-full border px-2.5 py-1 text-[10px] font-semibold tracking-[0.12em]",
+                    isLabRoute
+                      ? "border-accent/55 bg-accent/10 text-accent"
+                      : "border-border text-muted"
+                  )}
+                >
+                  {modeLabel}
+                </Link>
+              </div>
             ) : (
               <Button
                 href="/login"
@@ -261,6 +285,27 @@ export function SiteHeader() {
                 >
                   New Draft
                 </Link>
+                {isAdmin ? (
+                  <Link
+                    href="/lab/editor"
+                    onClick={() => setIsMobileOpen(false)}
+                    className={cn(
+                      "block rounded-button px-2.5 py-2 text-xs font-medium uppercase tracking-[0.08em] text-muted transition-colors hover:bg-surface2 hover:text-text",
+                      isActive("/lab/editor") && "bg-surface2 text-text"
+                    )}
+                  >
+                    CMS
+                  </Link>
+                ) : null}
+                {editorHref ? (
+                  <Link
+                    href={editorHref}
+                    onClick={() => setIsMobileOpen(false)}
+                    className="block rounded-button px-2.5 py-2 text-xs font-medium uppercase tracking-[0.08em] text-muted transition-colors hover:bg-surface2 hover:text-text"
+                  >
+                    Edit This Page
+                  </Link>
+                ) : null}
                 <button
                   type="button"
                   onClick={handleLogout}
