@@ -99,8 +99,8 @@ export function SiteHeader() {
     >
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-accent/10" />
       <Container className="max-w-[84rem]">
-        <div className="py-3 md:py-4">
-          <div className="flex items-center justify-between gap-4 md:grid md:grid-cols-[auto_1fr_auto] md:gap-8">
+        <div className="py-4 md:py-5">
+          <div className="flex items-center justify-between gap-4 md:grid md:grid-cols-[auto_1fr_auto] md:gap-10">
             <Link
               href="/"
               aria-label="Yuvan Physics Lab home"
@@ -114,7 +114,7 @@ export function SiteHeader() {
                   height={185}
                   priority
                   quality={100}
-                  className="block h-12 w-auto max-w-[min(78vw,24rem)] object-contain dark:hidden md:h-14"
+                  className="block h-[3.75rem] w-auto max-w-[min(80vw,30rem)] object-contain dark:hidden md:h-[4.5rem]"
                 />
                 <Image
                   src="/brand/ypl-logo-lockup-header-dark.png"
@@ -123,7 +123,7 @@ export function SiteHeader() {
                   height={185}
                   priority
                   quality={100}
-                  className="hidden h-12 w-auto max-w-[min(78vw,24rem)] object-contain dark:block md:h-14"
+                  className="hidden h-[3.75rem] w-auto max-w-[min(80vw,30rem)] object-contain dark:block md:h-[4.5rem]"
                 />
               </span>
             </Link>
@@ -141,16 +141,16 @@ export function SiteHeader() {
 
             <div className="flex shrink-0 items-center justify-end gap-3 md:gap-4">
               {!isAuthed ? (
-                <Button href="/login" variant="outline" className="h-10 px-4 text-sm md:h-11 md:text-base">
+                <Button href="/login" variant="outline" className="h-11 px-4 text-sm md:h-12 md:text-base">
                   Login
                 </Button>
               ) : null}
-              <ThemeToggle className="h-11 w-11 md:h-12 md:w-12" iconClassName="h-5 w-5" />
+              <ThemeToggle className="h-12 w-12 md:h-14 md:w-14" iconClassName="h-5 w-5 md:h-6 md:w-6" />
               {isAuthed ? (
                 <Link
                   href="/about"
                   aria-label="Profile"
-                  className="inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-border bg-surface transition hover:ring-2 hover:ring-accent/45 hover:ring-offset-2 hover:ring-offset-bg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/55 focus-visible:ring-offset-2 focus-visible:ring-offset-bg md:h-14 md:w-14"
+                  className="inline-flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border border-border bg-surface transition hover:ring-2 hover:ring-accent/45 hover:ring-offset-2 hover:ring-offset-bg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/55 focus-visible:ring-offset-2 focus-visible:ring-offset-bg md:h-16 md:w-16"
                 >
                   {profileImageError ? (
                     <span className="inline-flex h-full w-full items-center justify-center bg-surface2 text-sm font-semibold text-text">
@@ -170,7 +170,7 @@ export function SiteHeader() {
               ) : (
                 <span
                   aria-label="Profile placeholder"
-                  className="inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-border/80 bg-surface/70 md:h-14 md:w-14"
+                  className="inline-flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border border-border/80 bg-surface/70 md:h-16 md:w-16"
                 >
                   {profileImageError ? (
                     <span className="inline-flex h-full w-full items-center justify-center bg-surface2 text-sm font-semibold text-muted">
