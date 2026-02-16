@@ -40,8 +40,8 @@ export const metadata: Metadata = {
       {
         url: "/brand/whatsapp-og.png",
         width: 1200,
-        height: 630,
-        alt: "Yuvan Physics Lab",
+        height: 1200,
+        alt: "Yuvan Physics Lab diamond mark",
       },
     ],
   },
