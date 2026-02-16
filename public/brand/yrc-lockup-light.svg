@@ -1,33 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 120">
   <defs>
     <style>
-      @font-face {
-        font-family: 'Times New Roman';
-        src: local('Times New Roman');
-      }
-      @font-face {
-        font-family: 'Arial';
-        src: local('Arial');
-      }
+      .serif { font-family: 'Times New Roman', Georgia, serif; font-weight: bold; }
+      .sans { font-family: Arial, Helvetica, sans-serif; font-weight: bold; }
     </style>
   </defs>
-  
-  <!-- Group the whole thing to center it vertically if needed, but 120 height is tight -->
-  <!-- Mark on Left. Center of mark should be around x=60 (half height) to be square-ish? -->
-  <!-- Let's place Mark centered at x=60, y=60. Size = 100x100 visual weight -->
-  
-  <g transform="translate(10, 10)">
-      <!-- Diamond scaled down. Original was 300 side. Scale by 0.33 -> 100 side -->
-      <!-- Center at 50, 50 within this group -->
-      <rect x="15" y="15" width="70" height="70" transform="rotate(45 50 50)" fill="#0B1F3B"/>
-      <text x="50" y="54" dominant-baseline="middle" text-anchor="middle" font-family="'Times New Roman', Georgia, serif" font-weight="bold" font-size="30" fill="#C9A24A" letter-spacing="1">YRC</text>
+  <!-- Mark Group: Centered vertically at y=60 -->
+  <!-- Mark: Diamond side 58 (visual width ~82). Centered at x=50. -->
+  <g transform="translate(50, 60)">
+      <rect x="-29" y="-29" width="58" height="58" transform="rotate(45)" fill="#0B1F3B"/>
+      <text x="0" y="2" dominant-baseline="middle" text-anchor="middle" class="serif" font-size="24" fill="#C9A24A" letter-spacing="1">YRC</text>
   </g>
-
-  <!-- Text Block. Start x = 120. Vertical Center = 60 -->
-  <!-- Main Title: YRC Physics Lab -->
-  <text x="120" y="55" font-family="'Times New Roman', Georgia, serif" font-weight="bold" font-size="44" fill="#0B1F3B">YRC Physics Lab</text>
   
-  <!-- Tagline: Geometry • Causality • Learning -->
-  <!-- Smaller sans serif, widely spaced -->
-  <text x="122" y="85" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="14" letter-spacing="2" fill="#334155" text-transform="uppercase">Geometry • Causality • Learning</text>
+  <!-- Text Block -->
+  <!-- Mark Width ~82. Half is 41. Center x=50. Right edge x=91. -->
+  <!-- Gap 8px (~10%). Start Text x=99. -->
+  <!-- Center y=60. -->
+  <!-- Line 1: Size 42. Baseline ~55. -->
+  <!-- Line 2: Size 13. Baseline ~82. -->
+  <text x="105" y="55" class="serif" font-size="42" fill="#0B1F3B">YRC Physics Lab</text>
+  <text x="107" y="82" class="sans" font-size="13" letter-spacing="2.5" fill="#334155" text-transform="uppercase">Geometry • Causality • Learning</text>
 </svg>

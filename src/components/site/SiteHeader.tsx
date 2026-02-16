@@ -108,7 +108,7 @@ export function SiteHeader() {
                   src="/brand/yrc-lockup-header-light.png"
                   alt="YRC Physics Lab"
                   width={1400}
-                  height={120}
+                  height={210}
                   className="block h-[52px] w-auto max-w-[min(90vw,44rem)] object-contain dark:hidden md:h-[60px]"
                   style={{ width: "auto" }}
                 />
@@ -116,7 +116,7 @@ export function SiteHeader() {
                   src="/brand/yrc-lockup-header-dark.png"
                   alt="YRC Physics Lab"
                   width={1400}
-                  height={120}
+                  height={210}
                   className="hidden h-[52px] w-auto max-w-[min(90vw,44rem)] object-contain dark:block md:h-[60px]"
                   style={{ width: "auto" }}
                 />

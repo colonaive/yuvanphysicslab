@@ -1,23 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 120">
   <defs>
     <style>
-      @font-face {
-        font-family: 'Times New Roman';
-        src: local('Times New Roman');
-      }
-      @font-face {
-        font-family: 'Arial';
-        src: local('Arial');
-      }
+      .serif { font-family: 'Times New Roman', Georgia, serif; font-weight: bold; }
+      .sans { font-family: Arial, Helvetica, sans-serif; font-weight: bold; }
     </style>
   </defs>
-  
-  <g transform="translate(10, 10)">
-      <rect x="15" y="15" width="70" height="70" transform="rotate(45 50 50)" fill="#C9A24A"/>
-      <text x="50" y="54" dominant-baseline="middle" text-anchor="middle" font-family="'Times New Roman', Georgia, serif" font-weight="bold" font-size="30" fill="#0B1F3B" letter-spacing="1">YRC</text>
+  <!-- Mark Group: Centered vertically at y=60 -->
+  <g transform="translate(50, 60)">
+      <rect x="-29" y="-29" width="58" height="58" transform="rotate(45)" fill="#C9A24A"/>
+      <text x="0" y="2" dominant-baseline="middle" text-anchor="middle" class="serif" font-size="24" fill="#0B1F3B" letter-spacing="1">YRC</text>
   </g>
-
-  <text x="120" y="55" font-family="'Times New Roman', Georgia, serif" font-weight="bold" font-size="44" fill="#F4F0E6">YRC Physics Lab</text>
   
-  <text x="122" y="85" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="14" letter-spacing="2" fill="#F4F0E6" text-transform="uppercase">Geometry • Causality • Learning</text>
+  <!-- Text Block -->
+  <text x="105" y="55" class="serif" font-size="42" fill="#F4F0E6">YRC Physics Lab</text>
+  <text x="107" y="82" class="sans" font-size="13" letter-spacing="2.5" fill="#F4F0E6" text-transform="uppercase">Geometry • Causality • Learning</text>
 </svg>
