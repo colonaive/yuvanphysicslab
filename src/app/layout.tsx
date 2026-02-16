@@ -23,17 +23,33 @@ const bodyFont = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://yuvan-physics-lab.netlify.app"),
   title: {
-    default: "Yuvan's Lab",
-    template: "%s | Yuvan's Lab",
+    default: "Yuvan Physics Lab",
+    template: "%s | Yuvan Physics Lab",
   },
   description: "Digital garden exploring Physics, Geometry, and Machine Learning.",
   openGraph: {
-    title: "Yuvan's Lab",
+    title: "Yuvan Physics Lab",
     description: "Digital garden exploring Physics, Geometry, and Machine Learning.",
     type: "website",
     locale: "en_US",
     siteName: "Yuvan Physics Lab",
+    url: "/",
+    images: [
+      {
+        url: "/brand/whatsapp-og.png",
+        width: 1200,
+        height: 630,
+        alt: "Yuvan Physics Lab",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Yuvan Physics Lab",
+    description: "Digital garden exploring Physics, Geometry, and Machine Learning.",
+    images: ["/brand/whatsapp-og.png"],
   },
   appleWebApp: {
     capable: true,
