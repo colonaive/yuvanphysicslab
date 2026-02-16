@@ -3,7 +3,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Container } from "./Container";
 import { Button } from "@/components/ui/Button";
@@ -46,7 +45,6 @@ export function SiteHeader() {
   const router = useRouter();
   const [isAuthed, setIsAuthed] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [profileImageError, setProfileImageError] = useState(false);
 
@@ -84,7 +82,6 @@ export function SiteHeader() {
   const handleLogout = async () => {
     setIsAuthed(false);
     setIsAdmin(false);
-    setIsMobileOpen(false);
     router.push("/logout");
   };
 
@@ -92,7 +89,7 @@ export function SiteHeader() {
     <header
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-200 backdrop-blur-[12px]",
-        isScrolled || isMobileOpen
+        isScrolled
           ? "border-b border-border bg-[rgba(245,246,248,0.88)] shadow-[0_8px_22px_-18px_rgba(15,23,42,0.35)] dark:bg-[rgba(11,18,32,0.74)]"
           : "border-b border-border/70 bg-[rgba(245,246,248,0.72)] dark:bg-[rgba(11,18,32,0.55)]"
       )}
@@ -200,21 +197,25 @@ export function SiteHeader() {
                   </Button>
                 ) : null}
               </div>
-
-              <button
-                type="button"
-                aria-label={isMobileOpen ? "Close menu" : "Open menu"}
-                onClick={() => setIsMobileOpen((open) => !open)}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface text-muted transition-colors hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/55 focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
-              >
-                {isMobileOpen ? (
-                  <X className="h-4 w-4" />
-                ) : (
-                  <Menu className="h-4 w-4" />
-                )}
-              </button>
             </div>
           </div>
+        </div>
+
+        <div className="border-t border-border/75 py-2.5 md:hidden">
+          <nav className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-2">
+            {publicLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={cn(
+                  "rounded-button px-2.5 py-1.5 text-sm font-semibold text-muted transition-colors hover:bg-surface2 hover:text-text",
+                  isActive(link.href) && "bg-surface2 text-text"
+                )}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
         </div>
 
         {isAuthed ? (
@@ -276,26 +277,6 @@ export function SiteHeader() {
               >
                 Logout
               </button>
-            </nav>
-          </div>
-        ) : null}
-
-        {isMobileOpen ? (
-          <div className="border-t border-border/75 py-3 md:hidden">
-            <nav className="space-y-1">
-              {publicLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsMobileOpen(false)}
-                  className={cn(
-                    "block rounded-button px-2.5 py-2 text-sm font-medium text-muted transition-colors hover:bg-surface2 hover:text-text",
-                    isActive(link.href) && "bg-surface2 text-text"
-                  )}
-                >
-                  {link.label}
-                </Link>
-              ))}
             </nav>
           </div>
         ) : null}
