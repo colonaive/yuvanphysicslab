@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   return {
     title: post.title,
-    description: post.excerpt || "Research paper from Yuvan Physics Lab.",
+    description: post.excerpt || "Research paper from YRC Physics Lab.",
   };
 }
 

@@ -59,9 +59,9 @@ export const metadata: Metadata = {
     siteName: "YRC Physics Lab",
     images: [
       {
-        url: "/brand/yrc-lockup-header-light.png",
-        width: 446,
-        height: 120,
+        url: "/brand/yrc-og.png",
+        width: 1200,
+        height: 630,
         alt: "YRC Physics Lab",
       },
     ],
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     title: "YRC Physics Lab | Geometry, Causality & Learning",
     description:
       "A formal research notebook on geometry, causal structure, chronology protection, and machine learning in theoretical physics.",
-    images: ["/brand/yrc-lockup-header-light.png"],
+    images: ["/brand/yrc-og.png"],
   },
   appleWebApp: {
     capable: true,

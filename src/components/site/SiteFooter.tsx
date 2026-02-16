@@ -27,7 +27,7 @@ export function SiteFooter() {
           </div>
           <div className="space-y-1 text-xs md:text-right">
             <p>Last updated: {lastUpdated}</p>
-            <p>© {new Date().getFullYear()} Yuvan Physics Lab</p>
+            <p>© {new Date().getFullYear()} YRC Physics Lab</p>
           </div>
         </div>
       </Container>

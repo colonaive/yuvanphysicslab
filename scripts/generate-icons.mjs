@@ -78,6 +78,15 @@ const run = async () => {
     background: { r: 0, g: 0, b: 0, alpha: 0 },
   });
   console.log(`generated ${path.relative(rootDir, lockupDarkPngPath)}`);
+
+  const ogPath = path.join(brandDir, "yrc-og.png");
+  await toPng(lockupDarkPath, ogPath, {
+    width: 1200,
+    height: 630,
+    fit: "contain",
+    background: { r: 11, g: 31, b: 58, alpha: 1 }, // #0B1F3A
+  });
+  console.log(`generated ${path.relative(rootDir, ogPath)}`);
 };
 
 run().catch((error) => {
