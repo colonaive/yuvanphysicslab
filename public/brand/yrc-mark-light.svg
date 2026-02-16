@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-label="YRC Physics Lab mark light">
+  <g fill="none" stroke-linejoin="round" stroke-linecap="round">
+    <polygon points="256 18 494 256 256 494 18 256" fill="#102a56" stroke="#c7a35f" stroke-width="18"/>
+    <polygon points="256 68 444 256 256 444 68 256" stroke="#e1c78f" stroke-width="11"/>
+  </g>
+  <text
+    x="256"
+    y="314"
+    text-anchor="middle"
+    font-family="'Times New Roman', 'Cormorant Garamond', serif"
+    font-size="150"
+    font-weight="600"
+    letter-spacing="2"
+    fill="#f4e7c9"
+  >YRC</text>
+</svg>

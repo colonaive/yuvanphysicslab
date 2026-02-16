@@ -59,9 +59,9 @@ export const metadata: Metadata = {
     siteName: "YRC Physics Lab",
     images: [
       {
-        url: "/brand/ypl-logo-lockup-header-light-clean.png",
-        width: 1200,
-        height: 630,
+        url: "/brand/yrc-lockup-header-light.png",
+        width: 446,
+        height: 120,
         alt: "YRC Physics Lab",
       },
     ],
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     title: "YRC Physics Lab | Geometry, Causality & Learning",
     description:
       "A formal research notebook on geometry, causal structure, chronology protection, and machine learning in theoretical physics.",
-    images: ["/brand/ypl-logo-lockup-header-light-clean.png"],
+    images: ["/brand/yrc-lockup-header-light.png"],
   },
   appleWebApp: {
     capable: true,
@@ -81,13 +81,31 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon.ico" },
-      { url: "/icon-16.png", sizes: "16x16", type: "image/png" },
-      { url: "/icon-32.png", sizes: "32x32", type: "image/png" },
-      { url: "/icon-128.png", sizes: "128x128", type: "image/png" },
-      { url: "/icon-256.png", sizes: "256x256", type: "image/png" },
-      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+      { url: "/icons/favicon-16.png", sizes: "16x16", type: "image/png" },
+      { url: "/icons/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icons/icon-64.png", sizes: "64x64", type: "image/png" },
     ],
-    apple: "/icon-512.png",
+    apple: [
+      {
+        url: "/icons/apple-touch-icon.png",
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
+    other: [
+      {
+        rel: "icon",
+        url: "/icons/android-chrome-192x192.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
+      {
+        rel: "icon",
+        url: "/icons/android-chrome-512x512.png",
+        sizes: "512x512",
+        type: "image/png",
+      },
+    ],
   },
   manifest: "/manifest.json",
 };

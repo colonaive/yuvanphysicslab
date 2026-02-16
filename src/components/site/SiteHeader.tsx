@@ -104,23 +104,21 @@ export function SiteHeader() {
               className="inline-flex shrink-0 items-center gap-3 text-sm font-semibold tracking-wide text-text"
             >
               <span className="flex items-center">
-                <Image
-                  src="/brand/ypl-logo-lockup-header-light.png"
+                <img
+                  src="/brand/yrc-lockup-light.svg"
                   alt="YRC Physics Lab"
-                  width={460}
-                  height={185}
-                  priority
-                  quality={100}
-                  className="block h-[4.75rem] w-auto max-w-[min(90vw,40rem)] object-contain dark:hidden md:h-[7rem]"
+                  width={1560}
+                  height={420}
+                  className="block h-12 w-auto max-w-[min(90vw,44rem)] object-contain dark:hidden md:h-14"
+                  style={{ width: "auto" }}
                 />
-                <Image
-                  src="/brand/ypl-logo-lockup-header-dark.png"
+                <img
+                  src="/brand/yrc-lockup-dark.svg"
                   alt="YRC Physics Lab"
-                  width={460}
-                  height={185}
-                  priority
-                  quality={100}
-                  className="hidden h-[4.75rem] w-auto max-w-[min(90vw,40rem)] object-contain dark:block md:h-[7rem]"
+                  width={1560}
+                  height={420}
+                  className="hidden h-12 w-auto max-w-[min(90vw,44rem)] object-contain dark:block md:h-14"
+                  style={{ width: "auto" }}
                 />
               </span>
             </Link>
