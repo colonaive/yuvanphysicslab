@@ -23,10 +23,13 @@ const bodyFont = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://yuvan-physics-lab.netlify.app"),
-  title: "Yuvan Physics Lab | Geometry · Causality · Learning",
+  metadataBase: new URL("https://yrcphysics.com"),
+  title: {
+    default: "YRC Physics Lab | Geometry, Causality & Learning",
+    template: "%s | YRC Physics Lab",
+  },
   description:
-    "A formal research notebook exploring chronology protection, geometry, causal structure, and machine learning in theoretical physics.",
+    "A formal research notebook on geometry, causal structure, chronology protection, and machine learning in theoretical physics.",
   keywords: [
     "chronology protection",
     "causal structure",
@@ -38,29 +41,37 @@ export const metadata: Metadata = {
   authors: [{ name: "Yuvan Raam Chandra" }],
   creator: "Yuvan Raam Chandra",
   alternates: {
-    canonical: "/",
+    canonical: "https://yrcphysics.com",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
   },
   openGraph: {
-    title: "Yuvan Physics Lab",
+    title: "YRC Physics Lab | Geometry, Causality & Learning",
     description:
-      "Formal research notes on geometry, causality, chronology protection, and structured scientific learning.",
-    url: "https://yuvan-physics-lab.netlify.app",
-    siteName: "Yuvan Physics Lab",
+      "A formal research notebook on geometry, causal structure, chronology protection, and machine learning in theoretical physics.",
+    url: "https://yrcphysics.com",
+    siteName: "YRC Physics Lab",
     images: [
       {
         url: "/brand/ypl-logo-lockup-header-light-clean.png",
         width: 1200,
         height: 630,
-        alt: "Yuvan Physics Lab",
+        alt: "YRC Physics Lab",
       },
     ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Yuvan Physics Lab",
+    title: "YRC Physics Lab | Geometry, Causality & Learning",
     description:
-      "Research notes on geometry, causality, chronology protection, and learning systems.",
+      "A formal research notebook on geometry, causal structure, chronology protection, and machine learning in theoretical physics.",
     images: ["/brand/ypl-logo-lockup-header-light-clean.png"],
   },
   appleWebApp: {

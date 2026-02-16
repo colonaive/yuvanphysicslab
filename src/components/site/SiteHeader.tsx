@@ -100,13 +100,13 @@ export function SiteHeader() {
           <div className="flex items-center justify-between gap-4 md:grid md:grid-cols-[auto_1fr_auto] md:gap-12">
             <Link
               href="/"
-              aria-label="Yuvan Physics Lab home"
+              aria-label="YRC Physics Lab home"
               className="inline-flex shrink-0 items-center gap-3 text-sm font-semibold tracking-wide text-text"
             >
               <span className="flex items-center">
                 <Image
                   src="/brand/ypl-logo-lockup-header-light.png"
-                  alt="Yuvan Physics Lab"
+                  alt="YRC Physics Lab"
                   width={460}
                   height={185}
                   priority
@@ -115,7 +115,7 @@ export function SiteHeader() {
                 />
                 <Image
                   src="/brand/ypl-logo-lockup-header-dark.png"
-                  alt="Yuvan Physics Lab"
+                  alt="YRC Physics Lab"
                   width={460}
                   height={185}
                   priority
