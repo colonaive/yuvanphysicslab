@@ -24,32 +24,44 @@ const bodyFont = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://yuvan-physics-lab.netlify.app"),
-  title: {
-    default: "Yuvan Physics Lab",
-    template: "%s | Yuvan Physics Lab",
+  title: "Yuvan Physics Lab | Geometry · Causality · Learning",
+  description:
+    "A formal research notebook exploring chronology protection, geometry, causal structure, and machine learning in theoretical physics.",
+  keywords: [
+    "chronology protection",
+    "causal structure",
+    "geometry in physics",
+    "theoretical physics research",
+    "machine learning and geometry",
+    "young physics researcher",
+  ],
+  authors: [{ name: "Yuvan Raam Chandra" }],
+  creator: "Yuvan Raam Chandra",
+  alternates: {
+    canonical: "/",
   },
-  description: "Digital garden exploring Physics, Geometry, and Machine Learning.",
   openGraph: {
     title: "Yuvan Physics Lab",
-    description: "Digital garden exploring Physics, Geometry, and Machine Learning.",
-    type: "website",
-    locale: "en_US",
+    description:
+      "Formal research notes on geometry, causality, chronology protection, and structured scientific learning.",
+    url: "https://yuvan-physics-lab.netlify.app",
     siteName: "Yuvan Physics Lab",
-    url: "/",
     images: [
       {
-        url: "/brand/whatsapp-og.png",
+        url: "/brand/ypl-logo-lockup-header-light-clean.png",
         width: 1200,
-        height: 1200,
-        alt: "Yuvan Physics Lab diamond mark",
+        height: 630,
+        alt: "Yuvan Physics Lab",
       },
     ],
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Yuvan Physics Lab",
-    description: "Digital garden exploring Physics, Geometry, and Machine Learning.",
-    images: ["/brand/whatsapp-og.png"],
+    description:
+      "Research notes on geometry, causality, chronology protection, and learning systems.",
+    images: ["/brand/ypl-logo-lockup-header-light-clean.png"],
   },
   appleWebApp: {
     capable: true,

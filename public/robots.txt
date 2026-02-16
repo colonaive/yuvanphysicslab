@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://yuvan-physics-lab.netlify.app/sitemap.xml
