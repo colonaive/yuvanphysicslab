@@ -1,4 +1,4 @@
-# Yuvan Physics Lab
+# YRC Physics Lab
 
 A digital physics research site built with Next.js (App Router), TypeScript, Tailwind CSS, KaTeX, and MDX. Public pages are journal-style; a private lab workspace is also included.
 
@@ -72,4 +72,4 @@ This project is configured for Netlify deployment with `@netlify/plugin-nextjs`.
 - `supabase/migrations`: SQL migrations including `posts` schema + RLS.
 
 ## License
-&copy; 2026 Yuvan. All rights reserved.
+&copy; 2026 YRC Physics Lab. All rights reserved.

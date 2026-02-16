@@ -1,8 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 160">
-  <g transform="translate(20, 20)">
-      <rect x="60" y="0" width="84.85" height="84.85" transform="rotate(45 60 60)" fill="#C8A44D"/>
-      <text x="60" y="68" dominant-baseline="middle" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-weight="bold" font-size="42" fill="#0B1F3A">YRC</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 120">
+  <defs>
+    <style>
+      @font-face {
+        font-family: 'Times New Roman';
+        src: local('Times New Roman');
+      }
+      @font-face {
+        font-family: 'Arial';
+        src: local('Arial');
+      }
+    </style>
+  </defs>
+  
+  <g transform="translate(10, 10)">
+      <rect x="15" y="15" width="70" height="70" transform="rotate(45 50 50)" fill="#C9A24A"/>
+      <text x="50" y="54" dominant-baseline="middle" text-anchor="middle" font-family="'Times New Roman', Georgia, serif" font-weight="bold" font-size="30" fill="#0B1F3B" letter-spacing="1">YRC</text>
   </g>
-  <text x="140" y="75" font-family="Georgia, 'Times New Roman', serif" font-weight="bold" font-size="64" fill="#F4F0E6">Physics Lab</text>
-  <text x="142" y="110" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="20" letter-spacing="3" fill="#F4F0E6" text-transform="uppercase">Geometry • Causality • Learning</text>
+
+  <text x="120" y="55" font-family="'Times New Roman', Georgia, serif" font-weight="bold" font-size="44" fill="#F4F0E6">YRC Physics Lab</text>
+  
+  <text x="122" y="85" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="14" letter-spacing="2" fill="#F4F0E6" text-transform="uppercase">Geometry • Causality • Learning</text>
 </svg>

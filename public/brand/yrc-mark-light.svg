@@ -1,4 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect x="256" y="32" width="316.78" height="316.78" transform="rotate(45 256 256)" fill="#0B1F3A"/>
-  <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-weight="bold" font-size="160" fill="#C8A44D">YRC</text>
+  <defs>
+    <style>
+      @font-face {
+        font-family: 'Times New Roman';
+        src: local('Times New Roman');
+      }
+    </style>
+  </defs>
+  <!-- Diamond: Center (256, 256), Width 360 (approx 70% of 512), Rotated 45 degrees -->
+  <!-- Mathematical check: 360/sqrt(2) = 254.5 side length visual -->
+  <!-- Let's use a slightly smaller square to ensure 40px padding. -->
+  <!-- Max width = 512 - 80 = 432. Diagonal = 432. Side = 432 / sqrt(2) = 305.47 -->
+  <!-- Let's use side length 300 for safety. -->
+  <rect x="106" y="106" width="300" height="300" transform="rotate(45 256 256)" fill="#C9A24A"/>
+  
+  <!-- Text: Centered at (256, 256). Font: Bold Serif. Color: Navy #0B1F3B -->
+  <!-- YRC text block. Tracking/Kerning adjusted manually if needed -->
+  <text x="256" y="272" dominant-baseline="middle" text-anchor="middle" font-family="'Times New Roman', Georgia, serif" font-weight="bold" font-size="130" fill="#0B1F3B" letter-spacing="4">YRC</text>
 </svg>

@@ -105,19 +105,19 @@ export function SiteHeader() {
             >
               <span className="flex items-center">
                 <img
-                  src="/brand/yrc-lockup-light.svg"
+                  src="/brand/yrc-lockup-header-light.png"
                   alt="YRC Physics Lab"
-                  width={1560}
-                  height={420}
-                  className="block h-12 w-auto max-w-[min(90vw,44rem)] object-contain dark:hidden md:h-14"
+                  width={1400}
+                  height={120}
+                  className="block h-[52px] w-auto max-w-[min(90vw,44rem)] object-contain dark:hidden md:h-[60px]"
                   style={{ width: "auto" }}
                 />
                 <img
-                  src="/brand/yrc-lockup-dark.svg"
+                  src="/brand/yrc-lockup-header-dark.png"
                   alt="YRC Physics Lab"
-                  width={1560}
-                  height={420}
-                  className="hidden h-12 w-auto max-w-[min(90vw,44rem)] object-contain dark:block md:h-14"
+                  width={1400}
+                  height={120}
+                  className="hidden h-[52px] w-auto max-w-[min(90vw,44rem)] object-contain dark:block md:h-[60px]"
                   style={{ width: "auto" }}
                 />
               </span>

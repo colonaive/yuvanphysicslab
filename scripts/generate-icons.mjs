@@ -42,8 +42,17 @@ const run = async () => {
     { file: "apple-touch-icon.png", size: 180 },
   ];
 
+  // PART C: Rebuild Favicons from MARK ONLY
+  // Use light mark (Gold/Navy) as it often has better contrast on tabs, or Dark mark if preferred.
+  // User requested "ensure good contrast... if needed use light mark".
+  // Let's use yrc-mark-light.svg (Gold Diamond, Navy Text) which is distinct.
+  // Important: Add padding so it doesn't touch edges.
   for (const { file, size } of iconSizes) {
     const outPath = path.join(iconsDir, file);
+    // Padding logic: input SVG is 512x512 with some padding built-in (diamond is 300 wide).
+    // so we can resize directly to 'fit: contain' and it should be safe.
+    // If we want EXTRA padding for rounded icon styles (android/apple), we might want margin.
+    // For now, standard fit is likely okay as the SVG itself has padding.
     await toPng(markLightPath, outPath, {
       width: size,
       height: size,
@@ -63,9 +72,13 @@ const run = async () => {
   await writeFile(faviconIcoPath, faviconIco);
   console.log(`generated ${path.relative(rootDir, faviconIcoPath)}`);
 
+  // PART B: Export Clean PNGs for Header
+  // Height 120 is maybe too small for high-res displays.
+  // User asked for width ~1200-1600px.
+  // Let's set width to 1400px.
   const lockupLightPngPath = path.join(brandDir, "yrc-lockup-header-light.png");
   await toPng(lockupLightPath, lockupLightPngPath, {
-    height: 120,
+    width: 1400,
     fit: "contain",
     background: { r: 0, g: 0, b: 0, alpha: 0 },
   });
@@ -73,18 +86,19 @@ const run = async () => {
 
   const lockupDarkPngPath = path.join(brandDir, "yrc-lockup-header-dark.png");
   await toPng(lockupDarkPath, lockupDarkPngPath, {
-    height: 120,
+    width: 1400,
     fit: "contain",
     background: { r: 0, g: 0, b: 0, alpha: 0 },
   });
   console.log(`generated ${path.relative(rootDir, lockupDarkPngPath)}`);
 
+  // OG Image (Dark background, centered lockup)
   const ogPath = path.join(brandDir, "yrc-og.png");
   await toPng(lockupDarkPath, ogPath, {
     width: 1200,
     height: 630,
     fit: "contain",
-    background: { r: 11, g: 31, b: 58, alpha: 1 }, // #0B1F3A
+    background: { r: 11, g: 31, b: 59, alpha: 1 }, // #0B1F3B (Navy)
   });
   console.log(`generated ${path.relative(rootDir, ogPath)}`);
 };

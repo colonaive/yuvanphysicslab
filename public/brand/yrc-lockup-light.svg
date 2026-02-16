@@ -1,8 +1,33 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 160">
-  <g transform="translate(20, 20)">
-      <rect x="60" y="0" width="84.85" height="84.85" transform="rotate(45 60 60)" fill="#0B1F3A"/>
-      <text x="60" y="68" dominant-baseline="middle" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-weight="bold" font-size="42" fill="#C8A44D">YRC</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 120">
+  <defs>
+    <style>
+      @font-face {
+        font-family: 'Times New Roman';
+        src: local('Times New Roman');
+      }
+      @font-face {
+        font-family: 'Arial';
+        src: local('Arial');
+      }
+    </style>
+  </defs>
+  
+  <!-- Group the whole thing to center it vertically if needed, but 120 height is tight -->
+  <!-- Mark on Left. Center of mark should be around x=60 (half height) to be square-ish? -->
+  <!-- Let's place Mark centered at x=60, y=60. Size = 100x100 visual weight -->
+  
+  <g transform="translate(10, 10)">
+      <!-- Diamond scaled down. Original was 300 side. Scale by 0.33 -> 100 side -->
+      <!-- Center at 50, 50 within this group -->
+      <rect x="15" y="15" width="70" height="70" transform="rotate(45 50 50)" fill="#0B1F3B"/>
+      <text x="50" y="54" dominant-baseline="middle" text-anchor="middle" font-family="'Times New Roman', Georgia, serif" font-weight="bold" font-size="30" fill="#C9A24A" letter-spacing="1">YRC</text>
   </g>
-  <text x="140" y="75" font-family="Georgia, 'Times New Roman', serif" font-weight="bold" font-size="64" fill="#0B1F3A">Physics Lab</text>
-  <text x="142" y="110" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="20" letter-spacing="3" fill="#334155" text-transform="uppercase">Geometry • Causality • Learning</text>
+
+  <!-- Text Block. Start x = 120. Vertical Center = 60 -->
+  <!-- Main Title: YRC Physics Lab -->
+  <text x="120" y="55" font-family="'Times New Roman', Georgia, serif" font-weight="bold" font-size="44" fill="#0B1F3B">YRC Physics Lab</text>
+  
+  <!-- Tagline: Geometry • Causality • Learning -->
+  <!-- Smaller sans serif, widely spaced -->
+  <text x="122" y="85" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="14" letter-spacing="2" fill="#334155" text-transform="uppercase">Geometry • Causality • Learning</text>
 </svg>
