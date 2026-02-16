@@ -99,8 +99,8 @@ export function SiteHeader() {
     >
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-accent/10" />
       <Container className="max-w-[84rem]">
-        <div className="py-4 md:py-5">
-          <div className="flex items-center justify-between gap-4 md:grid md:grid-cols-[auto_1fr_auto] md:gap-10">
+        <div className="py-4 md:py-6">
+          <div className="flex items-center justify-between gap-4 md:grid md:grid-cols-[auto_1fr_auto] md:gap-12">
             <Link
               href="/"
               aria-label="Yuvan Physics Lab home"
@@ -114,7 +114,7 @@ export function SiteHeader() {
                   height={185}
                   priority
                   quality={100}
-                  className="block h-[3.75rem] w-auto max-w-[min(80vw,30rem)] object-contain dark:hidden md:h-[4.5rem]"
+                  className="block h-[4.75rem] w-auto max-w-[min(90vw,40rem)] object-contain dark:hidden md:h-[7rem]"
                 />
                 <Image
                   src="/brand/ypl-logo-lockup-header-dark.png"
@@ -123,7 +123,7 @@ export function SiteHeader() {
                   height={185}
                   priority
                   quality={100}
-                  className="hidden h-[3.75rem] w-auto max-w-[min(80vw,30rem)] object-contain dark:block md:h-[4.5rem]"
+                  className="hidden h-[4.75rem] w-auto max-w-[min(90vw,40rem)] object-contain dark:block md:h-[7rem]"
                 />
               </span>
             </Link>
@@ -206,7 +206,7 @@ export function SiteHeader() {
 
         {isAuthed ? (
           <div className="border-t border-border/75 bg-surface2/55 py-3">
-            <nav className="flex flex-wrap items-center gap-x-3 gap-y-2.5">
+            <nav className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2.5">
               <Link
                 href="/lab"
                 className={cn(
