@@ -24,20 +24,36 @@
   <!-- Inner Inset Border (Subtle Depth) -->
   <rect x="104" y="104" width="304" height="304" rx="4" ry="4" transform="rotate(45 256 256)" fill="none" stroke="#C8A44D" stroke-width="1" opacity="0.4" />
 
-  <!-- Subtle Orbital Ring (Optional, kept very simple/subtle as requested) 
-       Behind the text, intersecting the diamond slightly? 
-       Actually user said "orbit... thin orbital ring... behind or partially behind".
-       Let's add a faint ellipse behind the text but inside diamond area? 
-       Or just an ellipse around the diamond? 
-       If around, it might clip. Let's keep it strictly inside or tight.
-       Let's do a faint gold circle/ellipse rotated.
-  -->
-  <!-- <ellipse cx="256" cy="256" rx="180" ry="60" transform="rotate(-45 256 256)" fill="none" stroke="#C8A44D" stroke-width="1" opacity="0.3" /> --> 
-  <!-- Commented out orbit to keep it clean for now, unless "Try it" means I MUST. 
-       User said: "Optional but try it". 
-       Let's add it very subtly.
-  -->
-  <ellipse cx="256" cy="256" rx="210" ry="70" transform="rotate(-45 256 256)" fill="none" stroke="#C8A44D" stroke-width="2" opacity="0.25" />
+  <!-- 3D Orbital Ring with Gradient -->
+  <defs>
+    <linearGradient id="orbitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#C8A44D;stop-opacity:0.8" />
+      <stop offset="50%" style="stop-color:#E6C670;stop-opacity:0.95" />
+      <stop offset="100%" style="stop-color:#C8A44D;stop-opacity:0.7" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Main orbital ellipse - heavier stroke for impact -->
+  <ellipse cx="256" cy="256" rx="220" ry="75" transform="rotate(-45 256 256)" fill="none" stroke="url(#orbitGrad)" stroke-width="4" opacity="0.85" />
+  
+  <!-- Electron nodes positioned around the orbit -->
+  <!-- Node 1: Top-right -->
+  <circle cx="400" cy="180" r="8" fill="#E6C670" opacity="0.9">
+    <animate attributeName="opacity" values="0.9;1;0.9" dur="2s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="400" cy="180" r="12" fill="none" stroke="#E6C670" stroke-width="1.5" opacity="0.4" />
+  
+  <!-- Node 2: Bottom-left -->
+  <circle cx="112" cy="332" r="8" fill="#E6C670" opacity="0.9">
+    <animate attributeName="opacity" values="0.9;1;0.9" dur="2s" begin="0.7s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="112" cy="332" r="12" fill="none" stroke="#E6C670" stroke-width="1.5" opacity="0.4" />
+  
+  <!-- Node 3: Left-center -->
+  <circle cx="80" cy="220" r="7" fill="#C8A44D" opacity="0.85">
+    <animate attributeName="opacity" values="0.85;1;0.85" dur="2s" begin="1.3s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="80" cy="220" r="11" fill="none" stroke="#C8A44D" stroke-width="1.5" opacity="0.35" />
 
   <!-- Text: YRC -->
   <!-- Centered. Gold. Serif. -->
