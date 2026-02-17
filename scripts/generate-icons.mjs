@@ -57,7 +57,7 @@ const run = async () => {
 
     // First render at high resolution, trim padding, then resize
     await sharp(input, { density: 400 })
-      .trim(10) // Remove transparent padding (10px threshold)
+      .trim({ threshold: 10 }) // Remove transparent padding
       .resize({
         width: size,
         height: size,
