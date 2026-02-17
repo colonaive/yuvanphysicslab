@@ -48,12 +48,12 @@ const run = async () => {
   // 2. Trim transparent pixels (removes the 512px padding).
   // 3. Resize to final icon size.
 
-  // PART C: Rebuild Favicons from MARK ONLY
-  // The source SVG (yrc-mark-light.svg) is now designed to be tight (512x512, diamond touches edges).
+  // PART C: Rebuild Favicons from PREMIUM MARK (Navy)
+  const premiumMarkPath = path.join(brandDir, "yrc-mark.svg");
 
   for (const { file, size } of iconSizes) {
     const outPath = path.join(iconsDir, file);
-    await toPng(markLightPath, outPath, {
+    await toPng(premiumMarkPath, outPath, {
       width: size,
       height: size,
       fit: "contain",
@@ -72,29 +72,20 @@ const run = async () => {
   await writeFile(faviconIcoPath, faviconIco);
   console.log(`generated ${path.relative(rootDir, faviconIcoPath)}`);
 
-  // PART B: Export Clean PNGs for Header
-  // Height 120 is maybe too small for high-res displays.
-  // User asked for width ~1200-1600px.
-  // Let's set width to 1400px.
-  const lockupLightPngPath = path.join(brandDir, "yrc-lockup-header-light.png");
-  await toPng(lockupLightPath, lockupLightPngPath, {
-    width: 1400,
-    fit: "contain",
-    background: { r: 0, g: 0, b: 0, alpha: 0 },
-  });
-  console.log(`generated ${path.relative(rootDir, lockupLightPngPath)}`);
-
-  const lockupDarkPngPath = path.join(brandDir, "yrc-lockup-header-dark.png");
-  await toPng(lockupDarkPath, lockupDarkPngPath, {
-    width: 1400,
-    fit: "contain",
-    background: { r: 0, g: 0, b: 0, alpha: 0 },
-  });
-  console.log(`generated ${path.relative(rootDir, lockupDarkPngPath)}`);
-
-  // OG Image (Dark background, centered lockup)
+  // OG Image (Dark background, centered Mark)
   const ogPath = path.join(brandDir, "yrc-og.png");
-  await toPng(lockupDarkPath, ogPath, {
+  await toPng(premiumMarkPath, ogPath, {
+    width: 630, // Fit the mark within the height
+    height: 630,
+    fit: "contain",
+    background: { r: 11, g: 31, b: 59, alpha: 1 }, // #0B1F3B (Navy)
+  });
+  // We need to extend the canvas to 1200x630. Sharp resize fit contain does that if we provide both w/h?
+  // Actually, to center a 630x630 mark on a 1200x630 canvas, we need "extend" or specific resize options.
+  // My helper `toPng` uses `resize(options)`.
+  // If I pass { width: 1200, height: 630, fit: 'contain', background: ... } it handles it.
+
+  await toPng(premiumMarkPath, ogPath, {
     width: 1200,
     height: 630,
     fit: "contain",

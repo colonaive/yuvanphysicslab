@@ -101,25 +101,25 @@ export function SiteHeader() {
             <Link
               href="/"
               aria-label="YRC Physics Lab home"
-              className="inline-flex shrink-0 items-center gap-3 transition-opacity hover:opacity-90 md:gap-4"
+              className="flex shrink-0 items-center gap-3 transition-opacity hover:opacity-90 md:gap-4"
             >
               <div className="relative h-[48px] w-[48px] shrink-0 md:h-[64px] md:w-[64px]">
                 <img
-                  src="/brand/yrc-mark-light.svg"
-                  alt="YRC Mark"
-                  className="block h-full w-full object-contain dark:hidden"
+                  src="/brand/yrc-mark.svg"
+                  alt="YRC"
+                  className="block h-full w-full object-contain drop-shadow-md dark:hidden"
                 />
                 <img
-                  src="/brand/yrc-mark-dark.svg"
-                  alt="YRC Mark"
-                  className="hidden h-full w-full object-contain dark:block"
+                  src="/brand/yrc-mark-gold.svg"
+                  alt="YRC"
+                  className="hidden h-full w-full object-contain drop-shadow-md dark:block"
                 />
               </div>
               <div className="flex flex-col justify-center">
                 <span className="font-serif text-[20px] font-bold leading-none text-[#0B1F3B] dark:text-[#F4F0E6] md:text-[28px]">
                   YRC Physics Lab
                 </span>
-                <span className="font-sans text-[10px] font-bold uppercase tracking-[0.15em] text-slate-600 dark:text-slate-300 md:text-[13px]">
+                <span className="font-sans text-[10px] font-bold uppercase tracking-[0.15em] text-slate-600 dark:text-slate-400 md:text-[13px]">
                   Geometry • Causality • Learning
                 </span>
               </div>
