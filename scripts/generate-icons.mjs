@@ -43,22 +43,31 @@ const run = async () => {
   ];
 
   // PART C: Rebuild Favicons from MARK ONLY
-  // Use light mark (Gold/Navy) as it often has better contrast on tabs, or Dark mark if preferred.
-  // User requested "ensure good contrast... if needed use light mark".
-  // Let's use yrc-mark-light.svg (Gold Diamond, Navy Text) which is distinct.
-  // Important: Add padding so it doesn't touch edges.
+  // Goal: Tighter crop. Diamond should fill 100% of canvas visual area (removing padding).
+  // 1. Render SVG at high res.
+  // 2. Trim transparent pixels (removes the 512px padding).
+  // 3. Resize to final icon size.
+
+  const inputMark = await readFile(markLightPath);
+  // Render high-res buffer + trim
+  const trimmedMarkBuffer = await sharp(inputMark, { density: 2400 })
+    .trim()
+    .toBuffer();
+
   for (const { file, size } of iconSizes) {
     const outPath = path.join(iconsDir, file);
-    // Padding logic: input SVG is 512x512 with some padding built-in (diamond is 300 wide).
-    // so we can resize directly to 'fit: contain' and it should be safe.
-    // If we want EXTRA padding for rounded icon styles (android/apple), we might want margin.
-    // For now, standard fit is likely okay as the SVG itself has padding.
-    await toPng(markLightPath, outPath, {
-      width: size,
-      height: size,
-      fit: "contain",
-      background: { r: 0, g: 0, b: 0, alpha: 0 },
-    });
+
+    // Resize the trimmed (tight) buffer to fit the box
+    await sharp(trimmedMarkBuffer)
+      .resize({
+        width: size,
+        height: size,
+        fit: "contain",
+        background: { r: 0, g: 0, b: 0, alpha: 0 },
+      })
+      .png({ compressionLevel: 9, quality: 100 })
+      .toFile(outPath);
+
     console.log(`generated ${path.relative(rootDir, outPath)}`);
   }
 

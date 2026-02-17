@@ -109,16 +109,14 @@ export function SiteHeader() {
                   alt="YRC Physics Lab"
                   width={1400}
                   height={210}
-                  className="block h-[52px] w-auto max-w-[min(90vw,44rem)] object-contain dark:hidden md:h-[60px]"
-                  style={{ width: "auto" }}
+                  className="block h-auto w-[240px] max-w-[80vw] object-contain dark:hidden md:w-[320px]"
                 />
                 <img
                   src="/brand/yrc-lockup-header-dark.png"
                   alt="YRC Physics Lab"
                   width={1400}
                   height={210}
-                  className="hidden h-[52px] w-auto max-w-[min(90vw,44rem)] object-contain dark:block md:h-[60px]"
-                  style={{ width: "auto" }}
+                  className="hidden h-auto w-[240px] max-w-[80vw] object-contain dark:block md:w-[320px]"
                 />
               </span>
             </Link>
@@ -135,40 +133,34 @@ export function SiteHeader() {
             </nav>
 
             <div className="ml-auto hidden shrink-0 items-center justify-end gap-4 md:flex">
-              {!isAuthed ? (
-                <Button href="/login" variant="outline" className="h-11 px-4 text-sm md:h-12 md:text-base">
-                  Login
-                </Button>
-              ) : null}
               <ThemeToggle className="h-12 w-12 md:h-14 md:w-14" iconClassName="h-5 w-5 md:h-6 md:w-6" />
-              {isAuthed ? (
-                <Link
-                  href="/about"
-                  aria-label="Profile"
-                  className="inline-flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border border-border bg-surface transition hover:ring-2 hover:ring-accent/45 hover:ring-offset-2 hover:ring-offset-bg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/55 focus-visible:ring-offset-2 focus-visible:ring-offset-bg md:h-16 md:w-16"
-                >
-                  {profileImageError ? (
-                    <span className="inline-flex h-full w-full items-center justify-center bg-surface2 text-sm font-semibold text-text">
-                      Y
-                    </span>
-                  ) : (
-                    <Image
-                      src="/images/yuvan-profile.png"
-                      alt="Yuvan profile"
-                      width={56}
-                      height={56}
-                      className="h-full w-full object-cover"
-                      onError={() => setProfileImageError(true)}
-                    />
-                  )}
-                </Link>
-              ) : null}
+              <Link
+                href={isAuthed ? "/about" : "/login"}
+                aria-label={isAuthed ? "Profile" : "Login"}
+                className="inline-flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border border-border bg-surface transition hover:ring-2 hover:ring-accent/45 hover:ring-offset-2 hover:ring-offset-bg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/55 focus-visible:ring-offset-2 focus-visible:ring-offset-bg md:h-16 md:w-16"
+              >
+                {profileImageError ? (
+                  <span className="inline-flex h-full w-full items-center justify-center bg-surface2 text-sm font-semibold text-text">
+                    Y
+                  </span>
+                ) : (
+                  <Image
+                    src="/images/yuvan-profile.png"
+                    alt="Profile"
+                    width={56}
+                    height={56}
+                    className="h-full w-full object-cover"
+                    onError={() => setProfileImageError(true)}
+                  />
+                )}
+              </Link>
             </div>
 
-            <div className="ml-auto flex items-start gap-2 md:hidden">
+            <div className="ml-auto flex items-center gap-2 md:hidden">
+              <ThemeToggle className="h-11 w-11" iconClassName="h-5 w-5" />
               <Link
-                href="/about"
-                aria-label="Profile"
+                href={isAuthed ? "/about" : "/login"}
+                aria-label={isAuthed ? "Profile" : "Login"}
                 className="inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-border bg-surface transition hover:ring-2 hover:ring-accent/45 hover:ring-offset-2 hover:ring-offset-bg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/55 focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
               >
                 {profileImageError ? (
@@ -178,7 +170,7 @@ export function SiteHeader() {
                 ) : (
                   <Image
                     src="/images/yuvan-profile.png"
-                    alt="Yuvan profile"
+                    alt="Profile"
                     width={56}
                     height={56}
                     className="h-full w-full object-cover"
@@ -186,15 +178,6 @@ export function SiteHeader() {
                   />
                 )}
               </Link>
-
-              <div className="flex flex-col items-center gap-1.5">
-                <ThemeToggle className="h-11 w-11" iconClassName="h-5 w-5" />
-                {!isAuthed ? (
-                  <Button href="/login" variant="outline" className="h-8 px-3 text-xs">
-                    Login
-                  </Button>
-                ) : null}
-              </div>
             </div>
           </div>
         </div>
