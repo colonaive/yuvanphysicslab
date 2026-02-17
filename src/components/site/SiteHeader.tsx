@@ -115,13 +115,17 @@ export function SiteHeader() {
                   className="hidden h-full w-full object-contain drop-shadow-md dark:block"
                 />
               </div>
-              <div className="flex flex-col justify-center">
+              <div className="flex flex-col items-center justify-center">
                 <span className="font-serif text-[20px] font-bold leading-none text-[#0B1F3B] dark:text-[#F4F0E6] md:text-[28px]">
                   YRC Physics Lab
                 </span>
-                <span className="font-sans text-[10px] font-bold uppercase tracking-[0.15em] text-slate-600 dark:text-slate-400 md:text-[13px]">
-                  Geometry • Causality • Learning
-                </span>
+                <div className="mt-0.5 flex items-center gap-2 font-sans text-[9px] font-bold uppercase tracking-[0.15em] text-slate-600 dark:text-slate-400 md:text-[11px]">
+                  <span>Geometry</span>
+                  <span className="h-2.5 w-[1.5px] rounded-full bg-slate-400 dark:bg-slate-600" />
+                  <span>Causality</span>
+                  <span className="h-2.5 w-[1.5px] rounded-full bg-slate-400 dark:bg-slate-600" />
+                  <span>Learning</span>
+                </div>
               </div>
             </Link>
 
