@@ -5,40 +5,20 @@
       <stop offset="0%" style="stop-color:#C8A44D;stop-opacity:1" />
       <stop offset="100%" style="stop-color:#E6C670;stop-opacity:1" />
     </linearGradient>
+    <!-- Enhanced Drop Shadow for 3D Effect -->
     <filter id="shadowGold" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.3"/>
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.4"/>
     </filter>
-    <!-- 3D Orbital Ring Gradient (Navy for gold background) -->
-    <linearGradient id="orbitGradGold" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#0B1F3B;stop-opacity:0.5" />
-      <stop offset="50%" style="stop-color:#142D50;stop-opacity:0.75" />
-      <stop offset="100%" style="stop-color:#0B1F3B;stop-opacity:0.5" />
-    </linearGradient>
   </defs>
 
-  <!-- BACK HALF of orbital (behind diamond) - LEFT SIDE -->
-  <path d="M 80 220 A 220 75 0 0 1 256 145" transform="rotate(-45 256 256)" fill="none" stroke="url(#orbitGradGold)" stroke-width="4" opacity="0.45" stroke-linecap="round" />
-  
-  <!-- Electron on back section (left side) -->
-  <circle cx="80" cy="220" r="7" fill="#0B1F3B" opacity="0.65">
-    <animate attributeName="opacity" values="0.65;0.9;0.65" dur="2s" begin="0.5s" repeatCount="indefinite" />
-  </circle>
-  <circle cx="80" cy="220" r="11" fill="none" stroke="#0B1F3B" stroke-width="1.5" opacity="0.25" />
-
+  <!-- Main Diamond with Thicker Border -->
   <g filter="url(#shadowGold)">
-      <rect x="88" y="88" width="336" height="336" rx="8" ry="8" transform="rotate(45 256 256)" fill="url(#goldGrad)" stroke="#0B1F3B" stroke-width="3" />
+      <rect x="88" y="88" width="336" height="336" rx="8" ry="8" transform="rotate(45 256 256)" fill="url(#goldGrad)" stroke="#0B1F3B" stroke-width="4" />
   </g>
 
-  <rect x="104" y="104" width="304" height="304" rx="4" ry="4" transform="rotate(45 256 256)" fill="none" stroke="#0B1F3B" stroke-width="1" opacity="0.3" />
+  <!-- Inner Inset Border for Depth -->
+  <rect x="104" y="104" width="304" height="304" rx="4" ry="4" transform="rotate(45 256 256)" fill="none" stroke="#0B1F3B" stroke-width="1.5" opacity="0.4" />
 
-  <text x="256" y="278" dominant-baseline="middle" text-anchor="middle" font-family="'Times New Roman', Georgia, serif" font-weight="bold" font-size="140" fill="#0B1F3B" letter-spacing="4" style="text-shadow: 1px 1px 2px rgba(255,255,255,0.2);">YRC</text>
-
-  <!-- FRONT HALF of orbital (in front of diamond) - RIGHT SIDE -->
-  <path d="M 256 367 A 220 75 0 0 1 432 292" transform="rotate(-45 256 256)" fill="none" stroke="url(#orbitGradGold)" stroke-width="4" opacity="0.75" stroke-linecap="round" />
-  
-  <!-- Electron on front section (right side) -->
-  <circle cx="400" cy="180" r="8" fill="#142D50" opacity="0.9">
-    <animate attributeName="opacity" values="0.9;1;0.9" dur="2s" repeatCount="indefinite" />
-  </circle>
-  <circle cx="400" cy="180" r="12" fill="none" stroke="#0B1F3B" stroke-width="1.5" opacity="0.4" />
+  <!-- Text: YRC -->
+  <text x="256" y="278" dominant-baseline="middle" text-anchor="middle" font-family="'Times New Roman', Georgia, serif" font-weight="bold" font-size="140" fill="#0B1F3B" letter-spacing="4" style="text-shadow: 1px 1px 3px rgba(255,255,255,0.3);">YRC</text>
 </svg>
