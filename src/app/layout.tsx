@@ -25,7 +25,7 @@ const bodyFont = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://yrcphysics.com"),
   title: {
-    default: "YRC Physics Lab | Geometry, Causality & Learning",
+    default: "YRC Physics Lab",
     template: "%s | YRC Physics Lab",
   },
   description:
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "YRC Physics Lab | Geometry, Causality & Learning",
+    title: "YRC Physics Lab",
     description:
       "A formal research notebook on geometry, causal structure, chronology protection, and machine learning in theoretical physics.",
     url: "https://yrcphysics.com",
@@ -69,43 +69,19 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "YRC Physics Lab | Geometry, Causality & Learning",
+    title: "YRC Physics Lab",
     description:
       "A formal research notebook on geometry, causal structure, chronology protection, and machine learning in theoretical physics.",
     images: ["/brand/yrc-og.png"],
+    creator: "@yuvanphysics",
   },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
   },
   icons: {
-    icon: [
-      { url: "/favicon.ico" },
-      { url: "/icons/favicon-16.png", sizes: "16x16", type: "image/png" },
-      { url: "/icons/favicon-32.png", sizes: "32x32", type: "image/png" },
-      { url: "/icons/icon-64.png", sizes: "64x64", type: "image/png" },
-    ],
-    apple: [
-      {
-        url: "/icons/apple-touch-icon.png",
-        sizes: "180x180",
-        type: "image/png",
-      },
-    ],
-    other: [
-      {
-        rel: "icon",
-        url: "/icons/android-chrome-192x192.png",
-        sizes: "192x192",
-        type: "image/png",
-      },
-      {
-        rel: "icon",
-        url: "/icons/android-chrome-512x512.png",
-        sizes: "512x512",
-        type: "image/png",
-      },
-    ],
+    icon: "/favicon-32.png",
+    apple: "/icons/apple-touch-icon.png",
   },
   manifest: "/manifest.json",
 };

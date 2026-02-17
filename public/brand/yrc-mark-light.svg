@@ -1,20 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <defs>
-    <style>
-      @font-face {
-        font-family: 'Times New Roman';
-        src: local('Times New Roman');
-      }
-    </style>
-  </defs>
-  <!-- Diamond: Center (256, 256), Width 360 (approx 70% of 512), Rotated 45 degrees -->
-  <!-- Mathematical check: 360/sqrt(2) = 254.5 side length visual -->
-  <!-- Let's use a slightly smaller square to ensure 40px padding. -->
-  <!-- Max width = 512 - 80 = 432. Diagonal = 432. Side = 432 / sqrt(2) = 305.47 -->
-  <!-- Let's use side length 300 for safety. -->
-  <rect x="106" y="106" width="300" height="300" transform="rotate(45 256 256)" fill="#C9A24A"/>
-  
-  <!-- Text: Centered at (256, 256). Font: Bold Serif. Color: Navy #0B1F3B -->
-  <!-- YRC text block. Tracking/Kerning adjusted manually if needed -->
-  <text x="256" y="272" dominant-baseline="middle" text-anchor="middle" font-family="'Times New Roman', Georgia, serif" font-weight="bold" font-size="130" fill="#0B1F3B" letter-spacing="4">YRC</text>
+  <!-- Diamond: Side 325px. Rotated 45deg around center (256, 256). -->
+  <!-- Diagonal ~460px. Fits within 512px with minimal padding. -->
+  <rect x="93.5" y="93.5" width="325" height="325" transform="rotate(45 256 256)" fill="#C8A44D"/>
+  <text x="256" y="275" dominant-baseline="middle" text-anchor="middle" font-family="'Times New Roman', Georgia, serif" font-weight="bold" font-size="150" fill="#0B1F3A" letter-spacing="4">YRC</text>
 </svg>

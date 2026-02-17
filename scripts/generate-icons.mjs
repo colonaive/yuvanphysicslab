@@ -48,26 +48,17 @@ const run = async () => {
   // 2. Trim transparent pixels (removes the 512px padding).
   // 3. Resize to final icon size.
 
-  const inputMark = await readFile(markLightPath);
-  // Render high-res buffer + trim
-  const trimmedMarkBuffer = await sharp(inputMark, { density: 2400 })
-    .trim()
-    .toBuffer();
+  // PART C: Rebuild Favicons from MARK ONLY
+  // The source SVG (yrc-mark-light.svg) is now designed to be tight (512x512, diamond touches edges).
 
   for (const { file, size } of iconSizes) {
     const outPath = path.join(iconsDir, file);
-
-    // Resize the trimmed (tight) buffer to fit the box
-    await sharp(trimmedMarkBuffer)
-      .resize({
-        width: size,
-        height: size,
-        fit: "contain",
-        background: { r: 0, g: 0, b: 0, alpha: 0 },
-      })
-      .png({ compressionLevel: 9, quality: 100 })
-      .toFile(outPath);
-
+    await toPng(markLightPath, outPath, {
+      width: size,
+      height: size,
+      fit: "contain",
+      background: { r: 0, g: 0, b: 0, alpha: 0 },
+    });
     console.log(`generated ${path.relative(rootDir, outPath)}`);
   }
 

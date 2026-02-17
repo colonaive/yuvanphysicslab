@@ -101,24 +101,28 @@ export function SiteHeader() {
             <Link
               href="/"
               aria-label="YRC Physics Lab home"
-              className="inline-flex shrink-0 items-center gap-3 text-sm font-semibold tracking-wide text-text"
+              className="inline-flex shrink-0 items-center gap-3 transition-opacity hover:opacity-90 md:gap-4"
             >
-              <span className="flex items-center">
+              <div className="relative h-[48px] w-[48px] shrink-0 md:h-[64px] md:w-[64px]">
                 <img
-                  src="/brand/yrc-lockup-header-light.png"
-                  alt="YRC Physics Lab"
-                  width={1400}
-                  height={210}
-                  className="block h-auto w-[240px] max-w-[80vw] object-contain dark:hidden md:w-[320px]"
+                  src="/brand/yrc-mark-light.svg"
+                  alt="YRC Mark"
+                  className="block h-full w-full object-contain dark:hidden"
                 />
                 <img
-                  src="/brand/yrc-lockup-header-dark.png"
-                  alt="YRC Physics Lab"
-                  width={1400}
-                  height={210}
-                  className="hidden h-auto w-[240px] max-w-[80vw] object-contain dark:block md:w-[320px]"
+                  src="/brand/yrc-mark-dark.svg"
+                  alt="YRC Mark"
+                  className="hidden h-full w-full object-contain dark:block"
                 />
-              </span>
+              </div>
+              <div className="flex flex-col justify-center">
+                <span className="font-serif text-[20px] font-bold leading-none text-[#0B1F3B] dark:text-[#F4F0E6] md:text-[28px]">
+                  YRC Physics Lab
+                </span>
+                <span className="font-sans text-[10px] font-bold uppercase tracking-[0.15em] text-slate-600 dark:text-slate-300 md:text-[13px]">
+                  Geometry • Causality • Learning
+                </span>
+              </div>
             </Link>
 
             <nav className="hidden items-center justify-center gap-x-7 gap-y-3 px-2 md:flex md:flex-wrap">

@@ -1,15 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <defs>
-    <style>
-      @font-face {
-        font-family: 'Times New Roman';
-        src: local('Times New Roman');
-      }
-    </style>
-  </defs>
-  <!-- Diamond: Center (256, 256), Side 300, Rotated 45 degrees -->
-  <rect x="106" y="106" width="300" height="300" transform="rotate(45 256 256)" fill="#0B1F3B"/>
-  
-  <!-- Text: Centered at (256, 256). Font: Bold Serif. Color: Gold #C9A24A -->
-  <text x="256" y="272" dominant-baseline="middle" text-anchor="middle" font-family="'Times New Roman', Georgia, serif" font-weight="bold" font-size="130" fill="#C9A24A" letter-spacing="4">YRC</text>
+  <!-- Diamond: Side 325px. Rotated 45deg around center (256, 256). -->
+  <rect x="93.5" y="93.5" width="325" height="325" transform="rotate(45 256 256)" fill="#0B1F3A"/>
+  <text x="256" y="275" dominant-baseline="middle" text-anchor="middle" font-family="'Times New Roman', Georgia, serif" font-weight="bold" font-size="150" fill="#C8A44D" letter-spacing="4">YRC</text>
 </svg>
