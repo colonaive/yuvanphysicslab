@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <!-- Diamond: Side 325px. Rotated 45deg around center (256, 256). -->
-  <rect x="93.5" y="93.5" width="325" height="325" transform="rotate(45 256 256)" fill="#0B1F3A"/>
-  <text x="256" y="275" dominant-baseline="middle" text-anchor="middle" font-family="'Times New Roman', Georgia, serif" font-weight="bold" font-size="150" fill="#C8A44D" letter-spacing="4">YRC</text>
-</svg>
