@@ -53,12 +53,23 @@ const run = async () => {
 
   for (const { file, size } of iconSizes) {
     const outPath = path.join(iconsDir, file);
-    await toPng(premiumMarkPath, outPath, {
-      width: size,
-      height: size,
-      fit: "contain",
-      background: { r: 0, g: 0, b: 0, alpha: 0 },
-    });
+    const input = await readFile(premiumMarkPath);
+
+    // First render at high resolution, trim padding, then resize
+    await sharp(input, { density: 400 })
+      .trim(10) // Remove transparent padding (10px threshold)
+      .resize({
+        width: size,
+        height: size,
+        fit: "contain",
+        background: { r: 0, g: 0, b: 0, alpha: 0 },
+      })
+      .png({
+        compressionLevel: 9,
+        adaptiveFiltering: true,
+        quality: 100,
+      })
+      .toFile(outPath);
     console.log(`generated ${path.relative(rootDir, outPath)}`);
   }
 
